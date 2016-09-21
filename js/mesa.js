@@ -100,21 +100,21 @@ function onResize() {
 
 }
 
-function onKeyDown(e) {
+function onKeyDown(key) {
 	'use strict';
 	
-	switch (e.keyCode)
+	switch (key.keyCode)
 	{
-		case 65:
-		case 97:
+		case 65: //A
+		case 97: //a
 			scene.traverse(function (node) {
 				if (node instanceof THREE.Mesh) {
 					node.material.wireframe = !node.material.wireframe;
 				}
 			});
 			break;
-		case 83:
-		case 115:
+		case 83: //S
+		case 115: //s
 			ball.userData.jumping = !ball.userData.jumping;
 			break;
 	}
