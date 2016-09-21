@@ -4,6 +4,10 @@ var geometry,material,mesh;
 
 var ball;
 
+var stats = new Stats();
+stats.showPanel(0);
+document.body.appendChild(stats.dom);
+
 function render() {	
 	'use strict';
 	
@@ -18,7 +22,7 @@ function createBall(x,y,z) {
 	ball.userData = {jumping: true , step : 0};
 
 	material = new THREE.MeshBasicMaterial( {color: 0xff0000, wireframe: true });
-	geometry = new THREE.SphereGeometry(4,10,10);
+	geometry = new THREE.SphereGeometry(4,10 ,10);
 	mesh = new THREE.Mesh(geometry, material);
 
 	ball.add(mesh);
@@ -124,6 +128,7 @@ function onKeyDown(e) {
 function animate() {
 	'use strict';
 	
+	stats.begin();
 
 	if (ball.userData.jumping) {
 		
@@ -133,6 +138,9 @@ function animate() {
 	}
 
 	render();
+
+	stats.end();
+
 	requestAnimationFrame(animate);
 }
 
