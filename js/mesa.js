@@ -4,10 +4,6 @@ var geometry,material,mesh;
 
 var ball;
 
-var stats = new Stats();
-stats.showPanel(0);
-document.body.appendChild(stats.dom);
-
 function render() {	
 	'use strict';
 	
