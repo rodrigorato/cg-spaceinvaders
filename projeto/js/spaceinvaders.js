@@ -1,21 +1,25 @@
+/***************
+
+***************/
+
 const SHIP_SIZE = {'x': 90, 'y':80, 'z':25};
 const ALIEN1_SIZE = {'x': 40, 'y':40, 'z':25};
 const ALIEN2_SIZE = {'x': 60, 'y':40, 'z':25};	
-const PLAYINGFIELD_SIZE = {'x': 15*SHIP_SIZE['x'], 'y':10*SHIP_SIZE['y'], 'z':10*SHIP_SIZE['y']};
+const PLAYINGFIELD_SIZE = {'x': 15*SHIP_SIZE.x, 'y':10*SHIP_SIZE.y, 'z':10*SHIP_SIZE.y};
+const COLORS = {'red': 0xff0000, 'lightblue':0x00E5FF};
 
-
-
-var camera, scene, renderer;
-var camera_persp, camera_ortho;
-var geometry,material,mesh;
+var camera, camera_persp, camera_ortho,
+	scene, renderer,
+	geometry,material,mesh;
 
 var ball, player;
 
+
 function render() {	
 	'use strict';
+
 	renderer.render(scene,camera);
 }
-
 
 function createBall(x,y,z) {
 	'use strict';
@@ -23,7 +27,7 @@ function createBall(x,y,z) {
 	ball = new THREE.Object3D();
 	ball.userData = {jumping: true , step : 0};
 
-	material = new THREE.MeshBasicMaterial( {color: 0xff0000, wireframe: true });
+	material = new THREE.MeshBasicMaterial( {color: COLORS.red, wireframe: true });
 	geometry = new THREE.SphereGeometry(4,10 ,10);
 	mesh = new THREE.Mesh(geometry, material);
 
@@ -32,25 +36,41 @@ function createBall(x,y,z) {
 
 	scene.add(ball);
 }
-function createPlayer(x,y,z) {
+
+function createPlayer(x, y, z) {
 	'use strict';
 	
 	player = new THREE.Object3D();
 	player.userData = {movingRight: false, movingLeft: false, step: 0};
 
-	material = new THREE.MeshBasicMaterial({color: 0x00E5FF , wireframe: true});
-	geometry = new THREE.CubeGeometry(90,80,25);
+	material = new THREE.MeshBasicMaterial({color: COLORS.lightblue, wireframe: true});
+	geometry = new THREE.CubeGeometry(SHIP_SIZE.x, SHIP_SIZE.y, SHIP_SIZE.z);
 	mesh = new THREE.Mesh(geometry, material);
 	player.add(mesh);
 	
-	player.position.set(x,y,z);
+	player.position.set(x, y, z);
 	scene.add(player);
  
 }
+
+function createAlien1(x, y, z) {
+	'use strict';
+	var alien = new THREE.Object3D();
+
+	material = new THREE.MeshBasicMaterial({color: COLORS.red , wireframe: true});
+	geometry = new THREE.CubeGeometry(ALIEN1_SIZE.x, ALIEN1_SIZE.y, ALIEN1_SIZE.z);
+	mesh = new THREE.Mesh(geometry, material);
+	alien.add(mesh);
+	
+	alien.position.set(x, y, z);
+	scene.add(alien);
+ 
+}
+
 function createCamera() {
 	'use strict';
 
-	camera_persp = new THREE.PerspectiveCamera(70,window.innerWidth / window.innerHeight,1,1000);
+	camera_persp = new THREE.PerspectiveCamera(60,window.innerWidth / window.innerHeight,1,1000);
 	camera_ortho = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2,1,1000);
 	camera_persp.position.x = (camera_ortho.position.x = 700);
 	camera_persp.position.y = (camera_ortho.position.y = 400);
@@ -69,9 +89,10 @@ function createScene() {
 	scene = new THREE.Scene();
 	scene.add(new THREE.AxisHelper(10));
 
-	//createTable(0,0,0);
 	createBall(0,800,0);
 	createPlayer(45,40,0);
+
+	createAlien1(400,400,0);	
 }
 
 function onResize() {
@@ -92,18 +113,14 @@ function onKeyDown(key) {
 	
 	switch (key.keyCode)
 	{
-		case 65: //A
-		case 97: //a
+		case 65: case 97: // A or a
 			scene.traverse(function (node) {
 				if (node instanceof THREE.Mesh) {
 					node.material.wireframe = !node.material.wireframe;
 				}
 			});
 			break;
-		case 83: //S
-		case 115: //s
-			ball.userData.jumping = !ball.userData.jumping;
-			break;
+
 		case 39: //-->
 			if (player.userData.movingLeft){
 				player.userData.movingLeft = false;
@@ -164,25 +181,7 @@ function movePlayer(){
 
 	stats.end();
 }
-/*
-function animate() {
-	'use strict';
-	
 
-	if (ball.userData.jumping) {
-		
-		ball.userData.step += 0.04;
-		ball.position.y = Math.abs(30* (Math.sin(ball.userData.step)));
-		ball.position.z = 15 * (Math.cos(ball.userData.step));
-	}
-
-	render();
-
-
-
-	requestAnimationFrame(animate);
-}
-*/
 function init() {	
 	'use strict';
 
