@@ -1,3 +1,10 @@
+const SHIP_SIZE = {'x': 90, 'y':80, 'z':25};
+const ALIEN1_SIZE = {'x': 40, 'y':40, 'z':25};
+const ALIEN2_SIZE = {'x': 60, 'y':40, 'z':25};	
+const PLAYINGFIELD_SIZE = {'x': 15*SHIP_SIZE['x'], 'y':10*SHIP_SIZE['y'], 'z':10*SHIP_SIZE['y']};
+
+
+
 var camera, scene, renderer;
 var camera_persp, camera_ortho;
 var geometry,material,mesh;
@@ -6,53 +13,10 @@ var ball, player;
 
 function render() {	
 	'use strict';
-	
 	renderer.render(scene,camera);
 }
 
 
-
-/*
-function addTableLeg(obj,x,y,z) {
-	'use strict';
-	
-	geometry = new THREE.CubeGeometry(2,6,2);
-	mesh = new THREE.Mesh(geometry, material);
-	mesh.position.set(x,y-3,z);
-
-	obj.add(mesh);
-}
-
-function addTableTop(obj,x,y,z) {
-	'use strict';
-	
-	geometry = new THREE.CubeGeometry(60,2,20);
-	mesh = new THREE.Mesh(geometry, material);
-	mesh.position.set(x,y,z);
-
-	obj.add(mesh);
-}
-
-function createTable(x,y,z) {
-	'use strict';
-	
-	var table = new THREE.Object3D();
-
-	material = new THREE.MeshBasicMaterial({color: 0x00ff00 , wireframe: true});
-
-	addTableTop(table,0,0,0);
-	addTableLeg(table,-25,-1,-8);
-	addTableLeg(table,-25,-1,8);
-	addTableLeg(table,25,-1,8);
-	addTableLeg(table,25,-1,-8);
-
-	scene.add(table);
-
-	table.position.x = x;
-	table.position.y = y;
-	table.position.z = z;
-}
-*/
 function createBall(x,y,z) {
 	'use strict';
 	
@@ -74,14 +38,14 @@ function createPlayer(x,y,z) {
 	player = new THREE.Object3D();
 	player.userData = {movingRight: false, movingLeft: false, step: 0};
 
-	material = new THREE.MeshBasicMaterial({color: 0x00ff00 , wireframe: true});
+	material = new THREE.MeshBasicMaterial({color: 0x00E5FF , wireframe: true});
 	geometry = new THREE.CubeGeometry(90,80,25);
 	mesh = new THREE.Mesh(geometry, material);
 	player.add(mesh);
 	
 	player.position.set(x,y,z);
 	scene.add(player);
-
+ 
 }
 function createCamera() {
 	'use strict';
@@ -89,9 +53,13 @@ function createCamera() {
 	camera_persp = new THREE.PerspectiveCamera(70,window.innerWidth / window.innerHeight,1,1000);
 	camera_ortho = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2,1,1000);
 	camera_persp.position.x = (camera_ortho.position.x = 700);
-	camera_persp.position.y = (camera_ortho.position.y = 300);
-	camera_persp.position.z = (camera_ortho.position.z = 500);
-	camera_persp.lookAt(700,300,0); camera_ortho.lookAt(700, 300, 0);
+	camera_persp.position.y = (camera_ortho.position.y = 400);
+	camera_persp.position.z = (camera_ortho.position.z = 800);
+
+	var lookAtVector = new THREE.Vector3(700, 400, 0);
+	//lookAtVector.applyQuaternion(camera_persp.quaternion);
+
+	camera_persp.lookAt(lookAtVector); camera_ortho.lookAt(lookAtVector);
 	camera = camera_persp;
 }
 
@@ -102,7 +70,7 @@ function createScene() {
 	scene.add(new THREE.AxisHelper(10));
 
 	//createTable(0,0,0);
-	createBall(0,0,0);
+	createBall(0,800,0);
 	createPlayer(45,40,0);
 }
 
