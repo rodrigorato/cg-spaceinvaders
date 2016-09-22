@@ -105,6 +105,8 @@ function createScene() {
 	createPlayer(Math.ceil(PLAYINGFIELD_SIZE.x / 2), SHIP_SIZE.y / 2, 0);
 
 	createRowOfAliens(1, 700, 12);	
+	createRowOfAliens(1, 600, 12);	
+
 }
 
 function onResize() {
