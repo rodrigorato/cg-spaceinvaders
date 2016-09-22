@@ -1,13 +1,19 @@
-/***************
-
-***************/
+/*********************
+*	Space Invaders   *
+*	CG @ IST         *
+*	1sem 2016/17     *
+*                    *
+*	Grupo 29         *
+**********************/
 
 const SHIP_SIZE = {'x': 90, 'y':80, 'z':25};
 const ALIEN1_SIZE = {'x': 40, 'y':40, 'z':25};
 const ALIEN2_SIZE = {'x': 60, 'y':40, 'z':25};	
 const PLAYINGFIELD_SIZE = {'x': 15*SHIP_SIZE.x, 'y':10*SHIP_SIZE.y, 'z':10*SHIP_SIZE.y};
-const COLORS = {'red': 0xff0000, 'lightblue':0x00E5FF};
-
+const COLORS = {'red': 		0xff0000, 
+				'green': 	0x00ff00,
+				'blue': 	0x0000ff,
+				'lightblue':0x00E5FF};
 const CAMERA = {"fov": 60, "near": 1, "far": 1000};
 
 var camera, camera_persp, camera_ortho,
@@ -66,7 +72,6 @@ function createAlien1(x, y, z) {
 
 	material = new THREE.MeshBasicMaterial({color: COLORS.red , wireframe: true});
 	createCube(alien,0,0,0,ALIEN1_SIZE.x, ALIEN1_SIZE.y, ALIEN1_SIZE.z);//cubo
-	console.log("a");
 	createCube(alien,0,5,0,10,30,25);//paralelipepedo central
 	createCube(alien,-15,0,0,10,10,25);//cubos
 	createCube(alien,+15,0,0,10,10,25);
