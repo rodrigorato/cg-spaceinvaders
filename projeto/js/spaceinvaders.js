@@ -8,6 +8,8 @@ const ALIEN2_SIZE = {'x': 60, 'y':40, 'z':25};
 const PLAYINGFIELD_SIZE = {'x': 15*SHIP_SIZE.x, 'y':10*SHIP_SIZE.y, 'z':10*SHIP_SIZE.y};
 const COLORS = {'red': 0xff0000, 'lightblue':0x00E5FF};
 
+const CAMERA = {"fov": 60, "near": 1, "far": 1000};
+
 var camera, camera_persp, camera_ortho,
 	scene, renderer,
 	geometry,material,mesh;
@@ -67,16 +69,26 @@ function createAlien1(x, y, z) {
  
 }
 
+function createRowOfAliens(kind, y, quant){
+	'use strict';
+
+	for(var i = 0; i <= quant; i++){
+			createAlien1((ALIEN1_SIZE.x * 2) + (i * 100), y, 0);
+
+	}
+}
+
+
 function createCamera() {
 	'use strict';
 
-	camera_persp = new THREE.PerspectiveCamera(60,window.innerWidth / window.innerHeight,1,1000);
-	camera_ortho = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2,1,1000);
-	camera_persp.position.x = (camera_ortho.position.x = 700);
-	camera_persp.position.y = (camera_ortho.position.y = 400);
-	camera_persp.position.z = (camera_ortho.position.z = 800);
+	camera_persp = new THREE.PerspectiveCamera(CAMERA.fov, window.innerWidth / window.innerHeight, CAMERA.near, CAMERA.far);
+	camera_ortho = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, CAMERA.near, CAMERA.far);
+	camera_persp.position.x = (camera_ortho.position.x = Math.ceil(PLAYINGFIELD_SIZE.x / 2));
+	camera_persp.position.y = (camera_ortho.position.y = Math.ceil(PLAYINGFIELD_SIZE.y / 2));
+	camera_persp.position.z = (camera_ortho.position.z = PLAYINGFIELD_SIZE.z);
 
-	var lookAtVector = new THREE.Vector3(700, 400, 0);
+	var lookAtVector = new THREE.Vector3(Math.ceil(PLAYINGFIELD_SIZE.x / 2), Math.ceil(PLAYINGFIELD_SIZE.y / 2), 0);
 	//lookAtVector.applyQuaternion(camera_persp.quaternion);
 
 	camera_persp.lookAt(lookAtVector); camera_ortho.lookAt(lookAtVector);
@@ -90,9 +102,9 @@ function createScene() {
 	scene.add(new THREE.AxisHelper(10));
 
 	createBall(0,800,0);
-	createPlayer(45,40,0);
+	createPlayer(Math.ceil(PLAYINGFIELD_SIZE.x / 2), SHIP_SIZE.y / 2, 0);
 
-	createAlien1(400,400,0);	
+	createRowOfAliens(1, 700, 12);	
 }
 
 function onResize() {
