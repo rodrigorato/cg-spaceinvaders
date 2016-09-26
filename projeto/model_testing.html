@@ -1,0 +1,29 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>SPACE INVADERS - CG@IST/UL</title>
+    <style>
+      body{
+        margin: 0px;
+        background-color: #fff;
+        overflow: hidden;
+      }
+    </style>
+    <!-- ADD THIS ONE FOR FINAL VERSION? script src="js/three.min.hs"></script -->
+    <script src="js/three.js"></script>
+    <!--script src="js/spaceinvaders.js"></script-->
+    <script src="js/stats.min.js"></script>
+    <script src="js/model_tests.js"></script>
+    <script src="js/OrbitControls.js"></script>
+  </head>
+  <body>
+    <script>
+      var stats = new Stats(); //from stats.js
+      stats.showPanel(0); // Shows FPS by default
+      document.body.appendChild(stats.dom);
+      
+      init();
+      animate();
+    </script>
+  </body>
+</html>
