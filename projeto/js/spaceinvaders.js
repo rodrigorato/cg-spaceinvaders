@@ -62,42 +62,44 @@ function createPlayer(x, y, z) {
 	scene.add(player);
  
 }
-function createCube(obj,x,y,z,dx,dy,dz){
-	geometry = new THREE.CubeGeometry(dx,dy,dz);//paralelipepedo central
-	mesh = new THREE.Mesh(geometry, material);
+function createCube(obj, x, y, z, dx, dy, dz, material_color){
+	// paralelipepedo central
+	geometry = new THREE.CubeGeometry(dx,dy,dz);
+	// cria um novo material para cada um para evitar colisoes ao dar toggle ao wireframe
+	mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({color: material_color, wireframe: true})); 
 	mesh.position.set(x,y,z);
 	obj.add(mesh);
 }
 function createAlien1(x, y, z) {
 	'use strict';
 	var alien = new THREE.Object3D();
-
-	material = new THREE.MeshBasicMaterial({color: COLORS.red , wireframe: true});
 	//createCube(alien,0,0,0,ALIEN1_SIZE.x, ALIEN1_SIZE.y, ALIEN1_SIZE.z);//cubo
-	createCube(alien,0,5,0,10,30,25);//paralelipepedo central
-	createCube(alien,-15,0,0,10,10,25);//cubos
-	createCube(alien,+15,0,0,10,10,25);
+	createCube(alien,     0,     5, 0, 10, 30, 25, COLORS.red);//paralelipepedo central
+	createCube(alien,   -15,     0, 0, 10, 10, 25, COLORS.red);//cubos
+	createCube(alien,   +15,     0, 0, 10, 10, 25, COLORS.red);
 
-	createCube(alien,+10,+7.5,0,10,5,25);//paralelipipedos mini
-	createCube(alien,-10,+7.5,0,10,5,25);
+	createCube(alien,   +10,  +7.5, 0, 10,  5, 25, COLORS.red);//paralelipipedos mini
+	createCube(alien,   -10,  +7.5, 0, 10,  5, 25, COLORS.red);
 
-	createCube(alien,+7.5,+12.5,0,5,5,25);//cubos altos
- 	createCube(alien,-7.5,+12.5,0,5,5,25);
-	createCube(alien,+7.5,-2.5,0,5,5,25);
-	createCube(alien,-7.5,-2.5,0,5,5,25);
+	createCube(alien,  +7.5, +12.5, 0,  5,  5, 25, COLORS.red);//cubos altos
+ 	createCube(alien,  -7.5, +12.5, 0,  5,  5, 25, COLORS.red);
+	createCube(alien,  +7.5,  -2.5, 0,  5,  5, 25, COLORS.red);
+	createCube(alien,  -7.5,  -2.5, 0,  5,  5, 25, COLORS.red);
 	
-	createCube(alien,+12.5,-7.5,0,5,5,15);//pata direita
-	createCube(alien,+17.5,-12.5,0,5,5,15);
-	createCube(alien,+12.5,-17.5,0,5,5,15);
-	createCube(alien,-12.5,-7.5,0,5,5,15);//pata esquerda
-	createCube(alien,-17.5,-12.5,0,5,5,15);
-	createCube(alien,-12.5,-17.5,0,5,5,15);
+	createCube(alien, +12.5,  -7.5, 0,  5,  5, 15, COLORS.red);//pata direita
+	createCube(alien, +17.5, -12.5, 0,  5,  5, 15, COLORS.red);
+	createCube(alien, +12.5, -17.5, 0,  5,  5, 15, COLORS.red);
+	createCube(alien, -12.5,  -7.5, 0,  5,  5, 15, COLORS.red);//pata esquerda
+	createCube(alien, -17.5, -12.5, 0,  5,  5, 15, COLORS.red);
+	createCube(alien, -12.5, -17.5, 0,  5,  5, 15, COLORS.red);
 
-	material = new THREE.MeshBasicMaterial({color: COLORS.red , wireframe: true});
-	
+	createCube(alien,  -7.5,   2.5, 0,  5, 5, 25, COLORS.white);
+	createCube(alien,   7.5,   2.5, 0,  5, 5, 25, COLORS.white);
+
 	scene.add(alien);
 	alien.position.set(x,y,z);
 }
+
 
 function createRowOfAliens(kind, y, quant){
 	'use strict';
