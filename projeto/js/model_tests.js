@@ -5,6 +5,8 @@ const PLAYINGFIELD_SIZE = {'x': 15*SHIP_SIZE.x, 'y':10*SHIP_SIZE.y, 'z':10*SHIP_
 const COLORS = {'red': 		0xff0000, 
 				'green': 	0x00ff00,
 				'blue': 	0x0000ff,
+				'black': 	0x000000,
+				'white': 	0xffffff,
 				'lightblue':0x00E5FF};
 const CAMERA = {"fov": 60, "near": 1, "far": 1000};
 
@@ -121,7 +123,13 @@ function createAlien1(x, y, z) {
 	createCube(alien,-12.5,-7.5,0,5,5,15);//pata esquerda
 	createCube(alien,-17.5,-12.5,0,5,5,15);
 	createCube(alien,-12.5,-17.5,0,5,5,15);
+
+	material = new THREE.MeshBasicMaterial({color: COLORS.white , wireframe: true});
+	createCube(alien, -7.5,2.5,0,5,5,25);
+	material = new THREE.MeshBasicMaterial({color: COLORS.white , wireframe: true});
+	createCube(alien, 7.5,2.5,0,5,5,25);
 	
+
 	scene.add(alien);
 	alien.position.set(x,y,z);
 }
