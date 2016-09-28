@@ -184,7 +184,12 @@ function onResize() {
 
 	if (window.innerHeight > 0 && window.innerWidth > 0) 
 	{
-		camera.aspect = renderer.getSize().width / renderer.getSize().height;
+		camera.left = window.innerWidth / -2;
+		camera.right = window.innerWidth / 2;
+		camera.top = window.innerHeight / 2;
+		camera.bottom = window.innerHeight / -2;
+		camera.near = CAMERA.near;
+		camera.far = CAMERA.far;
 		camera.updateProjectionMatrix();
 	}
 
