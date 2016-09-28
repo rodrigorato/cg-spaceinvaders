@@ -92,8 +92,8 @@ function createAlien1(x, y, z) {
 	createCube(alien, -17.5, -12.5, 0,  5,  5, 15, COLORS.red);
 	createCube(alien, -12.5, -17.5, 0,  5,  5, 15, COLORS.red);
 
-	createCube(alien,  -7.5,   2.5, 0,  5, 5, 25, COLORS.white);
-	createCube(alien,   7.5,   2.5, 0,  5, 5, 25, COLORS.white);
+	createCube(alien,  -7.5,   2.5, 0,  5, 5,  25, COLORS.white);
+	createCube(alien,   7.5,   2.5, 0,  5, 5,  25, COLORS.white);
 
 	scene.add(alien);
 	alien.position.set(x,y,z);
