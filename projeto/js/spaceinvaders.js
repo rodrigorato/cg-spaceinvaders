@@ -63,7 +63,6 @@ function createPlayer(x, y, z) {
  
 }
 function createCube(obj, x, y, z, dx, dy, dz, material_color){
-	// paralelipepedo central
 	geometry = new THREE.CubeGeometry(dx,dy,dz);
 	// cria um novo material para cada um para evitar colisoes ao dar toggle ao wireframe
 	mesh = new THREE.Mesh(geometry, new THREE.MeshBasicMaterial({color: material_color, wireframe: true})); 
