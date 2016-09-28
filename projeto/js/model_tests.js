@@ -7,7 +7,8 @@ const COLORS = {'red': 		0xff0000,
 				'blue': 	0x0000ff,
 				'black': 	0x000000,
 				'white': 	0xffffff,
-				'lightblue':0x00E5FF};
+				'lightblue':0x00E5FF,
+				'purpleish':   0x5d1bd1};
 const CAMERA = {"fov": 60, "near": 1, "far": 1000};
 
 var camera, scene, renderer;
@@ -102,7 +103,7 @@ function createCube(obj, x, y, z, dx, dy, dz, material_color){
 	obj.add(mesh);
 }
 
-function createCylinder(obj, radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, x, y, z, material_color){
+function createCylinder(obj,x, y, z, radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, material_color){
 	temp_geom = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded);
 	mesh = new THREE.Mesh(temp_geom, new THREE.MeshBasicMaterial({color: material_color, wireframe: true})); 
 	mesh.position.set(x, y, z);
@@ -113,7 +114,22 @@ function createShip(x, y, z) {
 	'use strict';
 	var ship = new THREE.Object3D();
 
-	createCylinder(ship, 0, 100, 200, 8, 5, false, 0, 0, 0, COLORS.red);
+	//createCylinder(ship,0, 0, 0, 0, 100, 200, 8, 5, false, COLORS.blue);
+	createCube(ship,0,  0,0,  30,60,20, COLORS.blue );
+	createCube(ship,0,-15,-5,  90,10,10,COLORS.blue);
+
+	createCube(ship,40,-25,-5,  10,10,10,COLORS.blue);
+	createCube(ship,-40,-25,-5,  10,10,10,COLORS.blue);
+
+	createCylinder(ship,-30,-5,-5,  0,5,10,  4,5,true,COLORS.purpleish);
+	createCylinder(ship,30,-5,-5,  0,5,10, 4,5,true,COLORS.purpleish);
+	createCylinder(ship,0,-35,-5,  5,0,10, 8,5,true,COLORS.red);
+	createCylinder(ship,0,40,0,  0,10,20, 8,5,true,COLORS.purpleish);
+
+	createCylinder(ship,0,10,10,  5,5,20, 8,5,false,COLORS.white);
+
+
+	//createCylinder(ship,-30,-5,-5,  0,5,10, 8,5,true,COLORS.blue);
 	/*
 	//createCube(alien,0,0,0,ALIEN1_SIZE.x, ALIEN1_SIZE.y, ALIEN1_SIZE.z);//cubo
 	createCube(alien,     0,     5, 0, 10, 30, 25, COLORS.red);//paralelipepedo central

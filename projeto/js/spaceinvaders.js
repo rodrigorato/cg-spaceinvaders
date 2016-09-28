@@ -15,7 +15,8 @@ const COLORS = {'red': 		0xff0000,
 				'blue': 	0x0000ff,
 				'black': 	0x000000,
 				'white': 	0xffffff,
-				'lightblue':0x00E5FF};
+				'lightblue':0x00E5FF,
+				'purpleish':0x5d1bd1 };
 const CAMERA = {"fov": 60, "near": 1, "far": 1000};
 
 var camera, camera_persp, camera_ortho,
@@ -46,21 +47,11 @@ function createBall(x,y,z) {
 
 	scene.add(ball);
 }
-
-function createPlayer(x, y, z) {
-	'use strict';
-	
-	player = new THREE.Object3D();
-	player.userData = {movingRight: false, movingLeft: false, step: 0};
-
-	material = new THREE.MeshBasicMaterial({color: COLORS.lightblue, wireframe: true});
-	geometry = new THREE.CubeGeometry(SHIP_SIZE.x, SHIP_SIZE.y, SHIP_SIZE.z);
-	mesh = new THREE.Mesh(geometry, material);
-	player.add(mesh);
-	
-	player.position.set(x, y, z);
-	scene.add(player);
- 
+function createCylinder(obj,x, y, z, radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, material_color){
+	temp_geom = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded);
+	mesh = new THREE.Mesh(temp_geom, new THREE.MeshBasicMaterial({color: material_color, wireframe: true})); 
+	mesh.position.set(x, y, z);
+	obj.add(mesh);
 }
 function createCube(obj, x, y, z, dx, dy, dz, material_color){
 	geometry = new THREE.CubeGeometry(dx,dy,dz);
@@ -69,6 +60,33 @@ function createCube(obj, x, y, z, dx, dy, dz, material_color){
 	mesh.position.set(x,y,z);
 	obj.add(mesh);
 }
+
+function createPlayer(x, y, z) {
+	'use strict';
+	
+	player = new THREE.Object3D();
+	player.userData = {movingRight: false, movingLeft: false, step: 0};
+
+	//createCube(player,0,0,0, SHIP_SIZE.x, SHIP_SIZE.y, SHIP_SIZE.z,COLORS.lightblue);
+	createCube(player,0,  0,0,  30,60,20, COLORS.blue );
+	createCube(player,0,-15,-5,  90,10,10,COLORS.blue);
+
+	createCube(player,40,-25,-5,  10,10,10,COLORS.blue);
+	createCube(player,-40,-25,-5,  10,10,10,COLORS.blue);
+
+	createCylinder(player,-30,-5,-5,  0,5,10,  4,5,true,COLORS.purpleish);
+	createCylinder(player,30,-5,-5,  0,5,10, 4,5,true,COLORS.purpleish);
+	createCylinder(player,0,-35,-5,  5,0,10, 8,5,true,COLORS.red);
+	createCylinder(player,0,40,0,  0,10,20, 8,5,true,COLORS.purpleish);
+
+	createCylinder(player,0,10,10,  5,5,20, 8,5,false,COLORS.white);
+
+	
+	player.position.set(x, y, z);
+	scene.add(player);
+ 
+}
+
 function createAlien1(x, y, z) {
 	'use strict';
 	var alien = new THREE.Object3D();
