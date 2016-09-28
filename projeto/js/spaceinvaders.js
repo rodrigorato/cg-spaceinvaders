@@ -147,7 +147,9 @@ function createScene() {
 	
 	
 	createLine([new THREE.Vector3(0,0,0),
-				new THREE.Vector3(0,PLAYINGFIELD_SIZE.y,0)],
+				new THREE.Vector3(0,PLAYINGFIELD_SIZE.y,0),
+				new THREE.Vector3(PLAYINGFIELD_SIZE.x,PLAYINGFIELD_SIZE.y,0),
+				new THREE.Vector3(PLAYINGFIELD_SIZE.x,0,0)],
 				COLORS.lightblue);
 	
 	createPlayer(Math.ceil(PLAYINGFIELD_SIZE.x / 2), SHIP_SIZE.y / 2, 0);

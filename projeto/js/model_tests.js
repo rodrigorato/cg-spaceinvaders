@@ -42,7 +42,7 @@ function createScene() {
 	scene.add(new THREE.AxisHelper(10));
 
 	
-	createAlien1(0, 0, 0);
+	createShip(0, 0, 0);
 }
 
 function onResize() {
@@ -101,9 +101,20 @@ function createCube(obj, x, y, z, dx, dy, dz, material_color){
 	mesh.position.set(x,y,z);
 	obj.add(mesh);
 }
-function createAlien1(x, y, z) {
+
+function createCylinder(obj, radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, x, y, z, material_color){
+	temp_geom = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded);
+	mesh = new THREE.Mesh(temp_geom, new THREE.MeshBasicMaterial({color: material_color, wireframe: true})); 
+	mesh.position.set(x, y, z);
+	obj.add(mesh);
+}
+
+function createShip(x, y, z) {
 	'use strict';
-	var alien = new THREE.Object3D();
+	var ship = new THREE.Object3D();
+
+	createCylinder(ship, 0, 100, 200, 8, 5, false, 0, 0, 0, COLORS.red);
+	/*
 	//createCube(alien,0,0,0,ALIEN1_SIZE.x, ALIEN1_SIZE.y, ALIEN1_SIZE.z);//cubo
 	createCube(alien,     0,     5, 0, 10, 30, 25, COLORS.red);//paralelipepedo central
 	createCube(alien,   -15,     0, 0, 10, 10, 25, COLORS.red);//cubos
@@ -126,9 +137,10 @@ function createAlien1(x, y, z) {
 
 	createCube(alien,  -7.5,   2.5, 0,  5, 5, 25, COLORS.white);
 	createCube(alien,   7.5,   2.5, 0,  5, 5, 25, COLORS.white);
+	*/
 
-	scene.add(alien);
-	alien.position.set(x,y,z);
+	scene.add(ship);
+	ship.position.set(x,y,z);
 }
 
 
