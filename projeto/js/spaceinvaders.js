@@ -37,9 +37,9 @@ function createBall(x,y,z) {
 	ball = new THREE.Object3D();
 	ball.userData = {jumping: true , step : 0};
 
-	material = new THREE.MeshBasicMaterial( {color: COLORS.red, wireframe: true });
+	var ball_material = new THREE.MeshBasicMaterial( {color: COLORS.red, wireframe: true });
 	geometry = new THREE.SphereGeometry(4,10 ,10);
-	mesh = new THREE.Mesh(geometry, material);
+	mesh = new THREE.Mesh(geometry, ball_material);
 
 	ball.add(mesh);
 	ball.position.set(x,y,z);
@@ -109,6 +109,15 @@ function createRowOfAliens(kind, y, quant){
 	}
 }
 
+function createLine(verts_array, line_color){
+	var line, temp_geom = new THREE.Geometry();
+	for(var i = 0; i < verts_array.length; i++){
+		temp_geom.vertices.push(verts_array[i]);
+	}
+	line = new THREE.Line(geometry, new THREE.LineBasicMaterial({color: line_color, linewidth: 800}));
+	scene.add(line);
+}
+
 
 function createCamera() {
 	'use strict';
@@ -123,7 +132,7 @@ function createCamera() {
 	//lookAtVector.applyQuaternion(camera_persp.quaternion);
 
 	camera_persp.lookAt(lookAtVector); camera_ortho.lookAt(lookAtVector);
-	camera = camera_persp;
+	camera = camera_ortho;
 }
 
 function createScene() {
@@ -132,7 +141,15 @@ function createScene() {
 	scene = new THREE.Scene();
 	scene.add(new THREE.AxisHelper(10));
 
-	createBall(0,800,0);
+	createBall(0,PLAYINGFIELD_SIZE.y,0);
+	createBall(PLAYINGFIELD_SIZE.x,PLAYINGFIELD_SIZE.y,0);
+	createBall(PLAYINGFIELD_SIZE.x,0,0);
+	
+	
+	createLine([new THREE.Vector3(0,0,0),
+				new THREE.Vector3(0,PLAYINGFIELD_SIZE.y,0)],
+				COLORS.lightblue);
+	
 	createPlayer(Math.ceil(PLAYINGFIELD_SIZE.x / 2), SHIP_SIZE.y / 2, 0);
 
 	createRowOfAliens(1, 700, 12);	
