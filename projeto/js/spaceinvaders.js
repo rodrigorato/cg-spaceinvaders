@@ -140,8 +140,10 @@ function createLine(verts_array, line_color){
 function createCamera() {
 	'use strict';
 
+
+
 	camera_persp = new THREE.PerspectiveCamera(CAMERA.fov, window.innerWidth / window.innerHeight, CAMERA.near, CAMERA.far);
-	camera_ortho = new THREE.OrthographicCamera(window.innerWidth / -2, window.innerWidth / 2, window.innerHeight / 2, window.innerHeight / -2, CAMERA.near, CAMERA.far);
+	camera_ortho = new THREE.OrthographicCamera( PLAYINGFIELD_SIZE.x / -2, PLAYINGFIELD_SIZE.x  / 2, PLAYINGFIELD_SIZE.y / 2, PLAYINGFIELD_SIZE.y / -2, CAMERA.near, CAMERA.far);
 	camera_persp.position.x = (camera_ortho.position.x = Math.ceil(PLAYINGFIELD_SIZE.x / 2));
 	camera_persp.position.y = (camera_ortho.position.y = Math.ceil(PLAYINGFIELD_SIZE.y / 2));
 	camera_persp.position.z = (camera_ortho.position.z = PLAYINGFIELD_SIZE.z);
@@ -184,10 +186,10 @@ function onResize() {
 
 	if (window.innerHeight > 0 && window.innerWidth > 0) 
 	{
-		camera.left = window.innerWidth / -2;
-		camera.right = window.innerWidth / 2;
-		camera.top = window.innerHeight / 2;
-		camera.bottom = window.innerHeight / -2;
+		camera.left = PLAYINGFIELD_SIZE.x / -2;
+		camera.right = PLAYINGFIELD_SIZE.x / 2;
+		camera.top =PLAYINGFIELD_SIZE.y / 2;
+		camera.bottom = PLAYINGFIELD_SIZE.y / -2;
 		camera.near = CAMERA.near;
 		camera.far = CAMERA.far;
 		camera.updateProjectionMatrix();
