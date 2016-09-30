@@ -19,11 +19,15 @@ const COLORS = {'red': 		0xff0000,
 				'purpleish':0x5d1bd1 };
 const CAMERA = {"fov": 60, "near": 1, "far": 1000};
 
+const ACCELERATION = 40;
+
 var camera, camera_persp, camera_ortho,
 	scene, renderer,
 	geometry,material,mesh;
 
 var ball, player;
+
+var clock;
 
 
 function render() {	
@@ -143,7 +147,7 @@ function createCamera() {
 
 
 	camera_persp = new THREE.PerspectiveCamera(CAMERA.fov, window.innerWidth / window.innerHeight, CAMERA.near, CAMERA.far);
-	camera_ortho = new THREE.OrthographicCamera( PLAYINGFIELD_SIZE.x / -2, PLAYINGFIELD_SIZE.x  / 2, PLAYINGFIELD_SIZE.y / 2, PLAYINGFIELD_SIZE.y / -2, CAMERA.near, CAMERA.far);
+	camera_ortho = new THREE.OrthographicCamera( 1.3 *PLAYINGFIELD_SIZE.x / -2, 1.3 *PLAYINGFIELD_SIZE.x  / 2, 1.05 * PLAYINGFIELD_SIZE.y / 2, 1.05 * PLAYINGFIELD_SIZE.y / -2, CAMERA.near, CAMERA.far);
 	camera_persp.position.x = (camera_ortho.position.x = Math.ceil(PLAYINGFIELD_SIZE.x / 2));
 	camera_persp.position.y = (camera_ortho.position.y = Math.ceil(PLAYINGFIELD_SIZE.y / 2));
 	camera_persp.position.z = (camera_ortho.position.z = PLAYINGFIELD_SIZE.z);
@@ -186,10 +190,10 @@ function onResize() {
 
 	if (window.innerHeight > 0 && window.innerWidth > 0) 
 	{
-		camera.left = PLAYINGFIELD_SIZE.x / -2;
-		camera.right = PLAYINGFIELD_SIZE.x / 2;
-		camera.top =PLAYINGFIELD_SIZE.y / 2;
-		camera.bottom = PLAYINGFIELD_SIZE.y / -2;
+		camera.left = 1.3 *PLAYINGFIELD_SIZE.x / -2;
+		camera.right = 1.3 * PLAYINGFIELD_SIZE.x / 2;
+		camera.top = 1.05 * PLAYINGFIELD_SIZE.y / 2;
+		camera.bottom = 1.05 * PLAYINGFIELD_SIZE.y / -2;
 		camera.near = CAMERA.near;
 		camera.far = CAMERA.far;
 		camera.updateProjectionMatrix();
@@ -211,18 +215,10 @@ function onKeyDown(key) {
 			break;
 
 		case 39: //-->
-			if (player.userData.movingLeft){
-				player.userData.movingLeft = false;
-				player.userData.step = 5;
-			}
 			player.userData.movingRight = true;
 
 			break;
 		case 37: //<--
-			if(player.userData.movingRight){
-				player.userData.movingRight = false;
-				player.userData.step = 5;
-			}
 			player.userData.movingLeft = true;
 			break;
 		case 80: //p
@@ -242,11 +238,9 @@ function onKeyUp(key){
 	{
 		case 39: //-->
 			player.userData.movingRight = false;
-			player.userData.step = 5;
 			break;
 		case 37: //<--
 			player.userData.movingLeft = false;
-			player.userData.step = 5;
 			break;
 	}
 }
@@ -255,16 +249,43 @@ function movePlayer(){
 
 	stats.begin();
 
-	if(player.userData.movingLeft || player.userData.movingRight)
-		player.userData.step += 0.8;
-	if (player.userData.movingLeft && (player.position.x-player.userData.step)>=45){
-		player.position.x -= player.userData.step;
+
+	if(player.userData.movingLeft)
+		player.userData.step -= ACCELERATION * clock.getDelta();
+
+	if (!player.userData.movingLeft && player.userData.step <= 0)
+		player.userData.step += 3* ACCELERATION * clock.getDelta();
+
+	if(player.userData.movingRight)
+		player.userData.step +=  ACCELERATION * clock.getDelta();
+
+	if(!player.userData.movingRight && player.userData.step >= 0)
+		player.userData.step -=  3* ACCELERATION * clock.getDelta();
+
+	if (!player.userData.movingRight && !player.userData.movingLeft && Math.abs(player.userData.step) <= ACCELERATION / 10) 
+	{
+		player.userData.step = 0;
 	}
-	else if (player.userData.movingLeft) player.position.x=45;
-	if (player.userData.movingRight && (player.position.x+player.userData.step)<=1350){
+
+	if (player.userData.step <= 0 && (player.position.x+player.userData.step)<=SHIP_SIZE.x / 2)
+	{
+		player.position.x = SHIP_SIZE.x / 2;
+		player.userData.step = 0;
+	}
+	else if (player.userData.step <= 0) 
 		player.position.x += player.userData.step;
+	
+
+	if (player.userData.step >= 0 && (player.position.x+player.userData.step) >= PLAYINGFIELD_SIZE.x-SHIP_SIZE.x / 2)
+	{
+		player.position.x = PLAYINGFIELD_SIZE.x - SHIP_SIZE.x / 2;
+		player.userData.step = 0;
 	}
-	else if (player.userData.movingRight) player.position.x=1350;
+	else if (player.userData.step >= 0) 
+		player.position.x += player.userData.step;
+
+	console.log(player.userData.step);
+
 	render();
 	requestAnimationFrame(movePlayer);
 
@@ -282,6 +303,8 @@ function init() {
 
 	createScene();
 	createCamera();
+
+	clock = new THREE.Clock();
 
 	render();
 
