@@ -144,10 +144,10 @@ function createLine(verts_array, line_color){
 function createCamera() {
 	'use strict';
 
-
+	var aspect_ratio = (window.innerWidth / window.innerHeight);
 
 	camera_persp = new THREE.PerspectiveCamera(CAMERA.fov, window.innerWidth / window.innerHeight, CAMERA.near, CAMERA.far);
-	camera_ortho = new THREE.OrthographicCamera( 1.3 *PLAYINGFIELD_SIZE.x / -2, 1.3 *PLAYINGFIELD_SIZE.x  / 2, 1.05 * PLAYINGFIELD_SIZE.y / 2, 1.05 * PLAYINGFIELD_SIZE.y / -2, CAMERA.near, CAMERA.far);
+	camera_ortho = new THREE.OrthographicCamera( PLAYINGFIELD_SIZE.x * aspect_ratio / -2, PLAYINGFIELD_SIZE.x* aspect_ratio / 2, PLAYINGFIELD_SIZE.y/ 2, PLAYINGFIELD_SIZE.y / -2, CAMERA.near, CAMERA.far);
 	camera_persp.position.x = (camera_ortho.position.x = Math.ceil(PLAYINGFIELD_SIZE.x / 2));
 	camera_persp.position.y = (camera_ortho.position.y = Math.ceil(PLAYINGFIELD_SIZE.y / 2));
 	camera_persp.position.z = (camera_ortho.position.z = PLAYINGFIELD_SIZE.z);
@@ -190,10 +190,11 @@ function onResize() {
 
 	if (window.innerHeight > 0 && window.innerWidth > 0) 
 	{
-		camera.left = 1.3 *PLAYINGFIELD_SIZE.x / -2;
-		camera.right = 1.3 * PLAYINGFIELD_SIZE.x / 2;
-		camera.top = 1.05 * PLAYINGFIELD_SIZE.y / 2;
-		camera.bottom = 1.05 * PLAYINGFIELD_SIZE.y / -2;
+		var aspect_ratio =(window.innerWidth / window.innerHeight);
+		camera.left = PLAYINGFIELD_SIZE.x* aspect_ratio / -2;
+		camera.right = PLAYINGFIELD_SIZE.x* aspect_ratio / 2;
+		camera.top = PLAYINGFIELD_SIZE.y/ 2;
+		camera.bottom = PLAYINGFIELD_SIZE.y / -2;
 		camera.near = CAMERA.near;
 		camera.far = CAMERA.far;
 		camera.updateProjectionMatrix();
@@ -284,7 +285,6 @@ function movePlayer(){
 	else if (player.userData.step >= 0) 
 		player.position.x += player.userData.step;
 
-	console.log(player.userData.step);
 
 	render();
 	requestAnimationFrame(movePlayer);
