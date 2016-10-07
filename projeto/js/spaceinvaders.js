@@ -169,13 +169,14 @@ function createScene() {
 	createBall(PLAYINGFIELD_SIZE.x,PLAYINGFIELD_SIZE.y,0);
 	createBall(PLAYINGFIELD_SIZE.x,0,0);
 	
-	
+	/*
 	createLine([new THREE.Vector3(0,0,0),
 				new THREE.Vector3(0,PLAYINGFIELD_SIZE.y,0),
 				new THREE.Vector3(PLAYINGFIELD_SIZE.x,PLAYINGFIELD_SIZE.y,0),
 				new THREE.Vector3(PLAYINGFIELD_SIZE.x,0,0)],
 				COLORS.lightblue);
-	
+	*/
+
 	createPlayer(Math.ceil(PLAYINGFIELD_SIZE.x / 2), SHIP_SIZE.y / 2, 0);
 
 	createRowOfAliens(1, 700, 12);	
@@ -191,10 +192,18 @@ function onResize() {
 	if (window.innerHeight > 0 && window.innerWidth > 0) 
 	{
 		var aspect_ratio =(window.innerWidth / window.innerHeight);
-		camera.left = PLAYINGFIELD_SIZE.x* aspect_ratio / -2;
-		camera.right = PLAYINGFIELD_SIZE.x* aspect_ratio / 2;
-		camera.top = PLAYINGFIELD_SIZE.y/ 2;
-		camera.bottom = PLAYINGFIELD_SIZE.y / -2;
+		if(aspect_ratio>1){
+			camera.left = (PLAYINGFIELD_SIZE.x / -2) * aspect_ratio;
+			camera.right = (PLAYINGFIELD_SIZE.x / 2) * aspect_ratio;
+			camera.top = PLAYINGFIELD_SIZE.y/ 2;
+			camera.bottom = PLAYINGFIELD_SIZE.y / -2;
+	
+		}else{
+			camera.left = (PLAYINGFIELD_SIZE.x / -2) ;
+			camera.right = (PLAYINGFIELD_SIZE.x / 2) ;
+			camera.top = (PLAYINGFIELD_SIZE.y/ 2) / aspect_ratio;
+			camera.bottom = (PLAYINGFIELD_SIZE.y / -2) /aspect_ratio;
+		}
 		camera.near = CAMERA.near;
 		camera.far = CAMERA.far;
 		camera.updateProjectionMatrix();
@@ -245,24 +254,38 @@ function onKeyUp(key){
 			break;
 	}
 }
+
+class helloPerson {
+	constructor(name){
+		this.name = name;
+	}
+	doStuff(number){
+		console.log("Hello " + this.name + " number " + number + "\n");
+	}
+}
+
 function movePlayer(){
 	'use strict';
 
 	stats.begin();
 
+	// Checks if the player is moving and adds to its movement
+	if(player.userData.movingLeft || player.userData.movingRight)
+		player.userData.step += (player.userData.movingLeft ? -1:1)*ACCELERATION * clock.getDelta();
 
-	if(player.userData.movingLeft)
-		player.userData.step -= ACCELERATION * clock.getDelta();
 
-	if (!player.userData.movingLeft && player.userData.step <= 0)
-		player.userData.step += 3* ACCELERATION * clock.getDelta();
+	if ((!player.userData.movingLeft && player.userData.step <= 0) || (!player.userData.movingRight && player.userData.step >= 0))
+		player.userData.step += (player.userData.step <= 0 ? 1:-1)*ACCELERATION * clock.getDelta();
 
+	/*
 	if(player.userData.movingRight)
 		player.userData.step +=  ACCELERATION * clock.getDelta();
-
+	
+	
 	if(!player.userData.movingRight && player.userData.step >= 0)
 		player.userData.step -=  3* ACCELERATION * clock.getDelta();
-
+	*/
+	
 	if (!player.userData.movingRight && !player.userData.movingLeft && Math.abs(player.userData.step) <= ACCELERATION / 10) 
 	{
 		player.userData.step = 0;
@@ -285,6 +308,8 @@ function movePlayer(){
 	else if (player.userData.step >= 0) 
 		player.position.x += player.userData.step;
 
+	var p = new helloPerson("rato");
+	p.doStuff(3);
 
 	render();
 	requestAnimationFrame(movePlayer);
