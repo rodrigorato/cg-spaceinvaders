@@ -121,12 +121,12 @@ function createShip(x, y, z) {
 	createCube(ship,40,-25,-5,  10,10,10,COLORS.blue);
 	createCube(ship,-40,-25,-5,  10,10,10,COLORS.blue);
 
-	createCylinder(ship,-30,-5,-5,  0,5,10,  4,5,true,COLORS.purpleish);
-	createCylinder(ship,30,-5,-5,  0,5,10, 4,5,true,COLORS.purpleish);
-	createCylinder(ship,0,-35,-5,  5,0,10, 8,5,true,COLORS.red);
-	createCylinder(ship,0,40,0,  0,10,20, 8,5,true,COLORS.purpleish);
+	createCylinder(ship,-30,-5,-5,  0,5,10, 3,2,true,COLORS.purpleish);
+	createCylinder(ship,30,-5,-5,  0,5,10, 3,2,true,COLORS.purpleish);
+	createCylinder(ship,0,-35,-5,  5,0,10, 3,2,true,COLORS.red);
+	createCylinder(ship,0,40,0,  0,10,20, 3,2,true,COLORS.purpleish);
 
-	createCylinder(ship,0,10,10,  5,5,20, 8,5,false,COLORS.white);
+	createCylinder(ship,0,10,10,  5,5,20, 3,2,false,COLORS.white);
 
 
 	//createCylinder(ship,-30,-5,-5,  0,5,10, 8,5,true,COLORS.blue);

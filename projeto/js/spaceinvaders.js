@@ -82,12 +82,12 @@ function createPlayer(x, y, z) {
 	createCube(player,40,-25,-5,  10,10,10,MATERIALS.blue);
 	createCube(player,-40,-25,-5,  10,10,10,MATERIALS.blue);
 
-	createCylinder(player,-30,-5,-5,  0,5,10,  4,5,true,MATERIALS.purpleish);
-	createCylinder(player,30,-5,-5,  0,5,10, 4,5,true,MATERIALS.purpleish);
-	createCylinder(player,0,-35,-5,  5,0,10, 8,5,true,MATERIALS.red);
-	createCylinder(player,0,40,0,  0,10,20, 8,5,true,MATERIALS.purpleish);
+	createCylinder(player,-30,-5,-5,  0,5,10, 3,2,true,MATERIALS.purpleish);
+	createCylinder(player,30,-5,-5,  0,5,10, 3,2,true,MATERIALS.purpleish);
+	createCylinder(player,0,-35,-5,  5,0,10, 3,2,true,MATERIALS.red);
+	createCylinder(player,0,40,0,  0,10,20, 3,2,true,MATERIALS.purpleish);
 
-	createCylinder(player,0,10,10,  5,5,20, 8,5,false,MATERIALS.white);
+	createCylinder(player,0,10,10,  5,5,20, 3,2,false,MATERIALS.white);
 
 	
 	player.position.set(x, y, z);
