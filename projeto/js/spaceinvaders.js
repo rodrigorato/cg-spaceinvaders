@@ -140,7 +140,7 @@ function createRowOfAliens(kind, y, quant){
 function createCamera() {
 	'use strict';
 
-	var aspect_ratio = (window.innerWidth / window.innerHeight)/2;
+	var aspect_ratio = (window.innerWidth / window.innerHeight)/1.75;
 
 	camera_persp = new THREE.PerspectiveCamera(CAMERA.fov, window.innerWidth / window.innerHeight, CAMERA.near, CAMERA.far);
 	camera_ortho = new THREE.OrthographicCamera( PLAYINGFIELD_SIZE.x * aspect_ratio / -2, PLAYINGFIELD_SIZE.x* aspect_ratio / 2, PLAYINGFIELD_SIZE.y/ 2, PLAYINGFIELD_SIZE.y / -2, CAMERA.near, CAMERA.far);
@@ -180,7 +180,7 @@ function onResize() {
 
 	if (window.innerHeight > 0 && window.innerWidth > 0) 
 	{
-		var aspect_ratio =(window.innerWidth / window.innerHeight)/2;
+		var aspect_ratio =(window.innerWidth / window.innerHeight)/1.75;
 		if(aspect_ratio>1){
 			camera.left = (PLAYINGFIELD_SIZE.x / -2) * aspect_ratio;
 			camera.right = (PLAYINGFIELD_SIZE.x / 2) * aspect_ratio;
