@@ -23,7 +23,7 @@ var MATERIALS = {
 }
 const CAMERA = {"fov": 60, "near": 1, "far": 1000};
 
-const ACCELERATION = 40;
+const ACCELERATION = 3000;
 
 var camera, camera_persp, camera_ortho,
 	scene, renderer,
@@ -44,7 +44,7 @@ function createBall(x, y, z, material) {
 	'use strict';
 	
 	ball = new THREE.Object3D();
-	ball.userData = {jumping: true , step : 0};
+	ball.userData = {jumping: true };
 
 	var ball_material = material;
 	geometry = new THREE.SphereGeometry(4,10 ,10);
@@ -73,22 +73,21 @@ function createPlayer(x, y, z) {
 	'use strict';
 	
 	player = new THREE.Object3D();
-	player.userData = {movingRight: false, movingLeft: false, step: 0};
+	player.userData = {movingRight: false, movingLeft: false, vel: 0};
 
 	//createCube(player,0,0,0, SHIP_SIZE.x, SHIP_SIZE.y, SHIP_SIZE.z,COLORS.lightblue);
-	createCube(player,0,  0,0,  30,60,20, MATERIALS.blue );
-	createCube(player,0,-15,-5,  90,10,10,MATERIALS.blue);
+	createCube(player,	  0,   0,  0, 30, 60, 20, MATERIALS.blue);
+	createCube(player,	  0, -15, -5, 90, 10, 10, MATERIALS.blue);
 
-	createCube(player,40,-25,-5,  10,10,10,MATERIALS.blue);
-	createCube(player,-40,-25,-5,  10,10,10,MATERIALS.blue);
+	createCube(player,	 40, -25, -5, 10, 10, 10, MATERIALS.blue);
+	createCube(player,	-40, -25, -5, 10, 10, 10, MATERIALS.blue);
 
-	createCylinder(player,-30,-5,-5,  0,5,10, 3,2,true,MATERIALS.purpleish);
-	createCylinder(player,30,-5,-5,  0,5,10, 3,2,true,MATERIALS.purpleish);
-	createCylinder(player,0,-35,-5,  5,0,10, 3,2,true,MATERIALS.red);
-	createCylinder(player,0,40,0,  0,10,20, 3,2,true,MATERIALS.purpleish);
+	createCylinder(player,	-30,  -5, -5, 0,  5, 10, 3, 2,  true, MATERIALS.purpleish);
+	createCylinder(player,	 30,  -5, -5, 0,  5, 10, 3, 2,  true, MATERIALS.purpleish);
+	createCylinder(player,	  0, -35, -5, 5,  0, 10, 3, 2,  true, MATERIALS.red);
+	createCylinder(player,	  0,  40,  0, 0, 10, 20, 3, 2,  true, MATERIALS.purpleish);
 
-	createCylinder(player,0,10,10,  5,5,20, 3,2,false,MATERIALS.white);
-
+	createCylinder(player,	  0,  10, 10, 5,  5, 20, 3, 2, false, MATERIALS.white);
 	
 	player.position.set(x, y, z);
 	scene.add(player);
@@ -129,10 +128,8 @@ function createAlien1(x, y, z) {
 function createRowOfAliens(kind, y, quant){
 	'use strict';
 
-	for(var i = 0; i <= quant; i++){
-			createAlien1((ALIEN1_SIZE.x * 2) + (i * 100), y, 0);
-
-	}
+	for(var i = 0; i < quant; i++)
+			createAlien1((ALIEN1_SIZE.x * 2) + (i * ((PLAYINGFIELD_SIZE.x - ALIEN1_SIZE.x) / quant)), y, 0);
 }
 
 
@@ -146,18 +143,17 @@ function createCamera() {
 										 PLAYINGFIELD_SIZE.y / -2,        //      e inferior
 										 CAMERA.near,			          // Limite frontal
 										 CAMERA.far);			          //  	  e traseiro
-	onResize();	// Para acertar o aspect ratio.
 
 	camera_persp = new THREE.PerspectiveCamera(CAMERA.fov, window.innerWidth / window.innerHeight, CAMERA.near, CAMERA.far);
-	camera_persp.position.x = (camera_ortho.position.x = Math.ceil(PLAYINGFIELD_SIZE.x / 2));
-	camera_persp.position.y = (camera_ortho.position.y = Math.ceil(PLAYINGFIELD_SIZE.y / 2));
+	camera_persp.position.x = (camera_ortho.position.x = (PLAYINGFIELD_SIZE.x / 2));
+	camera_persp.position.y = (camera_ortho.position.y = (PLAYINGFIELD_SIZE.y / 2));
 	camera_persp.position.z = (camera_ortho.position.z = PLAYINGFIELD_SIZE.z);
 
-	var lookAtVector = new THREE.Vector3(Math.ceil(PLAYINGFIELD_SIZE.x / 2), Math.ceil(PLAYINGFIELD_SIZE.y / 2), 0);
-	//lookAtVector.applyQuaternion(camera_persp.quaternion);
+	var lookAtVector = new THREE.Vector3(PLAYINGFIELD_SIZE.x / 2, PLAYINGFIELD_SIZE.y / 2, 0);
 
 	camera_persp.lookAt(lookAtVector); camera_ortho.lookAt(lookAtVector);
 	camera = camera_ortho;
+	onResize();	// Para acertar o aspect ratio.
 }
 
 //done
@@ -165,13 +161,14 @@ function createScene() {
 	'use strict';
 
 	scene = new THREE.Scene();
-	scene.add(new THREE.AxisHelper(10));
 
+	// As bolas e o axis helper mostram os cantos do campo de jogo 
+	scene.add(new THREE.AxisHelper(10));
 	createBall(0,PLAYINGFIELD_SIZE.y,0, MATERIALS.red);
 	createBall(PLAYINGFIELD_SIZE.x,PLAYINGFIELD_SIZE.y,0, MATERIALS.red);
 	createBall(PLAYINGFIELD_SIZE.x,0,0, MATERIALS.red);
 	
-	createPlayer(Math.ceil(PLAYINGFIELD_SIZE.x / 2), SHIP_SIZE.y / 1.5, 0);
+	createPlayer(PLAYINGFIELD_SIZE.x / 2, SHIP_SIZE.y / 1.5, 0);
 
 	createRowOfAliens(1, 700, 12);	
 	createRowOfAliens(1, 600, 12);	
@@ -185,7 +182,7 @@ function onResize() {
 
 	if (window.innerHeight > 0 && window.innerWidth > 0) 
 	{
-		var aspect_ratio =(window.innerWidth / window.innerHeight)/1.75;
+		var aspect_ratio =(window.innerWidth / window.innerHeight);
 		if(aspect_ratio>1){
 			camera.left = (PLAYINGFIELD_SIZE.x / -2) * aspect_ratio;
 			camera.right = (PLAYINGFIELD_SIZE.x / 2) * aspect_ratio;
@@ -252,36 +249,37 @@ function movePlayer(){
 
 	stats.begin();
 
+	var time = clock.getDelta();
 	// Checks if the player is moving and adds to its movement
 	if(player.userData.movingLeft || player.userData.movingRight)
-		player.userData.step += (player.userData.movingLeft ? -1:1)*ACCELERATION * clock.getDelta();
+		player.userData.vel += (player.userData.movingLeft ? -1:1)*ACCELERATION * time;
 
 
-	if ((!player.userData.movingLeft && player.userData.step <= 0) || (!player.userData.movingRight && player.userData.step >= 0))
-		player.userData.step += (player.userData.step <= 0 ? 1:-1)*ACCELERATION * clock.getDelta();
+	if ((!player.userData.movingLeft && player.userData.vel <= 0) || (!player.userData.movingRight && player.userData.vel >= 0))
+		player.userData.vel += (player.userData.vel <= 0 ? 1:-1)*ACCELERATION * time;
 
 	
-	if (!player.userData.movingRight && !player.userData.movingLeft && Math.abs(player.userData.step) <= ACCELERATION / 10) 
+	if (!player.userData.movingRight && !player.userData.movingLeft && Math.abs(player.userData.vel) <= ACCELERATION / 10) 
 	{
-		player.userData.step = 0;
+		player.userData.vel = 0;
 	}
 
 	
 	//lado esquerdo do campo
-	if (player.userData.step <= 0 && (player.position.x+player.userData.step)<=SHIP_SIZE.x / 2)
+	if (player.userData.vel <= 0 && (player.position.x+player.userData.vel*time)<=SHIP_SIZE.x / 2)
 	{
 		player.position.x = SHIP_SIZE.x / 2;
-		player.userData.step = 0;
+		player.userData.vel = 0;
 	}
 	
 	//lado direito do campo
-	else if (player.userData.step >= 0 && (player.position.x+player.userData.step) >= PLAYINGFIELD_SIZE.x-SHIP_SIZE.x / 2)
+	else if (player.userData.vel >= 0 && (player.position.x+player.userData.vel*time) >= PLAYINGFIELD_SIZE.x-SHIP_SIZE.x / 2)
 	{
 		player.position.x = PLAYINGFIELD_SIZE.x - SHIP_SIZE.x / 2;
-		player.userData.step = 0;
+		player.userData.vel = 0;
 	}
 	else 
-		player.position.x += player.userData.step;
+		player.position.x += player.userData.vel*time;
 
 	render();
 	requestAnimationFrame(movePlayer);
