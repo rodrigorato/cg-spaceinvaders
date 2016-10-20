@@ -21,11 +21,11 @@ var MATERIALS = {
 	'purpleish': 	new THREE.MeshBasicMaterial({color: 0x5D1BD1, wireframe: true }),	
 
 }
-const CAMERA = {"fov": 60, "near": 1, "far": 1000};
+const CAMERA = {"fov": 65, "near": 0.1, "far": 1000};
 
 const ACCELERATION = 3000;
 
-var camera, camera_persp, camera_ortho,
+var camera, camera_persp, camera_ortho,camera_player,
 	scene, renderer,
 	geometry,material,mesh;
 
@@ -145,13 +145,24 @@ function createCamera() {
 										 CAMERA.far);			          //  	  e traseiro
 
 	camera_persp = new THREE.PerspectiveCamera(CAMERA.fov, window.innerWidth / window.innerHeight, CAMERA.near, CAMERA.far);
-	camera_persp.position.x = (camera_ortho.position.x = (PLAYINGFIELD_SIZE.x / 2));
-	camera_persp.position.y = (camera_ortho.position.y = (PLAYINGFIELD_SIZE.y / 2));
-	camera_persp.position.z = (camera_ortho.position.z = PLAYINGFIELD_SIZE.z);
+	camera_player = new THREE.PerspectiveCamera(CAMERA.fov, window.innerWidth / window.innerHeight, CAMERA.near, CAMERA.far);
+	camera_ortho.position.x = (PLAYINGFIELD_SIZE.x / 2);
+	camera_ortho.position.y = (PLAYINGFIELD_SIZE.y / 2);
+	camera_ortho.position.z = PLAYINGFIELD_SIZE.z;
+
+	camera_persp.position.x = (PLAYINGFIELD_SIZE.x / 2);
+	camera_persp.position.y = -100;
+	camera_persp.position.z = 600;
+
+	camera_player.position.x= player.position.x;
+	camera_player.position.y= player.position.y - 150;
+	camera_player.position.z= player.position.z + 500;
 
 	var lookAtVector = new THREE.Vector3(PLAYINGFIELD_SIZE.x / 2, PLAYINGFIELD_SIZE.y / 2, 0);
 
-	camera_persp.lookAt(lookAtVector); camera_ortho.lookAt(lookAtVector);
+	camera_persp.lookAt(new THREE.Vector3(PLAYINGFIELD_SIZE.x / 2, 300, 0));
+	camera_player.lookAt(player.position);
+	camera_ortho.lookAt(lookAtVector);
 	camera = camera_ortho;
 	onResize();	// Para acertar o aspect ratio.
 }
@@ -163,7 +174,7 @@ function createScene() {
 	scene = new THREE.Scene();
 
 	// As bolas e o axis helper mostram os cantos do campo de jogo 
-	scene.add(new THREE.AxisHelper(10));
+	scene.add(new THREE.AxisHelper(100));
 	createBall(0,PLAYINGFIELD_SIZE.y,0, MATERIALS.red);
 	createBall(PLAYINGFIELD_SIZE.x,PLAYINGFIELD_SIZE.y,0, MATERIALS.red);
 	createBall(PLAYINGFIELD_SIZE.x,0,0, MATERIALS.red);
@@ -218,6 +229,9 @@ function onKeyDown(key) {
 			break;
 		case 37: //<--
 			player.userData.movingLeft = true;
+			break;
+		case 51:
+			camera = camera_player;
 			break;
 		case 50: //2
 			camera = camera_persp;
@@ -280,6 +294,10 @@ function movePlayer(){
 	}
 	else 
 		player.position.x += player.userData.vel*time;
+
+	camera_player.position.x= player.position.x;
+	camera_player.position.y= player.position.y - 100;
+	camera_player.position.z= player.position.z + 600;
 
 	render();
 	requestAnimationFrame(movePlayer);
