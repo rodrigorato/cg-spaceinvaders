@@ -9,20 +9,10 @@
 
 const SHIP_SIZE = {'x': 90, 'y':80, 'z':25};
 const ALIEN1_SIZE = {'x': 40, 'y':40, 'z':25};
-//const ALIEN2_SIZE = {'x': 60, 'y':40, 'z':25};	
 const PLAYINGFIELD_SIZE = {'x': 15*SHIP_SIZE.x, 'y':10*SHIP_SIZE.y, 'z':10*SHIP_SIZE.y};
 
-var MATERIALS = {
-	'red': 			new THREE.MeshBasicMaterial({color: 0xFF0000, wireframe: true }),
-	'green': 		new THREE.MeshBasicMaterial({color: 0x00FF00, wireframe: true }),
-	'blue': 		new THREE.MeshBasicMaterial({color: 0x0000FF, wireframe: true }),
-	'black': 		new THREE.MeshBasicMaterial({color: 0x000000, wireframe: true }),
-	'white': 		new THREE.MeshBasicMaterial({color: 0xFFFFFF, wireframe: true }),
-	'lightblue': 	new THREE.MeshBasicMaterial({color: 0x00E5FF, wireframe: true }),
-	'purpleish': 	new THREE.MeshBasicMaterial({color: 0x5D1BD1, wireframe: true }),	
-
-}
 const CAMERA = {"fov": 60, "near": 1, "far": 1000};
+
 
 const ACCELERATION = 3000;
 class SpaceInvaders {
@@ -32,25 +22,20 @@ class SpaceInvaders {
 		this.aliens = [];
 	}
 
-	onResize(){
-		console.log(this);
-		console.log("resized!");
+	render() {	
+		'use strict';
+		console.log(this.scene);
+		console.log(this.cameras[0]);
+		this.renderer.render(this.scene,this.cameras[0]);
 	}
-
-	onKeyUp(keyCode){
-		console.log(keyCode + " up!");
-	}
-	
-	onKeyDown(keyCode){
-		console.log(keyCode + " down!");
-	}	
+		
 
 	init(){
 		this.renderer = new THREE.WebGLRenderer({antialias : true});
 		this.renderer.setSize(window.innerWidth , window.innerHeight);
 		document.body.appendChild(this.renderer.domElement);
-		this.createCameras();
 		this.createScene();
+		this.createCameras();
 		this.clock = new THREE.Clock();
 			
 	}
@@ -70,7 +55,6 @@ class SpaceInvaders {
 
 		this.createRowOfAliens(700, 12);	
 		this.createRowOfAliens(600, 12);
-		this.render();	
 		}
 
 	createCorner(x, y, z, material) {
@@ -112,11 +96,6 @@ class SpaceInvaders {
 		this.onResize();	// Para acertar o aspect ratio.
 }
 
-	render() {	
-		'use strict';
-		this.renderer.render(this.scene,this.cameras[0]);
-	}
-		
 
 	createPlayer(x, y, z) {
 	 	this.scene.add(this.player = new GameShip(x,y,z));
@@ -136,4 +115,37 @@ class SpaceInvaders {
 	movePlayer(){
 		console.log("move.");
 	}
+	onResize(){
+	game.renderer.setSize(window.innerWidth, window.innerHeight);
+
+	if (window.innerHeight > 0 && window.innerWidth > 0) 
+	{
+		var aspect_ratio =(window.innerWidth / window.innerHeight);
+		if(aspect_ratio>1){
+			game.cameras[0].left = (PLAYINGFIELD_SIZE.x / -2) * aspect_ratio;
+			game.cameras[0].right = (PLAYINGFIELD_SIZE.x / 2) * aspect_ratio;
+			game.cameras[0].top = PLAYINGFIELD_SIZE.y/ 2;
+			game.cameras[0].bottom = PLAYINGFIELD_SIZE.y / -2;
+	
+		}else{
+			game.cameras[0].left = (PLAYINGFIELD_SIZE.x / -2) ;
+			game.cameras[0].right = (PLAYINGFIELD_SIZE.x / 2) ;
+			game.cameras[0].top = (PLAYINGFIELD_SIZE.y/ 2) / aspect_ratio;
+			game.cameras[0].bottom = (PLAYINGFIELD_SIZE.y / -2) /aspect_ratio;
+		}
+		game.cameras[0].near = CAMERA.near;
+		game.cameras[0].far = CAMERA.far;
+		game.cameras[0].updateProjectionMatrix();
+		game.render();
+	}
+		console.log("resized!");
+	}
+
+	onKeyUp(keyCode){
+		console.log(keyCode + " up!");
+	}
+	
+	onKeyDown(keyCode){
+		console.log(keyCode + " down!");
+	}	
 }

@@ -7,14 +7,13 @@
 **********************/
 
 class HasPhysics extends THREE.Object3D {
-	constructor(x,y,z){
+	constructor(x, y, z){
 		super();
-		this.position.set(x,y,z);
+		this.position.set(x, y, z);
 	}
 
 	createCube(x, y, z, dx, dy, dz, material){
 		var geometry = new THREE.CubeGeometry(dx,dy,dz);
-		// cria um novo material para cada um para evitar colisoes ao dar toggle ao wireframe
 		var mesh = new THREE.Mesh(geometry, material); 
 		mesh.position.set(x,y,z);
 		this.add(mesh);
