@@ -12,9 +12,8 @@ class GameAlien extends HasPhysics{
 		'use strict';
 		super(x,y,z);
 		this.size = {'x': 40, 'y':40, 'z':25};
-		//this.accel.x = 100*(Math.random()-0.5);
-		//this.accel.y = 100*(Math.random()-0.5);
-		
+		this.accel.x = 100*(Math.random() - 0.5);
+		this.accel.y = 100*(Math.random() - 0.5);
 	}	
 
 	static getSize(){ 

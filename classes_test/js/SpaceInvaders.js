@@ -26,7 +26,7 @@ class SpaceInvaders {
 		this.createScene();
 		
 		this.cameras = {'ortho': null, 'persp': null, 'player': null, 'active': null,
-						"fov": 60, "near": 1, "far": 1000};
+						"fov": 65, "near": 1, "far": 1000};
 		this.createCameras();
 		
 		this.clock = new THREE.Clock();
@@ -89,13 +89,24 @@ class SpaceInvaders {
 		this.cameras.active = this.cameras.ortho;
 
 		this.cameras.persp = new THREE.PerspectiveCamera(this.cameras.fov, window.innerWidth / window.innerHeight, this.cameras.near, this.cameras.far);
-		this.cameras.persp.position.x = (this.cameras.ortho.position.x = (this.game.size.x / 2));
-		this.cameras.persp.position.y = (this.cameras.ortho.position.y = (this.game.size.y / 2));
-		this.cameras.persp.position.z = (this.cameras.ortho.position.z = this.game.size.z);
+		this.cameras.player = new THREE.PerspectiveCamera(this.cameras.fov, window.innerWidth / window.innerHeight, this.cameras.near, this.cameras.far);
+		this.cameras.ortho.position.x = (SpaceInvaders.getGameSize().x / 2);
+		this.cameras.ortho.position.y = (SpaceInvaders.getGameSize().y / 2);
+		this.cameras.ortho.position.z = SpaceInvaders.getGameSize().z;
 
-		var lookAtVector = new THREE.Vector3(this.game.size.x / 2, this.game.size.y / 2, 0);
+		this.cameras.persp.position.x = (SpaceInvaders.getGameSize().x / 2);
+		this.cameras.persp.position.y = -100;
+		this.cameras.persp.position.z = 600;
 
-		this.cameras.persp.lookAt(lookAtVector); this.cameras.ortho.lookAt(lookAtVector);
+		this.cameras.player.position.x = this.game.player.position.x;
+		this.cameras.player.position.y = this.game.player.position.y - 150;
+		this.cameras.player.position.z = this.game.player.position.z + 500;
+
+		this.cameras.persp.lookAt(new THREE.Vector3(SpaceInvaders.getGameSize().x / 2, 300, 0));
+		this.cameras.player.lookAt(new THREE.Vector3(this.game.player.position.x, 
+													 this.game.player.position.y + 200,
+													 this.game.player.position.z));
+		this.cameras.ortho.lookAt(new THREE.Vector3(SpaceInvaders.getGameSize().x / 2, SpaceInvaders.getGameSize().y / 2, 0));
 		this.onResize();	// Para acertar o aspect ratio.
 	}
 
@@ -114,13 +125,14 @@ class SpaceInvaders {
 
 		var delta = game.clock.getDelta();
 
-		// Moves the ship
+		// Moves the ship and the camera attached to it
 		game.game.player.updatePosition(game.game.player.calculatePosition(delta));
-		console.log(game.game.player.position);
+		game.cameras.player.position.x = game.game.player.position.x;
 
 		// Moves the aliens
 		for(var al in game.game.aliens)
 			game.game.aliens[al].updatePosition(game.game.aliens[al].calculatePosition(delta));
+
 
 		game.render();
 		requestAnimationFrame(game.animateGame);
@@ -135,9 +147,9 @@ class SpaceInvaders {
 
 		me.renderer.setSize(window.innerWidth, window.innerHeight);
 
-		if (window.innerHeight > 0 && window.innerWidth > 0) 
-		{
-			var aspect_ratio =(window.innerWidth / window.innerHeight);
+		var aspect_ratio =(window.innerWidth / window.innerHeight);
+		
+		if(me.cameras.active == me.cameras.ortho){
 			if(aspect_ratio>1){
 				me.cameras.ortho.left = (me.game.size.x / -2) * aspect_ratio;
 				me.cameras.ortho.right = (me.game.size.x / 2) * aspect_ratio;
@@ -152,8 +164,9 @@ class SpaceInvaders {
 			}
 			me.cameras.ortho.near = me.cameras.near;
 			me.cameras.ortho.far = me.cameras.far;
-			me.cameras.ortho.updateProjectionMatrix();
-		}
+		} else 
+			me.cameras.active.aspect = aspect_ratio;
+		me.cameras.active.updateProjectionMatrix();
 	}
 
 	onKeyUp(key){
