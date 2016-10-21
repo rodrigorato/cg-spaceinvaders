@@ -40,14 +40,13 @@ function render() {
 	renderer.render(scene,camera);
 }
 
-function createBall(x, y, z, material) {
+function createBall(x, y, z,radius, material) {
 	'use strict';
 	
 	ball = new THREE.Object3D();
-	ball.userData = {jumping: true };
 
 	var ball_material = material;
-	geometry = new THREE.SphereGeometry(4,10 ,10);
+	geometry = new THREE.SphereGeometry(radius,8 ,8);
 	mesh = new THREE.Mesh(geometry, ball_material);
 
 	ball.add(mesh);
@@ -56,14 +55,15 @@ function createBall(x, y, z, material) {
 	scene.add(ball);
 }
 function createCylinder(obj,x, y, z, radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded, material){
-	temp_geom = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded);
-	mesh = new THREE.Mesh(temp_geom, material); 
+	'use strict';
+	geometry = new THREE.CylinderGeometry(radiusTop, radiusBottom, height, radiusSegments, heightSegments, openEnded);
+	mesh = new THREE.Mesh(geometry, material); 
 	mesh.position.set(x, y, z);
 	obj.add(mesh);
 }
 function createCube(obj, x, y, z, dx, dy, dz, material){
+	'use strict';
 	geometry = new THREE.CubeGeometry(dx,dy,dz);
-	// cria um novo material para cada um para evitar colisoes ao dar toggle ao wireframe
 	mesh = new THREE.Mesh(geometry, material); 
 	mesh.position.set(x,y,z);
 	obj.add(mesh);
@@ -124,6 +124,10 @@ function createAlien1(x, y, z) {
 	alien.position.set(x,y,z);
 }
 
+function createBullet(){
+	'use strict';
+	createBall(player.position.x,player.position.y+50,player.position.z,4,MATERIALS.white);
+}
 
 function createRowOfAliens(kind, y, quant){
 	'use strict';
@@ -133,7 +137,6 @@ function createRowOfAliens(kind, y, quant){
 }
 
 
-//done
 function createCamera() {
 	'use strict';
 
@@ -158,11 +161,9 @@ function createCamera() {
 	camera_player.position.y= player.position.y - 150;
 	camera_player.position.z= player.position.z + 500;
 
-	var lookAtVector = new THREE.Vector3(PLAYINGFIELD_SIZE.x / 2, PLAYINGFIELD_SIZE.y / 2, 0);
-
 	camera_persp.lookAt(new THREE.Vector3(PLAYINGFIELD_SIZE.x / 2, 300, 0));
-	camera_player.lookAt(player.position);
-	camera_ortho.lookAt(lookAtVector);
+	camera_player.lookAt(new THREE.Vector3(player.position.x,player.position.y+100,player.position.z));
+	camera_ortho.lookAt(new THREE.Vector3(PLAYINGFIELD_SIZE.x / 2, PLAYINGFIELD_SIZE.y / 2, 0));
 	camera = camera_ortho;
 	onResize();	// Para acertar o aspect ratio.
 }
@@ -175,9 +176,9 @@ function createScene() {
 
 	// As bolas e o axis helper mostram os cantos do campo de jogo 
 	scene.add(new THREE.AxisHelper(100));
-	createBall(0,PLAYINGFIELD_SIZE.y,0, MATERIALS.red);
-	createBall(PLAYINGFIELD_SIZE.x,PLAYINGFIELD_SIZE.y,0, MATERIALS.red);
-	createBall(PLAYINGFIELD_SIZE.x,0,0, MATERIALS.red);
+	createBall(0,PLAYINGFIELD_SIZE.y,0,4, MATERIALS.red);
+	createBall(PLAYINGFIELD_SIZE.x,PLAYINGFIELD_SIZE.y,0,4, MATERIALS.red);
+	createBall(PLAYINGFIELD_SIZE.x,0,0,4, MATERIALS.red);
 	
 	createPlayer(PLAYINGFIELD_SIZE.x / 2, SHIP_SIZE.y / 1.5, 0);
 
@@ -191,9 +192,10 @@ function onResize() {
 	
 	renderer.setSize(window.innerWidth, window.innerHeight);
 
-	if (window.innerHeight > 0 && window.innerWidth > 0) 
+	var aspect_ratio =(window.innerWidth / window.innerHeight);
+	
+	if (camera instanceof THREE.OrthographicCamera ) 
 	{
-		var aspect_ratio =(window.innerWidth / window.innerHeight);
 		if(aspect_ratio>1){
 			camera.left = (PLAYINGFIELD_SIZE.x / -2) * aspect_ratio;
 			camera.right = (PLAYINGFIELD_SIZE.x / 2) * aspect_ratio;
@@ -208,8 +210,12 @@ function onResize() {
 		}
 		camera.near = CAMERA.near;
 		camera.far = CAMERA.far;
-		camera.updateProjectionMatrix();
 	}
+	else{
+		console.log("persp");
+		camera.aspect = aspect_ratio;
+	}
+	camera.updateProjectionMatrix();
 
 }
 
@@ -240,6 +246,9 @@ function onKeyDown(key) {
 			camera = camera_ortho;
 			break;
 		break;
+		case 32: case 66: //B or space
+			createBullet();
+		break;
 	}
 	
 }
@@ -256,7 +265,10 @@ function onKeyUp(key){
 			break;
 	}
 }
+function shootBullet(){
+	'use strict';
 
+}
 
 function movePlayer(){
 	'use strict';
