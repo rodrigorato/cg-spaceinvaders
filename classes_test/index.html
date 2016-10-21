@@ -14,7 +14,6 @@
     <script src="js/Material.js"></script>
     <script src="js/SpaceInvaders.js"></script>
     <script src="js/EventHandler.js"></script>
-    <script src="js/BallVolume.js"></script>
     <script src="js/HasPhysics.js"></script>
     <script src="js/GameShip.js"></script>
     <script src="js/GameAlien.js"></script>
@@ -28,8 +27,7 @@
       document.body.appendChild(stats.dom);
       var game = new SpaceInvaders();
 
-      game.init();
-      game.movePlayer();
+      game.animateGame();
     </script>
   </body>
 </html>
