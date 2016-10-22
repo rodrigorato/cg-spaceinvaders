@@ -248,7 +248,7 @@ function onKeyDown(key) {
 		case 32: case 66: //B or space
 			createBullet();
 			break;
-		break;
+		
 	}
 	
 }
