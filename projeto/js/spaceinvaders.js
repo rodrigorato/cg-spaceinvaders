@@ -68,7 +68,17 @@ function createCube(obj, x, y, z, dx, dy, dz, material){
 	mesh.position.set(x,y,z);
 	obj.add(mesh);
 }
+function createLimits(){
+	var limit = new THREE.Object3D();
+	createCube(limit,0,PLAYINGFIELD_SIZE.y/2,0, 2,PLAYINGFIELD_SIZE.y,2,MATERIALS.green);//l
+	createCube(limit,PLAYINGFIELD_SIZE.x,PLAYINGFIELD_SIZE.y/2,0,   5,PLAYINGFIELD_SIZE.y,2,MATERIALS.green);//r
+	createCube(limit,PLAYINGFIELD_SIZE.x/2,PLAYINGFIELD_SIZE.y-2,0, PLAYINGFIELD_SIZE.x,2,2,MATERIALS.green);//t
+	createCube(limit,PLAYINGFIELD_SIZE.x/2,2,0, PLAYINGFIELD_SIZE.x,2,2,MATERIALS.green);//b
+	
 
+	limit.position.set(0,0,0);
+	scene.add(limit);
+}
 function createPlayer(x, y, z) {
 	'use strict';
 	
@@ -184,6 +194,7 @@ function createScene() {
 
 	createRowOfAliens(1, 700, 12);	
 	createRowOfAliens(1, 600, 12);	
+	createLimits();
 
 }
 
