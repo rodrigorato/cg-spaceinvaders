@@ -245,9 +245,9 @@ function onKeyDown(key) {
 		case 49: //1
 			camera = camera_ortho;
 			break;
-		break;
 		case 32: case 66: //B or space
 			createBullet();
+			break;
 		break;
 	}
 	
