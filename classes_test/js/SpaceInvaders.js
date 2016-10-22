@@ -34,7 +34,6 @@ class SpaceInvaders {
 		this.render();
 	}
 
-
 	render() {	
 		'use strict';
 		this.renderer.render(this.game.sceneObj, this.cameras.active);
@@ -45,12 +44,8 @@ class SpaceInvaders {
 
 		this.game.sceneObj = new THREE.Scene();
 
-		// As bolas e o axis helper mostram os cantos do campo de jogo 
-		this.game.corners.push(this.createCorner(0,0,0, MATERIALS.red),
-							   this.createCorner(0,this.game.size.y,0, MATERIALS.red),
-							   this.createCorner(this.game.size.x,this.game.size.y,0, MATERIALS.red),
-							   this.createCorner(this.game.size.x,0,0, MATERIALS.red));
-		
+		this.game.sceneObj.add(new GameLimits(0, 0, 0));
+
 		this.game.player = new GameShip(this.game.size.x / 2, GameShip.getSize().y / 1.5, 0);
 		this.game.sceneObj.add(this.game.player);
 
@@ -58,23 +53,6 @@ class SpaceInvaders {
 		this.createRowOfAliens(600, 12);
 	}
 
-	createCorner(x, y, z, material) {
-		'use strict';
-		
-		var ball = new THREE.Object3D();
-		ball.userData = {jumping: true };
-
-		var ball_material = material;
-		var geometry = new THREE.SphereGeometry(4,10 ,10);
-		var mesh = new THREE.Mesh(geometry, ball_material);
-
-		ball.add(mesh);
-		ball.position.set(x,y,z);
-
-		this.game.sceneObj.add(ball);
-
-		return ball;
-	}
 
 	createCameras() {
 		'use strict';
@@ -130,9 +108,39 @@ class SpaceInvaders {
 		game.cameras.player.position.x = game.game.player.position.x;
 
 		// Moves the aliens
-		for(var al in game.game.aliens)
-			game.game.aliens[al].updatePosition(game.game.aliens[al].calculatePosition(delta));
 
+		for (var i = 0; i < game.game.aliens.length; i++) {
+			for (var j = i + 1; j < game.game.aliens.length; j++) {
+				if(game.game.aliens[i].hasCollision(game.game.aliens[j])){
+					game.game.aliens[i].whenCollided();
+					game.game.aliens[j].whenCollided();
+						
+				}
+				
+			}
+			game.game.aliens[i].updatePosition(game.game.aliens[i].calculatePosition(delta));
+		}
+
+		for(var b in game.game.bullets){
+			var didRemoveBullet = false;
+			for (var i = 0; i < game.game.aliens.length; i++) {
+				if(game.game.aliens[i].hasCollision(game.game.bullets[b])){
+					didRemoveBullet = true;
+					game.game.sceneObj.remove(game.game.bullets[b]);
+					game.game.bullets.splice(b, 1);
+					game.game.sceneObj.remove(game.game.aliens[i]);
+					game.game.aliens.splice(i, 1);
+					break;
+				}
+			}
+			if(!didRemoveBullet){
+				if(game.game.bullets[b].hitTheWalls(delta) == 't'){
+					game.game.sceneObj.remove(game.game.bullets[b]);
+					game.game.bullets.splice(b, 1);
+				} else
+				game.game.bullets[b].updatePosition(game.game.bullets[b].calculatePosition(delta));
+			}
+		}
 
 		game.render();
 		requestAnimationFrame(game.animateGame);
@@ -197,6 +205,11 @@ class SpaceInvaders {
 					MATERIALS[i].wireframe = !MATERIALS[i].wireframe;
 				break;
 			case 32: case 66: // B or Space to fire a bullet
+				var bullet = new GameBullet(me.game.player.position.x,
+											me.game.player.position.y,
+											me.game.player.position.z);
+				me.game.sceneObj.add(bullet);
+				me.game.bullets.push(bullet);
 				break;
 
 			case 39: //-->

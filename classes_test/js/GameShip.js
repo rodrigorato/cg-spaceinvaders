@@ -12,6 +12,7 @@ class GameShip extends HasPhysics {
 		super(x,y,z);
 		this.size = {'x': 90, 'y': 80, 'z': 25};
 		this.accel = {'x': 4000, 'y': 0, 'z': 0};	
+		this.boundingSphereRadius = 56;
 		this.moving = {'left': false, 'right': false};
 	}	
 

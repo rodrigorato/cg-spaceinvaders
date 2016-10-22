@@ -11,8 +11,9 @@ class HasPhysics extends THREE.Object3D {
 		super();
 		this.position.set(x, y, z);
 		this.createObject();
-		this.createBoundingSphere();
 		this.vel = {'x': 0, 'y': 0, 'z': 0};
+		this.boundingSphereRadius = 0;
+		this.boundingSphere = null;
 		this.accel = {'x': 0, 'y': 0, 'z': 0};	
 		this.size = {'x': 0, 'y': 0, 'z': 0};	
 	}
@@ -60,14 +61,12 @@ class HasPhysics extends THREE.Object3D {
 		this.vel.z = newVel.z;
 	}
 
-	/*
-	calculatePosition(dt){
-		this.updateVelocity(this.calculateVel(dt));
-		return {'x': this.calcPosEq(this.position.x, this.vel.x, dt),
-				'y': this.calcPosEq(this.position.y, this.vel.y, dt),
-				'z': this.calcPosEq(this.position.z, this.vel.z, dt)};	 
+	whenCollided(){
+		this.vel.x *= -1;
+		this.vel.y *= -1;
+		this.accel.x = 0;
+		this.accel.y = 0;	
 	}
-	*/
 
 	calculatePosition(dt){
 		var hitWall = this.hitTheWalls(dt);
@@ -75,15 +74,19 @@ class HasPhysics extends THREE.Object3D {
 		if(hitWall == 'l'){
 			newPos.x = this.size.x / 2;
 			this.vel.x *= -1;
+			this.accel.x = 0;
 		} else if(hitWall == 'r'){
 			newPos.x = SpaceInvaders.getGameSize().x - this.size.x / 2;
 			this.vel.x *= -1;
+			this.accel.x = 0;
 		} else if (hitWall == 't'){
 			newPos.y = SpaceInvaders.getGameSize().y - this.size.y / 2;
 			this.vel.y *= -1;
+			this.accel.y = 0;
 		} else if (hitWall == 'b'){
 			newPos.y = this.size.y / 2;
 			this.vel.y *= -1;
+			this.accel.y = 0;
 		} else
 			return hitWall;
 		return newPos;
@@ -105,7 +108,13 @@ class HasPhysics extends THREE.Object3D {
 
 	// Subclasses should implement this methods!
 	createObject(){ console.log("Class \'" + this.constructor.name + "\' did not implement \'createObject()\' method!"); }
-	createBoundingSphere(){ console.log("Class \'" + this.constructor.name + "\' did not implement \'createBoundingSphere()\' method!"); }
+	createBoundingSphere(){ 
+		if(this.boundingSphereRadius == 0)
+			console.log("Class \'" + this.constructor.name + "\' did not implement \'createBoundingSphere()\' method!");
+		else{
+			this.boundingSphere = new THREE.Sphere(this.position, this.boundingSphereRadius);
+		}
+	}
 	static getSize(){ 
 		console.log("Calling \'getSize()\' method to a super class, it won't work!"); 
 		return {'x': 0, 'y': 0, 'z': 0};
@@ -113,8 +122,7 @@ class HasPhysics extends THREE.Object3D {
 
 	// Detects colision with another HasPhysics object
 	hasCollision(other){ 
-		//TO-DO
-		return false;
+		return this.boundingSphere.intersectsSphere(other.boundingSphere);
 	}
 	
 	// Methods used to create the object itself
@@ -131,4 +139,11 @@ class HasPhysics extends THREE.Object3D {
 		mesh.position.set(x, y, z);
 		this.add(mesh);
 	}	
+
+	createSphere(x, y, z, radius, horSegments, verSegments, material) {
+		var geometry = new THREE.SphereGeometry(radius, horSegments, verSegments);
+		var mesh = new THREE.Mesh(geometry, material);
+		mesh.position.set(x, y, z);
+		this.add(mesh);
+	}
 }
