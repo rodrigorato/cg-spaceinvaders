@@ -35,6 +35,7 @@ class GameShip extends HasPhysics {
 		return newVel;
 	}
 	
+	
 	calculatePosition(dt){
 		var hitWall = this.hitTheWalls(dt);
 		var newPos = {'x': 0, 'y': this.position.y, 'z': this.position.z};
@@ -48,6 +49,7 @@ class GameShip extends HasPhysics {
 			return hitWall;
 		return newPos;
 	}
+	
 
 	createObject(){
 		'use strict';

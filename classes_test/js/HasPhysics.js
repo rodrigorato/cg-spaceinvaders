@@ -31,10 +31,10 @@ class HasPhysics extends THREE.Object3D {
 			return 'r';
 
 		else if(candPos.y < this.size.y / 2)
-			return 't';
+			return 'b';
 
 		else if(candPos.y > (SpaceInvaders.getGameSize().y - this.size.y / 2))
-			return 'b';
+			return 't';
 
 		else
 			return candPos;
@@ -60,11 +60,33 @@ class HasPhysics extends THREE.Object3D {
 		this.vel.z = newVel.z;
 	}
 
+	/*
 	calculatePosition(dt){
 		this.updateVelocity(this.calculateVel(dt));
 		return {'x': this.calcPosEq(this.position.x, this.vel.x, dt),
 				'y': this.calcPosEq(this.position.y, this.vel.y, dt),
 				'z': this.calcPosEq(this.position.z, this.vel.z, dt)};	 
+	}
+	*/
+
+	calculatePosition(dt){
+		var hitWall = this.hitTheWalls(dt);
+		var newPos = {'x': this.position.x, 'y': this.position.y, 'z': this.position.z};
+		if(hitWall == 'l'){
+			newPos.x = this.size.x / 2;
+			this.vel.x *= -1;
+		} else if(hitWall == 'r'){
+			newPos.x = SpaceInvaders.getGameSize().x - this.size.x / 2;
+			this.vel.x *= -1;
+		} else if (hitWall == 't'){
+			newPos.y = SpaceInvaders.getGameSize().y - this.size.y / 2;
+			this.vel.y *= -1;
+		} else if (hitWall == 'b'){
+			newPos.y = this.size.y / 2;
+			this.vel.y *= -1;
+		} else
+			return hitWall;
+		return newPos;
 	}
 
 	calculateStandardPosition(dt){
