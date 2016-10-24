@@ -22,7 +22,8 @@ class SpaceInvaders {
 		var size = {'x': 15*GameShip.getSize().x, 'y':10*GameShip.getSize().y, 'z':10*GameShip.getSize().y};
 		this.game = {'sceneObj': null, 'size': size,
 					 'aliens': new Array(), 'bullets': new Array(),
-					 'player': null, 'corners': new Array()};
+					 'player': null, 'corners': new Array(),
+					 'bulletTime': 1, 'timeBetweenBullets': 0.2};
 		this.createScene();
 		
 		this.cameras = {'ortho': null, 'persp': null, 'player': null, 'active': null,
@@ -51,6 +52,8 @@ class SpaceInvaders {
 
 		this.createRowOfAliens(700, 12);	
 		this.createRowOfAliens(600, 12);
+		
+			
 	}
 
 
@@ -103,17 +106,25 @@ class SpaceInvaders {
 
 		var delta = game.clock.getDelta();
 
+
 		// Moves the ship and the camera attached to it
 		game.game.player.updatePosition(game.game.player.calculatePosition(delta));
 		game.cameras.player.position.x = game.game.player.position.x;
 
-		// Moves the aliens
+		// Shoots the bullet from the ship
+		var bullet = game.game.player.shoot(delta);
+		if(bullet != null){
+			game.game.sceneObj.add(bullet);
+			game.game.bullets.push(bullet);
+		}
 
+
+		// Moves the aliens
 		for (var i = 0; i < game.game.aliens.length; i++) {
 			for (var j = i + 1; j < game.game.aliens.length; j++) {
 				if(game.game.aliens[i].hasCollision(game.game.aliens[j])){
-					game.game.aliens[i].whenCollided();
-					game.game.aliens[j].whenCollided();
+					game.game.aliens[i].whenCollided(game.game.aliens[j]);
+					game.game.aliens[j].whenCollided(game.game.aliens[i]);
 						
 				}
 				
@@ -189,6 +200,8 @@ class SpaceInvaders {
 			case 37: //<--
 				me.game.player.moving.left = false;
 				break;
+			case 32: case 66: // B or Space to fire a bullet
+				me.game.player.shootRules.shooting = false;
 			default:
 				break;
 		}
@@ -205,11 +218,7 @@ class SpaceInvaders {
 					MATERIALS[i].wireframe = !MATERIALS[i].wireframe;
 				break;
 			case 32: case 66: // B or Space to fire a bullet
-				var bullet = new GameBullet(me.game.player.position.x,
-											me.game.player.position.y,
-											me.game.player.position.z);
-				me.game.sceneObj.add(bullet);
-				me.game.bullets.push(bullet);
+				me.game.player.shootRules.shooting = true;
 				break;
 
 			case 39: //-->

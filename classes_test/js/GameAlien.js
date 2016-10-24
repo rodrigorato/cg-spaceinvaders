@@ -14,7 +14,6 @@ class GameAlien extends HasPhysics{
 		this.size = {'x': 40, 'y':40, 'z':25};
 		this.vel.x = 100*(Math.random() >= 0.5 ? -1 : 1);
 		this.boundingSphereRadius = 22; // 26.1 cobre totalmente
-		this.createBoundingSphere();
 		this.vel.y = 100*(Math.random() >= 0.5 ? -1 : 1);
 	}	
 

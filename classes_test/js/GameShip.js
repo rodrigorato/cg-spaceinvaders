@@ -14,10 +14,23 @@ class GameShip extends HasPhysics {
 		this.accel = {'x': 4000, 'y': 0, 'z': 0};	
 		this.boundingSphereRadius = 56;
 		this.moving = {'left': false, 'right': false};
+		this.shootRules = {'shooting': false, 'timeBetweenShots': 0.15, 'bulletTime': 0.15};
 	}	
 
 	static getSize(){ 
 		return {'x': 90, 'y': 80, 'z': 25};
+	}
+
+	shoot(dt){
+		this.shootRules.bulletTime += dt;
+		var bullet = null;
+		if(this.shootRules.shooting && this.shootRules.bulletTime >= this.shootRules.timeBetweenShots){
+			bullet = new GameBullet(this.position.x,
+									this.position.y + this.size.y/2,
+									this.position.z);
+			this.shootRules.bulletTime = 0;
+		}
+		return bullet;
 	}
 
 	calculateVel(dt){
@@ -50,6 +63,8 @@ class GameShip extends HasPhysics {
 			return hitWall;
 		return newPos;
 	}
+
+
 	
 
 	createObject(){

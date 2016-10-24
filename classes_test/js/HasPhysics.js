@@ -13,7 +13,6 @@ class HasPhysics extends THREE.Object3D {
 		this.createObject();
 		this.vel = {'x': 0, 'y': 0, 'z': 0};
 		this.boundingSphereRadius = 0;
-		this.boundingSphere = null;
 		this.accel = {'x': 0, 'y': 0, 'z': 0};	
 		this.size = {'x': 0, 'y': 0, 'z': 0};	
 	}
@@ -61,7 +60,7 @@ class HasPhysics extends THREE.Object3D {
 		this.vel.z = newVel.z;
 	}
 
-	whenCollided(){
+	whenCollided(other){
 		this.vel.x *= -1;
 		this.vel.y *= -1;
 		this.accel.x = 0;
@@ -108,13 +107,6 @@ class HasPhysics extends THREE.Object3D {
 
 	// Subclasses should implement this methods!
 	createObject(){ console.log("Class \'" + this.constructor.name + "\' did not implement \'createObject()\' method!"); }
-	createBoundingSphere(){ 
-		if(this.boundingSphereRadius == 0)
-			console.log("Class \'" + this.constructor.name + "\' did not implement \'createBoundingSphere()\' method!");
-		else{
-			this.boundingSphere = new THREE.Sphere(this.position, this.boundingSphereRadius);
-		}
-	}
 	static getSize(){ 
 		console.log("Calling \'getSize()\' method to a super class, it won't work!"); 
 		return {'x': 0, 'y': 0, 'z': 0};
@@ -122,7 +114,10 @@ class HasPhysics extends THREE.Object3D {
 
 	// Detects colision with another HasPhysics object
 	hasCollision(other){ 
-		return this.boundingSphere.intersectsSphere(other.boundingSphere);
+		var dist = new THREE.Vector3(other.position.x - this.position.x,
+									 other.position.y - this.position.y,
+									 other.position.z - this.position.z);
+		return dist.length() < (this.boundingSphereRadius + other.boundingSphereRadius);
 	}
 	
 	// Methods used to create the object itself
