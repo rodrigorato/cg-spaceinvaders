@@ -113,12 +113,15 @@ class HasPhysics extends THREE.Object3D {
 	}
 
 	// Detects colision with another HasPhysics object
-	hasCollision(other){ 
-		var dist = new THREE.Vector3(other.position.x - this.position.x,
-									 other.position.y - this.position.y,
-									 other.position.z - this.position.z);
+	hasCollision(other, delta){ 
+		var thisPos = this.calculateStandardPosition(delta);
+		var otherPos = other.calculateStandardPosition(delta);
+		var dist = new THREE.Vector3(otherPos.x - thisPos.x,
+									 otherPos.y - thisPos.y,
+									 otherPos.z - thisPos.z);
 		return dist.length() < (this.boundingSphereRadius + other.boundingSphereRadius);
 	}
+
 	
 	// Methods used to create the object itself
 	createCube(x, y, z, dx, dy, dz, material){

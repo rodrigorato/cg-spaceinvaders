@@ -53,6 +53,7 @@ class SpaceInvaders {
 		this.createRowOfAliens(700, 12);	
 		this.createRowOfAliens(600, 12);
 		
+		
 			
 	}
 
@@ -122,7 +123,7 @@ class SpaceInvaders {
 		// Moves the aliens
 		for (var i = 0; i < game.game.aliens.length; i++) {
 			for (var j = i + 1; j < game.game.aliens.length; j++) {
-				if(game.game.aliens[i].hasCollision(game.game.aliens[j])){
+				if(game.game.aliens[i].hasCollision(game.game.aliens[j], delta)){
 					game.game.aliens[i].whenCollided(game.game.aliens[j]);
 					game.game.aliens[j].whenCollided(game.game.aliens[i]);
 						
@@ -135,7 +136,7 @@ class SpaceInvaders {
 		for(var b in game.game.bullets){
 			var didRemoveBullet = false;
 			for (var i = 0; i < game.game.aliens.length; i++) {
-				if(game.game.aliens[i].hasCollision(game.game.bullets[b])){
+				if(game.game.aliens[i].hasCollision(game.game.bullets[b], delta)){
 					didRemoveBullet = true;
 					game.game.sceneObj.remove(game.game.bullets[b]);
 					game.game.bullets.splice(b, 1);
