@@ -7,11 +7,12 @@
 **********************/
 
 var MATERIALS = {
-	'red': 			new THREE.MeshBasicMaterial({color: 0xFF0000, wireframe: true }),
-	'green': 		new THREE.MeshBasicMaterial({color: 0x00FF00, wireframe: true }),
-	'blue': 		new THREE.MeshBasicMaterial({color: 0x0000FF, wireframe: true }),
-	'black': 		new THREE.MeshBasicMaterial({color: 0x000000, wireframe: true }),
-	'white': 		new THREE.MeshBasicMaterial({color: 0xFFFFFF, wireframe: true }),
-	'lightblue': 	new THREE.MeshBasicMaterial({color: 0x00E5FF, wireframe: true }),
-	'purpleish': 	new THREE.MeshBasicMaterial({color: 0x5D1BD1, wireframe: true })
+	'red': 			new THREE.MeshBasicMaterial({color: 0xFF0000, wireframe: false }),
+	'green': 		new THREE.MeshBasicMaterial({color: 0x00FF00, wireframe: false }),
+	'blue': 		new THREE.MeshBasicMaterial({color: 0x0000FF, wireframe: false }),
+	'black': 		new THREE.MeshBasicMaterial({color: 0x000000, wireframe: false }),
+	'white': 		new THREE.MeshBasicMaterial({color: 0xFFFFFF, wireframe: false }),
+	'lightblue': 	new THREE.MeshBasicMaterial({color: 0x00E5FF, wireframe: false }),
+	'purpleish': 	new THREE.MeshBasicMaterial({color: 0x5D1BD1, wireframe: false }),
+	'grey': 		new THREE.MeshBasicMaterial({color: 0x555555, wireframe: false })
 }

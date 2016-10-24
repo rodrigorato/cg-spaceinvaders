@@ -50,7 +50,7 @@ function createScene() {
 	//createPlayer(0,0,0);
 	
 	createAlien(0, 0, 0);
-	createBall(0,0,0,22,MATERIALS.white);
+	createBall(0,0,0,26.1,MATERIALS.white);
 	//createAlien(0,-36,0);
 	//createBall(50,50,20,27.1,MATERIALS.white);
 	var ball = new THREE.Sphere(scene.position,26)

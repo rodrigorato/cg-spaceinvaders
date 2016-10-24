@@ -13,7 +13,7 @@ class GameAlien extends HasPhysics{
 		super(x,y,z);
 		this.size = {'x': 40, 'y':40, 'z':25};
 		this.vel.x = 100*(Math.random() >= 0.5 ? -1 : 1);
-		this.boundingSphereRadius = 22; // 26.1 cobre totalmente
+		this.boundingSphereRadius = 26.1; // 26.1 cobre totalmente
 		this.vel.y = 100*(Math.random() >= 0.5 ? -1 : 1);
 	}	
 
@@ -21,9 +21,18 @@ class GameAlien extends HasPhysics{
 		return {'x': 40, 'y':40, 'z':25};
 	}
 
+	toggleBoundingSphere(){
+		if(this.boundingSphere != null){
+			this.boundingSphere.visible = !this.boundingSphere.visible;
+			console.log(this.boundingSphere.visible);
+		}
+	}
 
 	createObject(){
 		'use strict';
+		this.boundingSphere = this.createBoundingSphere(0, 0, 0, 26.1, 8, 8, MATERIALS.grey);
+		this.boundingSphere.visible = false;
+		
 		this.createCube(0,     5, 0, 10, 30, 25, MATERIALS.red);//paralelipepedo central
 		this.createCube(-15,   0, 0, 10, 10, 25, MATERIALS.red);//cubos
 		this.createCube(+15,   0, 0, 10, 10, 25, MATERIALS.red);

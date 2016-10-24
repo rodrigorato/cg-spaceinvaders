@@ -27,7 +27,7 @@ class SpaceInvaders {
 		this.createScene();
 		
 		this.cameras = {'ortho': null, 'persp': null, 'player': null, 'active': null,
-						"fov": 65, "near": 1, "far": 1000};
+						"fov": 65, "near": 1, "far": 1000, 'ar': size.x/size.y};
 		this.createCameras();
 		
 		this.clock = new THREE.Clock();
@@ -107,7 +107,6 @@ class SpaceInvaders {
 
 		var delta = game.clock.getDelta();
 
-
 		// Moves the ship and the camera attached to it
 		game.game.player.updatePosition(game.game.player.calculatePosition(delta));
 		game.cameras.player.position.x = game.game.player.position.x;
@@ -170,17 +169,17 @@ class SpaceInvaders {
 		var aspect_ratio =(window.innerWidth / window.innerHeight);
 		
 		if(me.cameras.active == me.cameras.ortho){
-			if(aspect_ratio>1){
-				me.cameras.ortho.left = (me.game.size.x / -2) * aspect_ratio;
-				me.cameras.ortho.right = (me.game.size.x / 2) * aspect_ratio;
+			if(aspect_ratio>me.cameras.ar){
 				me.cameras.ortho.top = me.game.size.y/ 2;
 				me.cameras.ortho.bottom = me.game.size.y / -2;
+				me.cameras.ortho.left = -me.cameras.ortho.top * aspect_ratio;
+				me.cameras.ortho.right = me.cameras.ortho.top * aspect_ratio;
 		
 			}else{
 				me.cameras.ortho.left = (me.game.size.x / -2) ;
 				me.cameras.ortho.right = (me.game.size.x / 2) ;
-				me.cameras.ortho.top = (me.game.size.y/ 2) / aspect_ratio;
-				me.cameras.ortho.bottom = (me.game.size.y / -2) /aspect_ratio;
+				me.cameras.ortho.top = -me.cameras.ortho.left / aspect_ratio;
+				me.cameras.ortho.bottom = me.cameras.ortho.left /aspect_ratio;
 			}
 			me.cameras.ortho.near = me.cameras.near;
 			me.cameras.ortho.far = me.cameras.far;
@@ -220,6 +219,11 @@ class SpaceInvaders {
 				break;
 			case 32: case 66: // B or Space to fire a bullet
 				me.game.player.shootRules.shooting = true;
+				break;
+
+			case 68: // d for collision spheres
+				for(var alien in me.game.aliens)
+					me.game.aliens[alien].toggleBoundingSphere();
 				break;
 
 			case 39: //-->

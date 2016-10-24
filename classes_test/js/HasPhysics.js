@@ -144,4 +144,14 @@ class HasPhysics extends THREE.Object3D {
 		mesh.position.set(x, y, z);
 		this.add(mesh);
 	}
+
+	createBoundingSphere(x, y, z, radius, horSegments, verSegments, material){
+		var sphere = new THREE.Object3D();
+		var geo = new THREE.SphereGeometry(radius, horSegments, verSegments);
+		var mesh = new THREE.Mesh(geo, material);
+		mesh.position.set(x, y, z);
+		sphere.add(mesh);
+		this.add(sphere);
+		return sphere;
+	}
 }
