@@ -46,18 +46,18 @@ function createScene() {
 	scene.add(new THREE.AxisHelper(10));
 
 
-	createBullet(0,50,0);
-	createPlayer(0,0,0);
-	/*
+	//createBullet(0,50,0);
+	//createPlayer(0,0,0);
+	
 	createAlien(0, 0, 0);
-	//createBall(0,0,0,28,MATERIALS.white);
-	createAlien(0,-36,0);
+	createBall(0,0,0,22,MATERIALS.white);
+	//createAlien(0,-36,0);
 	//createBall(50,50,20,27.1,MATERIALS.white);
-	var ball = new THREE.Sphere(scene.position,27.1)
-	var point = new THREE.Vector3(0,-36,0);
-	var ball2 = new THREE.Sphere(point,27.1);
-	console.log(ball.intersectsSphere(ball2));
-	*/
+	var ball = new THREE.Sphere(scene.position,26)
+	//var point = new THREE.Vector3(0,-36,0);
+	//var ball2 = new THREE.Sphere(point,27.1);
+	//console.log(ball.intersectsSphere(ball));
+	
 }
 
 function onResize() {
@@ -121,7 +121,7 @@ function createBall(x, y, z,radius, material) {
 	ball.userData = {jumping: true };
 
 	var ball_material = material;
-	geometry = new THREE.SphereGeometry(radius,8 ,8);
+	geometry = new THREE.SphereGeometry(radius,100,100);
 	mesh = new THREE.Mesh(geometry, ball_material);
 
 	ball.add(mesh);
