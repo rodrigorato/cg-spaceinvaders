@@ -1,16 +1,5 @@
 // TODO LIST FOR CLASS VERSION OF THE GAME
 
-//code
-hasCollision() no HasPhysics
-createRowOfAlien arguments fix no numbers
-
-// MUST
-ADD NEW CAMERAS
-ADD ALIENS MOVING
-ADD COLISIONS WITH ALIENS
-ADD COLISIONS WITH LATERAL LIMITS
-ADD BULLET THAT KILLS ALIENS
-FUNCAO MOVIMENTO SO 1 VEZ!!!
 
 // GOOD
 use strict in all functs
@@ -21,4 +10,3 @@ use strict in all functs
 
 
 // DOUBLE CHECK
-resizes
