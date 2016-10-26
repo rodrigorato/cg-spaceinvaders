@@ -16,3 +16,18 @@ var MATERIALS = {
 	'purpleish': 	new THREE.MeshBasicMaterial({color: 0x5D1BD1, wireframe: false }),
 	'grey': 		new THREE.MeshBasicMaterial({color: 0x555555, wireframe: false })
 }
+
+/*
+class MaterialManager(){
+	constructor(listOfColors){
+		this.materialList = [];
+		if(listOfColors != null)
+			for(var color in listOfColors)
+				addMeshBasicMaterial(listOfColors[color].name, listOfColors[color].hex);
+	}
+
+	addMeshBasicMaterial(name, hexCode){
+
+	}
+}
+*/

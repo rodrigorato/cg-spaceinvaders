@@ -141,6 +141,7 @@ class SpaceInvaders {
 					game.game.bullets.splice(b, 1);
 					game.game.sceneObj.remove(game.game.aliens[i]);
 					game.game.aliens.splice(i, 1);
+					game.deathSound();
 					break;
 				}
 			}
@@ -156,6 +157,13 @@ class SpaceInvaders {
 		game.render();
 		requestAnimationFrame(game.animateGame);
 		stats.end();
+	}
+
+	deathSound(){
+		var snd = new Audio("res/death.wav"); 
+      	snd.volume = deathSoundVolume;
+      	snd.playbackRate = 1;
+      	snd.play();
 	}
 
 	onResize(){
@@ -213,6 +221,11 @@ class SpaceInvaders {
 		else me = game;
 
 		switch (key.keyCode){
+			case 86: // v
+				bulletSoundVolume = (bulletSoundVolume == 0 ? 0.03 : 0);
+				deathSoundVolume = (deathSoundVolume == 0 ? 0.05 : 0);
+				break;
+
 			case 65: case 97: // A or a
 				for(var i in MATERIALS)
 					MATERIALS[i].wireframe = !MATERIALS[i].wireframe;

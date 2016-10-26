@@ -27,7 +27,12 @@
       var stats = new Stats(); //from stats.js
       stats.showPanel(0); // Shows FPS by default
       document.body.appendChild(stats.dom);
+      var bulletSoundVolume = 0;
+      var deathSoundVolume = 0;
+
       var game = new SpaceInvaders();
+
+
 
       game.animateGame();
     </script>
