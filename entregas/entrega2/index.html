@@ -1,0 +1,35 @@
+<!DOCTYPE HTML>
+<html>
+  <head>
+    <title>SPACE INVADERS - CG@IST/UL</title>
+    <style>
+      body{
+        margin: 0px;
+        background-color: #fff;
+        overflow: hidden;
+      }
+    </style>
+    <!-- ADD THIS ONE FOR FINAL VERSION? script src="js/three.min.js"></script -->
+    <script src="js/three.js"></script>
+    <script src="js/Material.js"></script>
+    <script src="js/SpaceInvaders.js"></script>
+    <script src="js/EventHandler.js"></script>
+    <script src="js/HasPhysics.js"></script>
+    <script src="js/GameShip.js"></script>
+    <script src="js/GameAlien.js"></script>
+    <script src="js/GameBullet.js"></script>
+    <script src="js/GameLimits.js"></script>
+    <script src="js/stats.min.js"></script>
+    <!--script src="js/model_tests.js"></script-->
+  </head>
+  <body>
+    <script>
+      var stats = new Stats(); //from stats.js
+      stats.showPanel(0); // Shows FPS by default
+      document.body.appendChild(stats.dom);
+      var game = new SpaceInvaders();
+
+      game.animateGame();
+    </script>
+  </body>
+</html>
