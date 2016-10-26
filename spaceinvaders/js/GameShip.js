@@ -69,6 +69,7 @@ class GameShip extends HasPhysics {
 
 	createObject(){
 		'use strict';
+		/*
 		this.createCube(0,   0,  0, 30, 60, 20, MATERIALS.blue);
 		this.createCube(0, -15, -5, 90, 10, 10, MATERIALS.blue);
 
@@ -81,5 +82,19 @@ class GameShip extends HasPhysics {
 		this.createCylinder(  0,  40,  0, 0, 10, 20, 3, 2,  true, MATERIALS.purpleish);
 
 		this.createCylinder(  0,  10, 10, 5,  5, 20, 3, 2, false, MATERIALS.white);
+		*/
+		// instantiate a loader
+		var loader = new THREE.JSONLoader();
+
+		// load a resource
+		loader.load(
+			// resource URL
+			'res/enterprise/star-trek-sovereign-class-ussgeblendert.json',
+			// Function when resource is loaded
+			function ( geometry, materials ) {
+				var material = MATERIALS.white;
+				this.add(new THREE.Mesh( geometry, material ));
+			}
+		); 
 	}
 }
