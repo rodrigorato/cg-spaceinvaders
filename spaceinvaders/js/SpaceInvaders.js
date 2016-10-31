@@ -28,7 +28,12 @@ class SpaceInvaders {
 		
 		this.cameras = {'ortho': null, 'persp': null, 'player': null, 'active': null,
 						"fov": 65, "near": 1, "far": 1000, 'ar': size.x/size.y};
+
+		this.lights = {'dlight': null};
+
 		this.createCameras();
+
+		this.createLights();
 		
 		this.clock = new THREE.Clock();
 		
@@ -51,12 +56,17 @@ class SpaceInvaders {
 		this.game.sceneObj.add(this.game.player);
 
 		this.createRowOfAliens(700, 12);	
-		this.createRowOfAliens(600, 12);
-		
-		
-			
+		this.createRowOfAliens(600, 12);		
 	}
 
+	createLights(){
+		//Directional Light - Sun
+		this.lights.dlight = new THREE.DirectionalLight(0xffffff, 5);
+		this.lights.dlight.position.set(0, 0, 1000);
+		this.lights.dlight.target.position.set(0, 0, 0);
+		this.game.sceneObj.add(this.lights.dlight);
+
+	}
 
 	createCameras() {
 		'use strict';
@@ -226,7 +236,23 @@ class SpaceInvaders {
 				deathSoundVolume = (deathSoundVolume == 0 ? 0.05 : 0);
 				break;
 
-			case 65: case 97: // A or a
+			case 76: // L
+				MATERIALS = (MATERIALS == MATERIALS_BASIC ? (fancyMaterial == 'gouraud' ? MATERIALS_GOURAUD : MATERIALS_PHONG) : MATERIALS_BASIC);
+
+				
+				for(var al in me.game.aliens){
+					me.game.aliens[al].changeMaterialListTo(MATERIALS);
+				}
+
+				for(var bu in me.game.bullets){
+					me.game.bullets[bu].changeMaterialListTo(MATERIALS);
+				}
+
+				me.game.player.changeMaterialListTo(MATERIALS);
+
+				break;
+
+			case 65: // A or a
 				for(var i in MATERIALS)
 					MATERIALS[i].wireframe = !MATERIALS[i].wireframe;
 				break;

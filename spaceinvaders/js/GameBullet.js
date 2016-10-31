@@ -8,9 +8,10 @@ class GameBullet extends HasPhysics{
 	}
 
 
-	createObject(){
+	createObject(material_obj){
+		var material_type_obj = (material_obj == null ? MATERIALS : material_obj);
 		//createSphere(x, y, z, radius, horSegments, verSegments, material) {
-		this.createSphere(0, 0, 0, 8, 4, 4, MATERIALS.lightblue);
+		this.createSphere(0, 0, 0, 8, 4, 4, material_type_obj.lightblue);
 		this.createSound();
 	}
 

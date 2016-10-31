@@ -106,10 +106,15 @@ class HasPhysics extends THREE.Object3D {
 
 
 	// Subclasses should implement this methods!
-	createObject(){ console.log("Class \'" + this.constructor.name + "\' did not implement \'createObject()\' method!"); }
+	createObject(has_a_parameter){ console.log("Class \'" + this.constructor.name + "\' did not implement \'createObject()\' method!"); }
 	static getSize(){ 
 		console.log("Calling \'getSize()\' method to a super class, it won't work!"); 
 		return {'x': 0, 'y': 0, 'z': 0};
+	}
+
+	changeMaterialListTo(material_list_obj){
+		this.children = new Array();
+		this.createObject(material_list_obj);
 	}
 
 	// Detects colision with another HasPhysics object

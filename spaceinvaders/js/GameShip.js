@@ -67,21 +67,23 @@ class GameShip extends HasPhysics {
 
 	
 
-	createObject(){
+	createObject(material_obj){
 		'use strict';
+
+		var material_type_obj = (material_obj == null ? MATERIALS : material_obj);
 	
-		this.createCube(0,   0,  0, 30, 60, 20, MATERIALS.blue);
-		this.createCube(0, -15, -5, 90, 10, 10, MATERIALS.blue);
+		this.createCube(0,   0,  0, 30, 60, 20, material_type_obj.blue);
+		this.createCube(0, -15, -5, 90, 10, 10, material_type_obj.blue);
 
-		this.createCube( 40, -25, -5, 10, 10, 10, MATERIALS.blue);
-		this.createCube(-40, -25, -5, 10, 10, 10, MATERIALS.blue);
+		this.createCube( 40, -25, -5, 10, 10, 10, material_type_obj.blue);
+		this.createCube(-40, -25, -5, 10, 10, 10, material_type_obj.blue);
 
-		this.createCylinder(-30,  -5, -5, 0,  5, 10, 3, 2,  true, MATERIALS.purpleish);
-		this.createCylinder( 30,  -5, -5, 0,  5, 10, 3, 2,  true, MATERIALS.purpleish);
-		this.createCylinder(  0, -35, -5, 5,  0, 10, 3, 2,  true, MATERIALS.red);
-		this.createCylinder(  0,  40,  0, 0, 10, 20, 3, 2,  true, MATERIALS.purpleish);
+		this.createCylinder(-30,  -5, -5, 0,  5, 10, 3, 2,  true, material_type_obj.purpleish);
+		this.createCylinder( 30,  -5, -5, 0,  5, 10, 3, 2,  true, material_type_obj.purpleish);
+		this.createCylinder(  0, -35, -5, 5,  0, 10, 3, 2,  true, material_type_obj.red);
+		this.createCylinder(  0,  40,  0, 0, 10, 20, 3, 2,  true, material_type_obj.purpleish);
 
-		this.createCylinder(  0,  10, 10, 5,  5, 20, 3, 2, false, MATERIALS.white);
+		this.createCylinder(  0,  10, 10, 5,  5, 20, 3, 2, false, material_type_obj.white);
 	
 	}
 }

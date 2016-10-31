@@ -1,4 +1,14 @@
 // TODO LIST FOR CLASS VERSION OF THE GAME
+Fonte de  luz direccional = sol 'N'
+Calculo de iluminação = 'L'
+Alternar entre Gouraud (diffuse) e Phong = 'G'
+
+Seis estrelas pequenas de luz pointlight a iluminar
+parcialmente o campo de jogo, nao cobre a area toda mas
+chega para se jogar - ligar/desligar = 'C'
+
+Materiais novos para as naves/aliens para luz
+difusa e especular
 
 
 // GOOD
