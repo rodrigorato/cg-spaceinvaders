@@ -30,7 +30,7 @@ var MATERIALS_GOURAUD = {
 }
 
 var MATERIALS_PHONG = {
-	'red': 			new THREE.MeshPhongMaterial({color: 0xFF0000, wireframe: false }),
+	'red': 			new THREE.MeshPhongMaterial({color: 0xFF0000,specular: 0.5, shininess: 0, shading: THREE.FlatShading, wireframe: false }),
 	'green': 		new THREE.MeshPhongMaterial({color: 0x00FF00, wireframe: false }),
 	'blue': 		new THREE.MeshPhongMaterial({color: 0x0000FF, wireframe: false }),
 	'black': 		new THREE.MeshPhongMaterial({color: 0x000000, wireframe: false }),
@@ -39,7 +39,7 @@ var MATERIALS_PHONG = {
 	'purpleish': 	new THREE.MeshPhongMaterial({color: 0x5D1BD1, wireframe: false }),
 	'grey': 		new THREE.MeshPhongMaterial({color: 0x555555, wireframe: false })
 }
-
+// new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading, overdraw: 0.5, shininess: 0 } );
 var MATERIALS = MATERIALS_BASIC;/*{
 	'red': 			new THREE.MeshBasicMaterial({color: 0xFF0000, wireframe: false }),
 	'green': 		new THREE.MeshBasicMaterial({color: 0x00FF00, wireframe: false }),

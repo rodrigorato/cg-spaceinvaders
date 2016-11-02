@@ -62,9 +62,19 @@ class SpaceInvaders {
 	createLights(){
 		//Directional Light - Sun
 		this.lights.dlight = new THREE.DirectionalLight(0xffffff, 5);
-		this.lights.dlight.position.set(0, 0, 1000);
-		this.lights.dlight.target.position.set(0, 0, 0);
+		this.lights.dlight.position.set(0,0, 1000);
+		//this.lights.dlight.target.position.set(0, 0, 0);h
 		this.game.sceneObj.add(this.lights.dlight);
+
+		var plight = new THREE.PointLight( 0xffffff, 5);
+		plight.position.set(0,0,1);
+		//this.game.sceneObj.add(plight);
+
+		var geometry = new THREE.SphereGeometry(8, 4, 4);
+		var mesh = new THREE.Mesh(geometry, MATERIALS_BASIC.green);
+		mesh.position.set(0, 0, 1);
+		this.game.sceneObj.add(mesh);
+
 
 	}
 

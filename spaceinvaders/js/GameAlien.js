@@ -31,7 +31,7 @@ class GameAlien extends HasPhysics{
 		'use strict';
 		var material_type_obj = (material_obj == null ? MATERIALS : material_obj);
 		
-		this.boundingSphere = this.createBoundingSphere(0, 0, 0, 26.1, 8, 8, material_type_obj.grey);
+		this.boundingSphere = this.createBoundingSphere(0, 0, 0, 26.1, 8, 8, material_type_obj.blue);
 		this.boundingSphere.visible = false;
 		
 		this.createCube(0,     5, 0, 10, 30, 25, material_type_obj.red);//paralelipepedo central
