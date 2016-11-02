@@ -29,7 +29,7 @@ class SpaceInvaders {
 		this.cameras = {'ortho': null, 'persp': null, 'player': null, 'active': null,
 						"fov": 65, "near": 1, "far": 1000, 'ar': size.x/size.y};
 
-		this.lights = {'dlight': null};
+		this.lights = {'dlight': null, 'dlight_intens': 2};
 
 		this.createCameras();
 
@@ -61,14 +61,17 @@ class SpaceInvaders {
 
 	createLights(){
 		//Directional Light - Sun
-		this.lights.dlight = new THREE.DirectionalLight(0xffffff, 5);
-		this.lights.dlight.position.set(0,0, 1000);
+		this.lights.dlight = new THREE.DirectionalLight(0xffffff, // White light
+		 												this.lights.dlight_intens /* Default is 2 */);
+		this.lights.dlight.position.set(0, 0, 1);
 		//this.lights.dlight.target.position.set(0, 0, 0);h
 		this.game.sceneObj.add(this.lights.dlight);
 
+		/*
 		var plight = new THREE.PointLight( 0xffffff, 5);
 		plight.position.set(0,0,1);
 		//this.game.sceneObj.add(plight);
+		*/
 
 		var geometry = new THREE.SphereGeometry(8, 4, 4);
 		var mesh = new THREE.Mesh(geometry, MATERIALS_BASIC.green);
@@ -241,13 +244,46 @@ class SpaceInvaders {
 		else me = game;
 
 		switch (key.keyCode){
+			case 78: // N
+				me.lights.dlight.intensity = (me.lights.dlight.intensity == 0 ? me.lights.dlight_intens : 0);
+				break;
+			case 71: // g
+				if(MATERIALS == MATERIALS_GOURAUD){
+					MATERIALS = MATERIALS_PHONG;
+					fancyMaterial = 'phong';
+				}
+				else if(MATERIALS == MATERIALS_PHONG){
+					MATERIALS = MATERIALS_GOURAUD;
+					fancyMaterial = 'gouraud';
+				}
+
+
+				for(var al in me.game.aliens){
+					me.game.aliens[al].changeMaterialListTo(MATERIALS);
+				}
+
+				for(var bu in me.game.bullets){
+					me.game.bullets[bu].changeMaterialListTo(MATERIALS);
+				}
+
+				me.game.player.changeMaterialListTo(MATERIALS);
+
+				console.log(fancyMaterial);
+
+				break;
+
 			case 86: // v
 				bulletSoundVolume = (bulletSoundVolume == 0 ? 0.03 : 0);
 				deathSoundVolume = (deathSoundVolume == 0 ? 0.05 : 0);
 				break;
 
 			case 76: // L
-				MATERIALS = (MATERIALS == MATERIALS_BASIC ? (fancyMaterial == 'gouraud' ? MATERIALS_GOURAUD : MATERIALS_PHONG) : MATERIALS_BASIC);
+				if(MATERIALS == MATERIALS_BASIC){
+					if(fancyMaterial == 'gouraud')
+						MATERIALS = MATERIALS_GOURAUD;
+					else
+						MATERIALS = MATERIALS_PHONG;
+				} else MATERIALS = MATERIALS_BASIC;
 
 				
 				for(var al in me.game.aliens){
