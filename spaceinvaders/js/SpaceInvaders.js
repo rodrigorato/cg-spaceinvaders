@@ -237,6 +237,16 @@ class SpaceInvaders {
 				break;
 		}
 	}
+
+	updateMaterials(mats){
+		for(var al in this.game.aliens)
+			this.game.aliens[al].changeMaterialListTo(mats);
+		
+		for(var bu in this.game.bullets)
+			this.game.bullets[bu].changeMaterialListTo(mats);
+
+		this.game.player.changeMaterialListTo(mats);
+	}
 	
 	onKeyDown(key){
 		var me;
@@ -257,18 +267,9 @@ class SpaceInvaders {
 					fancyMaterial = 'gouraud';
 				}
 
+				me.updateMaterials(MATERIALS);
 
-				for(var al in me.game.aliens){
-					me.game.aliens[al].changeMaterialListTo(MATERIALS);
-				}
-
-				for(var bu in me.game.bullets){
-					me.game.bullets[bu].changeMaterialListTo(MATERIALS);
-				}
-
-				me.game.player.changeMaterialListTo(MATERIALS);
-
-				console.log(fancyMaterial);
+				console.log("Using fancy shading: " + fancyMaterial);
 
 				break;
 
@@ -286,15 +287,9 @@ class SpaceInvaders {
 				} else MATERIALS = MATERIALS_BASIC;
 
 				
-				for(var al in me.game.aliens){
-					me.game.aliens[al].changeMaterialListTo(MATERIALS);
-				}
+				me.updateMaterials(MATERIALS);
 
-				for(var bu in me.game.bullets){
-					me.game.bullets[bu].changeMaterialListTo(MATERIALS);
-				}
-
-				me.game.player.changeMaterialListTo(MATERIALS);
+				console.log("Changed to " + (MATERIALS == MATERIALS_BASIC ? "basic" : fancyMaterial) + " shading.");
 
 				break;
 
