@@ -29,7 +29,9 @@ class SpaceInvaders {
 		this.cameras = {'ortho': null, 'persp': null, 'player': null, 'active': null,
 						"fov": 65, "near": 1, "far": 1000, 'ar': size.x/size.y};
 
-		this.lights = {'dlight': null, 'dlight_intens': 2};
+		this.lights = {'dlight': null, 'dlight_intens': 2, 'dlight_color': 0xffffff, 'plights': null,
+					   'plight_color': 0xffffff, 'plight_intens': 1.5, 'plight_decay': 2 // apperantly this value creates "physically realistic" decay 
+					  };
 
 		this.createCameras();
 
@@ -61,23 +63,42 @@ class SpaceInvaders {
 
 	createLights(){
 		//Directional Light - Sun
-		this.lights.dlight = new THREE.DirectionalLight(0xffffff, // White light
+		this.lights.dlight = new THREE.DirectionalLight(this.lights.dlight_color, // White light
 		 												this.lights.dlight_intens /* Default is 2 */);
 		this.lights.dlight.position.set(0, 0, 1);
-		//this.lights.dlight.target.position.set(0, 0, 0);h
 		this.game.sceneObj.add(this.lights.dlight);
 
-		/*
-		var plight = new THREE.PointLight( 0xffffff, 5);
-		plight.position.set(0,0,1);
-		//this.game.sceneObj.add(plight);
-		*/
+		this.lights.plights = new Array(); // placing pointlights in an array. since we only to turn them all off at once there should be no problems
 
-		var geometry = new THREE.SphereGeometry(8, 4, 4);
-		var mesh = new THREE.Mesh(geometry, MATERIALS_BASIC.green);
-		mesh.position.set(0, 0, 1);
-		this.game.sceneObj.add(mesh);
+		//creating six pointlights, pushing them and adding them to scene
+		for (var i = 0; i < 6; i++) {
+			var l = new THREE.PointLight(this.lights.plight_color,this.lights.plight_intens,this.lights.plight_deacy);
+			this.lights.plights.push(l);
+			this.game.sceneObj.add(l);
+		}
 
+
+		// placing lights (uncomment helper to see postions)
+
+		this.lights.plights[0].position.set(SpaceInvaders.getGameSize().x * 0.1,SpaceInvaders.getGameSize().y * 0.1,30); // bottom left corner
+		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[0],5));
+
+		this.lights.plights[1].position.set(SpaceInvaders.getGameSize().x * 0.9,SpaceInvaders.getGameSize().y * 0.1,30); // bottom right corner
+		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[1],5));
+
+ 		this.lights.plights[2].position.set(SpaceInvaders.getGameSize().x * 0.1,SpaceInvaders.getGameSize().y * 0.9,0);  // top left corner
+ 		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[2],5));
+
+		this.lights.plights[3].position.set(SpaceInvaders.getGameSize().x * 0.9,SpaceInvaders.getGameSize().y * 0.9,30); // top right corner
+		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[3],5));
+
+		// placing these in these places because i dont know where to put them
+
+		this.lights.plights[4].position.set(SpaceInvaders.getGameSize().x / 2,SpaceInvaders.getGameSize().y /4 ,30);
+		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[4],5));
+
+		this.lights.plights[5].position.set(SpaceInvaders.getGameSize().x / 2 ,SpaceInvaders.getGameSize().y * 0.75 ,30);
+		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[5],5));
 
 	}
 
@@ -297,6 +318,13 @@ class SpaceInvaders {
 				for(var i in MATERIALS)
 					MATERIALS[i].wireframe = !MATERIALS[i].wireframe;
 				break;
+
+			case 67: // C
+				for (var i = 0; i < me.lights.plights.length; i++) {
+					me.lights.plights[i].intensity = (me.lights.plights[i].intensity == 0 ? me.lights.plight_intens : 0)
+				}
+				break;
+
 			case 32: case 66: // B or Space to fire a bullet
 				me.game.player.shootRules.shooting = true;
 				break;

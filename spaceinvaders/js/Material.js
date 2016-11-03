@@ -30,7 +30,7 @@ var MATERIALS_GOURAUD = {
 }
 
 var MATERIALS_PHONG = {
-	'red': 			new THREE.MeshPhongMaterial({color: 0xFF0000, specular: 0x111111, shininess: 1,  wireframe: false }),
+	'red': 			new THREE.MeshPhongMaterial({color: 0xFF0000, specular: 0x111111, shininess: 1, wireframe: false }),
 	'green': 		new THREE.MeshPhongMaterial({color: 0x00FF00, specular: 0x111111, shininess: 1, wireframe: false }),
 	'blue': 		new THREE.MeshPhongMaterial({color: 0x0000FF, specular: 0x111111, shininess: 1, wireframe: false }),
 	'black': 		new THREE.MeshPhongMaterial({color: 0x000000, specular: 0x111111, shininess: 1, wireframe: false }),
