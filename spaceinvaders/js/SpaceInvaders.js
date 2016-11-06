@@ -174,7 +174,7 @@ class SpaceInvaders {
 			game.game.bullets.push(bullet);
 		}
 
-
+		
 		// Moves the aliens
 		for (var i = 0; i < game.game.aliens.length; i++) {
 			for (var j = i + 1; j < game.game.aliens.length; j++) {
