@@ -30,8 +30,8 @@ class SpaceInvaders {
 						"fov": 65, "near": 1, "far": 1000, 'ar': size.x/size.y};
 
 		this.lights = {'dlight': null, 'dlight_intens': 2, 'dlight_color': 0xffffff, 'plights': null,
-					   'plight_color': 0xffffff, 'plight_intens': 1.5, 'plight_decay': 2 // apperantly this value creates "physically realistic" decay 
-					  };
+					   'plight_color': 0xffffff, 'plight_intens': 1, 'plight_decay': 2, // apperantly this value creates "physically realistic" decay 
+					   'plight_z': 30};
 
 		this.createCameras();
 
@@ -80,24 +80,36 @@ class SpaceInvaders {
 
 		// placing lights (uncomment helper to see postions)
 
-		this.lights.plights[0].position.set(SpaceInvaders.getGameSize().x * 0.1,SpaceInvaders.getGameSize().y * 0.1,30); // bottom left corner
+		this.lights.plights[0].position.set(SpaceInvaders.getGameSize().x * 0.1,
+											SpaceInvaders.getGameSize().y * 0.1,
+											this.lights.plight_z); // bottom left corner
 		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[0],5));
 
-		this.lights.plights[1].position.set(SpaceInvaders.getGameSize().x * 0.9,SpaceInvaders.getGameSize().y * 0.1,30); // bottom right corner
+		this.lights.plights[1].position.set(SpaceInvaders.getGameSize().x * 0.9,
+											SpaceInvaders.getGameSize().y * 0.1,
+											this.lights.plight_z); // bottom right corner
 		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[1],5));
 
- 		this.lights.plights[2].position.set(SpaceInvaders.getGameSize().x * 0.1,SpaceInvaders.getGameSize().y * 0.9,0);  // top left corner
+ 		this.lights.plights[2].position.set(SpaceInvaders.getGameSize().x * 0.1,
+ 											SpaceInvaders.getGameSize().y * 0.9,
+ 											this.lights.plight_z);  // top left corner
  		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[2],5));
 
-		this.lights.plights[3].position.set(SpaceInvaders.getGameSize().x * 0.9,SpaceInvaders.getGameSize().y * 0.9,30); // top right corner
+		this.lights.plights[3].position.set(SpaceInvaders.getGameSize().x * 0.9,
+											SpaceInvaders.getGameSize().y * 0.9,
+											this.lights.plight_z); // top right corner
 		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[3],5));
 
 		// placing these in these places because i dont know where to put them
 
-		this.lights.plights[4].position.set(SpaceInvaders.getGameSize().x / 2,SpaceInvaders.getGameSize().y /4 ,30);
+		this.lights.plights[4].position.set(SpaceInvaders.getGameSize().x / 2,
+											SpaceInvaders.getGameSize().y / 4,
+											this.lights.plight_z);
 		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[4],5));
 
-		this.lights.plights[5].position.set(SpaceInvaders.getGameSize().x / 2 ,SpaceInvaders.getGameSize().y * 0.75 ,30);
+		this.lights.plights[5].position.set(SpaceInvaders.getGameSize().x / 2,
+											SpaceInvaders.getGameSize().y * 0.75,
+											this.lights.plight_z);
 		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[5],5));
 
 	}

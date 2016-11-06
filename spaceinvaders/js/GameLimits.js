@@ -1,3 +1,12 @@
+/*********************
+*	Space Invaders   *
+*	CG @ IST         *
+*	1sem 2016/17     *
+*                    *
+*	Grupo 29         *
+**********************/
+
+
 class GameLimits extends HasPhysics{
 	constructor(x, y, z){
 		super(x, y, z);
