@@ -64,14 +64,14 @@ class GameShip extends HasPhysics {
 		return newPos;
 	}
 
-	createTriangleMesh(listOfVertices, posX, posY, posZ, material){
+	createTriangleMesh(listOfVertices, posX, posY, posZ, material, ind0, ind1, ind2){
 		var triangleGeometry = new THREE.Geometry();
-		material.side = THREE.DoubleSide; // TO-DO: OPTIMIZE
+		//material.side = THREE.DoubleSide; // TO-DO: OPTIMIZE
 
 		for(var vert in listOfVertices)
 			triangleGeometry.vertices.push(listOfVertices[vert]);
 
-		triangleGeometry.faces.push(new	THREE.Face3(0, 1, 2));
+		triangleGeometry.faces.push(new	THREE.Face3(ind0, ind1, ind2));
 		triangleGeometry.computeFaceNormals();
 
 		var triangleMesh = new THREE.Mesh(triangleGeometry, material);
@@ -91,351 +91,412 @@ class GameShip extends HasPhysics {
 		this.createTriangleMesh([new THREE.Vector3(),
 								 new THREE.Vector3(),
 								 new THREE.Vector3()],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2); 
 		*/
 
 		// Main part - top
 		this.createTriangleMesh([new THREE.Vector3(-15,30,10),
 								 new THREE.Vector3(15,-30,10),
 								 new THREE.Vector3(15,30,10)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2); 
 		this.createTriangleMesh([new THREE.Vector3(-15,30,10),
 								 new THREE.Vector3(15,-30,10),
 								 new THREE.Vector3(-15,-30,10)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0); 
 
 		// Main part - bottom
 		this.createTriangleMesh([new THREE.Vector3(-15,30,-10),
 								 new THREE.Vector3(15,-30,-10),
 								 new THREE.Vector3(15,30,-10)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0); 
 		this.createTriangleMesh([new THREE.Vector3(-15,30,-10),
 								 new THREE.Vector3(15,-30,-10),
 								 new THREE.Vector3(-15,-30,-10)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2); 
 
 		// Main part - front
 		this.createTriangleMesh([new THREE.Vector3(-15,30,10),
 								 new THREE.Vector3(15,30,10),
 								 new THREE.Vector3(-15,30,-10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2);
 		this.createTriangleMesh([new THREE.Vector3(15,30,10),
 								 new THREE.Vector3(-15,30,-10),
 								 new THREE.Vector3(15,30,-10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0);
 
 		// Main part - back
 		this.createTriangleMesh([new THREE.Vector3(-15,-30,10),
 								 new THREE.Vector3(15,-30,10),
 								 new THREE.Vector3(-15,-30,-10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0);
 		this.createTriangleMesh([new THREE.Vector3(15,-30,10),
 								 new THREE.Vector3(-15,-30,-10),
 								 new THREE.Vector3(15,-30,-10)],
-								 0, 0, 0, material_type_obj.blue)
-
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2);
 		// Main part - left
 		this.createTriangleMesh([new THREE.Vector3(-15,30,10),
 								 new THREE.Vector3(-15,-30,10),
 								 new THREE.Vector3(-15,30,-10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0);
 		this.createTriangleMesh([new THREE.Vector3(-15,30,-10),
 								 new THREE.Vector3(-15,-30,10),
 								 new THREE.Vector3(-15,-30,-10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0);
 
 		// Main part - right
 		this.createTriangleMesh([new THREE.Vector3(15,30,10),
 								 new THREE.Vector3(15,-30,10),
 								 new THREE.Vector3(15,30,-10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2);
 		this.createTriangleMesh([new THREE.Vector3(15,30,-10),
 								 new THREE.Vector3(15,-30,10),
 								 new THREE.Vector3(15,-30,-10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2);
 
 		// Rear end - top
 		this.createTriangleMesh([new THREE.Vector3(-45,-10,0),
 								 new THREE.Vector3(45,-20,0),
 								 new THREE.Vector3(45,-10,0)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2); 
 		this.createTriangleMesh([new THREE.Vector3(-45, -10, 0),
 								 new THREE.Vector3(45, -20, 0),
 								 new THREE.Vector3(-45, -20, 0)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0); 
 
 		// Rear end - bottom
 		this.createTriangleMesh([new THREE.Vector3(-45,-10,-10),
 								 new THREE.Vector3(45,-20,-10),
 								 new THREE.Vector3(45,-10,-10)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0); 
 		this.createTriangleMesh([new THREE.Vector3(-45, -10, -10),
 								 new THREE.Vector3(45, -20, -10),
 								 new THREE.Vector3(-45, -20, -10)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2); 
 
 		// Rear end - back
 		this.createTriangleMesh([new THREE.Vector3(-45,-20,0),
 								 new THREE.Vector3(45,-20,-10),
 								 new THREE.Vector3(45,-20,0)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2); 
 		this.createTriangleMesh([new THREE.Vector3(-45, -20, 0),
 								 new THREE.Vector3(-45, -20, -10),
 								 new THREE.Vector3(45, -20, -10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2);
 
 		// Rear end - front
 		this.createTriangleMesh([new THREE.Vector3(-45,-10,0),
 								 new THREE.Vector3(45,-10,-10),
 								 new THREE.Vector3(45,-10,0)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0); 
 		this.createTriangleMesh([new THREE.Vector3(-45, -10, 0),
 								 new THREE.Vector3(-45, -10, -10),
 								 new THREE.Vector3(45, -10, -10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0);
 
 		// Rear end - left
 		this.createTriangleMesh([new THREE.Vector3(-45,-10,0),
 								 new THREE.Vector3(-45,-20,0),
 								 new THREE.Vector3(-45,-10,-10)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0); 
 		this.createTriangleMesh([new THREE.Vector3(-45, -10, -10),
 								 new THREE.Vector3(-45, -20, -10),
 								 new THREE.Vector3(-45, -20, 0)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2);
 
 		// Rear end - right
 		this.createTriangleMesh([new THREE.Vector3(45,-10,0),
 								 new THREE.Vector3(45,-20,0),
 								 new THREE.Vector3(45,-10,-10)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2); 
 		this.createTriangleMesh([new THREE.Vector3(45, -10, -10),
 								 new THREE.Vector3(45, -20, -10),
 								 new THREE.Vector3(45, -20, 0)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0);
 
 		// Right back cube - top
 		this.createTriangleMesh([new THREE.Vector3(45, -20, 0),
 								 new THREE.Vector3(35, -20, 0),
 								 new THREE.Vector3(45, -30, 0)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2); 
 		this.createTriangleMesh([new THREE.Vector3(45, -30, 0),
 								 new THREE.Vector3(35,-20,0),
 								 new THREE.Vector3(35,-30,0)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2); 
 
 		// Right back cube - bottom
 		this.createTriangleMesh([new THREE.Vector3(45, -20, -10),
 								 new THREE.Vector3(35, -20, -10),
 								 new THREE.Vector3(45, -30, -10)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0); 
 		this.createTriangleMesh([new THREE.Vector3(45, -30, -10),
 								 new THREE.Vector3(35,-20,-10),
 								 new THREE.Vector3(35,-30,-10)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0); 
 
 		// Right back cube - left
 		this.createTriangleMesh([new THREE.Vector3(35, -20, 0),
 								 new THREE.Vector3(35, -30, 0),
 								 new THREE.Vector3(35, -20, -10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0);
 		this.createTriangleMesh([new THREE.Vector3(35, -20, -10),
 								 new THREE.Vector3(35, -30, -10),
 								 new THREE.Vector3(35, -30, 0)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2);
 
 		// Right back cube - right
 		this.createTriangleMesh([new THREE.Vector3(45, -20, 0),
 								 new THREE.Vector3(45, -30, 0),
 								 new THREE.Vector3(45, -20, -10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2);
 		this.createTriangleMesh([new THREE.Vector3(45, -20, -10),
 								 new THREE.Vector3(45, -30, -10),
 								 new THREE.Vector3(45, -30, 0)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0);
 
 		// Right back cube - back (we don't need the front as its colliding with the ship)
 		this.createTriangleMesh([new THREE.Vector3(45,-30,0),
 								 new THREE.Vector3(35,-30,0),
 								 new THREE.Vector3(45,-30,-10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2);
 		this.createTriangleMesh([new THREE.Vector3(35,-30,-10),
 								 new THREE.Vector3(35,-30,0),
 								 new THREE.Vector3(45,-30,-10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0);
 		
 		// Left back cube - top
 		this.createTriangleMesh([new THREE.Vector3(-45, -20, 0),
 								 new THREE.Vector3(-35, -20, 0),
 								 new THREE.Vector3(-45, -30, 0)],
-								 0, 0, 0, material_type_obj.blue); 
-
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0); 
 		this.createTriangleMesh([new THREE.Vector3(-45, -30, 0),
 								 new THREE.Vector3(-35,-20,0),
 								 new THREE.Vector3(-35,-30,0)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0); 
 
 		// Left back cube - bottom
 		this.createTriangleMesh([new THREE.Vector3(-45, -20, -10),
 								 new THREE.Vector3(-35, -20, -10),
 								 new THREE.Vector3(-45, -30, -10)],
-								 0, 0, 0, material_type_obj.blue); 
-
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2); 
 		this.createTriangleMesh([new THREE.Vector3(-45, -30, -10),
 								 new THREE.Vector3(-35,-20,-10),
 								 new THREE.Vector3(-35,-30,-10)],
-								 0, 0, 0, material_type_obj.blue); 
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2); 
 
-		// Left back cube - left
+		// Left back cube - right
 		this.createTriangleMesh([new THREE.Vector3(-35, -20, 0),
 								 new THREE.Vector3(-35, -30, 0),
 								 new THREE.Vector3(-35, -20, -10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2);
 		this.createTriangleMesh([new THREE.Vector3(-35, -20, -10),
 								 new THREE.Vector3(-35, -30, -10),
 								 new THREE.Vector3(-35, -30, 0)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0);
 
-		// Left back cube - right
+		// Left back cube - left
 		this.createTriangleMesh([new THREE.Vector3(-45, -20, 0),
 								 new THREE.Vector3(-45, -30, 0),
 								 new THREE.Vector3(-45, -20, -10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0);
 		this.createTriangleMesh([new THREE.Vector3(-45, -20, -10),
 								 new THREE.Vector3(-45, -30, -10),
 								 new THREE.Vector3(-45, -30, 0)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2);
 
 		// Left back cube - back (we don't need the front as its colliding with the ship)
 		this.createTriangleMesh([new THREE.Vector3(-45,-30,0),
 								 new THREE.Vector3(-35,-30,0),
 								 new THREE.Vector3(-45,-30,-10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 2, 1, 0);
 		this.createTriangleMesh([new THREE.Vector3(-35,-30,-10),
 								 new THREE.Vector3(-35,-30,0),
 								 new THREE.Vector3(-45,-30,-10)],
-								 0, 0, 0, material_type_obj.blue);
+								 0, 0, 0, material_type_obj.blue,
+								 0, 1, 2);
 
 		// Nose - Top left
 		this.createTriangleMesh([new THREE.Vector3(0, 30, 10),
 								 new THREE.Vector3(-10, 30, 0),
 								 new THREE.Vector3(0, 50, 0)],
-								 0, 0, 0, material_type_obj.red); 
+								 0, 0, 0, material_type_obj.red,
+								 2, 1, 0); 
 
 		// Nose - Bottom Left
 		this.createTriangleMesh([new THREE.Vector3(0, 50, 0),
 								 new THREE.Vector3(0, 30, -10),
 								 new THREE.Vector3(-10,30,0)],
-								 0, 0, 0, material_type_obj.red);
+								 0, 0, 0, material_type_obj.red,
+								 0, 1, 2);
 
 		// Nose - Top right
 		this.createTriangleMesh([new THREE.Vector3(0, 30, 10),
 								 new THREE.Vector3(10, 30, 0),
 								 new THREE.Vector3(0, 50, 0)],
-								 0, 0, 0, material_type_obj.red);  
+								 0, 0, 0, material_type_obj.red,
+								 0, 1, 2);  
 
 		// Nose - Bottom right
 		this.createTriangleMesh([new THREE.Vector3(0, 50, 0),
 								 new THREE.Vector3(0, 30, -10),
 								 new THREE.Vector3(10, 30, 0)],
-								 0, 0, 0, material_type_obj.red); 
+								 0, 0, 0, material_type_obj.red,
+								 2, 1, 0); 
 
 		// Left blaster - top left
 		this.createTriangleMesh([new THREE.Vector3(-30, -10, 0),
 								 new THREE.Vector3(-35, -10, -5),
 								 new THREE.Vector3(-30, 0, -5)],
-								 0, 0, 0, material_type_obj.purpleish); 
+								 0, 0, 0, material_type_obj.purpleish,
+								 2, 1, 0); 
 
 		// Left blaster - top right
 		this.createTriangleMesh([new THREE.Vector3(-30, -10, 0),
 								 new THREE.Vector3(-25, -10, -5),
 								 new THREE.Vector3(-30, 0, -5)],
-								 0, 0, 0, material_type_obj.purpleish); 
+								 0, 0, 0, material_type_obj.purpleish,
+								 0, 1, 2); 
 
 		// Left blaster - bottom
 		this.createTriangleMesh([new THREE.Vector3(-35, -10, -5),
 								 new THREE.Vector3(-25, -10, -5),
 								 new THREE.Vector3(-30, 0, -5)],
-								 0, 0, 0, material_type_obj.purpleish);
+								 0, 0, 0, material_type_obj.purpleish,
+								 2, 1, 0);
 
 		// Right blaster - top left
 		this.createTriangleMesh([new THREE.Vector3(30, -10, 0),
 								 new THREE.Vector3(35, -10, -5),
 								 new THREE.Vector3(30, 0, -5)],
-								 0, 0, 0, material_type_obj.purpleish); 
+								 0, 0, 0, material_type_obj.purpleish,
+								 0, 1, 2); 
 
 		// Right blaster - top right
 		this.createTriangleMesh([new THREE.Vector3(30, -10, 0),
 								 new THREE.Vector3(25, -10, -5),
 								 new THREE.Vector3(30, 0, -5)],
-								 0, 0, 0, material_type_obj.purpleish); 
+								 0, 0, 0, material_type_obj.purpleish,
+								 2, 1, 0); 
 
 		// Right blaster - bottom
 		this.createTriangleMesh([new THREE.Vector3(35, -10, -5),
 								 new THREE.Vector3(25, -10, -5),
 								 new THREE.Vector3(30, 0, -5)],
-								 0, 0, 0, material_type_obj.purpleish);
+								 0, 0, 0, material_type_obj.purpleish,
+								 0, 1, 2);
 
 		// Back blaster - top left
 		this.createTriangleMesh([new THREE.Vector3(0,-30,0),
 								 new THREE.Vector3(0,-40,-5),
 								 new THREE.Vector3(-5,-30,-5)],
-								 0, 0, 0, material_type_obj.red); 
+								 0, 0, 0, material_type_obj.red,
+								 2, 1, 0); 
 
 		// Back blaster - bottom left
 		this.createTriangleMesh([new THREE.Vector3(0,-30,-10),
 								 new THREE.Vector3(0,-40,-5),
 								 new THREE.Vector3(-5,-30,-5)],
-								 0, 0, 0, material_type_obj.red); 
+								 0, 0, 0, material_type_obj.red,
+								 0, 1, 2); 
 
 		// Back blaster - top right
 		this.createTriangleMesh([new THREE.Vector3(0,-30,0),
 								 new THREE.Vector3(0,-40,-5),
 								 new THREE.Vector3(5,-30,-5)],
-								 0, 0, 0, material_type_obj.red); 
+								 0, 0, 0, material_type_obj.red,
+								 0, 1, 2); 
 
 		// Back blaster - bottom right
 		this.createTriangleMesh([new THREE.Vector3(0,-30,-10),
 								 new THREE.Vector3(0,-40,-5),
 								 new THREE.Vector3(5,-30,-5)],
-								 0, 0, 0, material_type_obj.red); 
+								 0, 0, 0, material_type_obj.red,
+								 2, 1, 0); 
 
 		// Driver pod - top left
 		this.createTriangleMesh([new THREE.Vector3(0, 20, 15),
 								 new THREE.Vector3(0, 0, 15),
 								 new THREE.Vector3(-5, 0, 10)],
-								 0, 0, 0, material_type_obj.white);
+								 0, 0, 0, material_type_obj.white,
+								 2, 1, 0);
 		this.createTriangleMesh([new THREE.Vector3(0, 20, 15),
 								 new THREE.Vector3(-5, 20, 10),
 								 new THREE.Vector3(-5, 0, 10)],
-								 0, 0, 0, material_type_obj.white);
+								 0, 0, 0, material_type_obj.white,
+								 0, 1, 2);
 		
 		// Driver pod - top right
 		this.createTriangleMesh([new THREE.Vector3(0, 20, 15),
 								 new THREE.Vector3(0, 0, 15),
 								 new THREE.Vector3(5, 0, 10)],
-								 0, 0, 0, material_type_obj.white);
+								 0, 0, 0, material_type_obj.white,
+								 0, 1, 2);
 		this.createTriangleMesh([new THREE.Vector3(0, 20, 15),
 								 new THREE.Vector3(5, 20, 10),
 								 new THREE.Vector3(5, 0, 10)],
-								 0, 0, 0, material_type_obj.white);
+								 0, 0, 0, material_type_obj.white,
+								 2, 1, 0);
 
 		// Driver pod - front
 		this.createTriangleMesh([new THREE.Vector3(0, 20, 15),
 								 new THREE.Vector3(-5, 20, 10),
 								 new THREE.Vector3(5, 20, 10)],
-								 0, 0, 0, material_type_obj.white); 
+								 0, 0, 0, material_type_obj.white,
+								 2, 1, 0); 
 
 		// Driver pod - back
 		this.createTriangleMesh([new THREE.Vector3(0, 0, 15),
 								 new THREE.Vector3(-5, 0, 10),
 								 new THREE.Vector3(5, 0, 10)],
-								 0, 0, 0, material_type_obj.white); 
+								 0, 0, 0, material_type_obj.white,
+								 0, 1, 2); 
 
 		
 		//this.createCube(0,   0,  0, 30, 60, 20, material_type_obj.blue);
 		//this.createCube(0, -15, -5, 90, 10, 10, material_type_obj.blue);
-
 		//this.createCube( 40, -25, -5, 10, 10, 10, material_type_obj.blue);
 		//this.createCube(-40, -25, -5, 10, 10, 10, material_type_obj.blue);
 

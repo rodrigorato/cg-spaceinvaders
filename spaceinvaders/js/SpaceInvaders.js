@@ -210,10 +210,10 @@ class SpaceInvaders {
 			}
 		}
 
-		/* Debug - view the model on every angle
-		game.game.player.rotateZ(0.01);
-		game.game.player.rotateX(0.01);
-		game.game.player.rotateY(0.01);
+		/* Debug - view the model on every angle */
+		game.game.player.rotateZ(-0.01);
+		game.game.player.rotateX(-0.01);
+		game.game.player.rotateY(-0.01);
 		/**/
 
 
