@@ -31,7 +31,7 @@ class SpaceInvaders {
 
 		this.lights = {'dlight': null, 'dlight_intens': 2, 'dlight_color': 0xffffff, 'plights': null,
 					   'plight_color': 0xffffff, 'plight_intens': 1, 'plight_decay': 2, // apperantly this value creates "physically realistic" decay 
-					   'plight_z': 30};
+					   'plight_z': 60};
 
 		this.createCameras();
 
@@ -70,47 +70,55 @@ class SpaceInvaders {
 
 		this.lights.plights = new Array(); // placing pointlights in an array. since we only to turn them all off at once there should be no problems
 
+		var plight_colors = [0x555555,
+							 0x555555,
+							 0x555555,
+							 0x555555,
+							 0x5555ff,
+							 0x5555ff];
+
 		//creating six pointlights, pushing them and adding them to scene
 		for (var i = 0; i < 6; i++) {
-			var l = new THREE.PointLight(this.lights.plight_color,this.lights.plight_intens,this.lights.plight_deacy);
+			var l = new THREE.PointLight(plight_colors[i],this.lights.plight_intens,this.lights.plight_deacy);
 			this.lights.plights.push(l);
 			this.game.sceneObj.add(l);
 		}
 
+		/*
+		this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[0],5));
+		this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[1],5));
+ 		this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[2],5));
+		this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[3],5));
+		this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[4],5));
+		this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[5],5));
+		*/
 
 		// placing lights (uncomment helper to see postions)
-
 		this.lights.plights[0].position.set(SpaceInvaders.getGameSize().x * 0.1,
 											SpaceInvaders.getGameSize().y * 0.1,
 											this.lights.plight_z); // bottom left corner
-		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[0],5));
 
 		this.lights.plights[1].position.set(SpaceInvaders.getGameSize().x * 0.9,
 											SpaceInvaders.getGameSize().y * 0.1,
 											this.lights.plight_z); // bottom right corner
-		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[1],5));
 
  		this.lights.plights[2].position.set(SpaceInvaders.getGameSize().x * 0.1,
  											SpaceInvaders.getGameSize().y * 0.9,
  											this.lights.plight_z);  // top left corner
- 		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[2],5));
 
 		this.lights.plights[3].position.set(SpaceInvaders.getGameSize().x * 0.9,
 											SpaceInvaders.getGameSize().y * 0.9,
 											this.lights.plight_z); // top right corner
-		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[3],5));
 
 		// placing these in these places because i dont know where to put them
 
 		this.lights.plights[4].position.set(SpaceInvaders.getGameSize().x / 2,
 											SpaceInvaders.getGameSize().y / 4,
 											this.lights.plight_z);
-		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[4],5));
 
 		this.lights.plights[5].position.set(SpaceInvaders.getGameSize().x / 2,
 											SpaceInvaders.getGameSize().y * 0.75,
 											this.lights.plight_z);
-		//this.game.sceneObj.add(new THREE.PointLightHelper(this.lights.plights[5],5));
 
 	}
 
