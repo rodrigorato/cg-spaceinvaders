@@ -1,0 +1,13 @@
+// TODO LIST FOR CLASS VERSION OF THE GAME
+Make a new ship with a custom geometry;
+
+// GOOD
+optimize the doublesided mesh, maybe only one side is needed which means were rendering double the polys
+use strict in all functs
+
+// MAYBE
+
+// ASK?
+
+
+// DOUBLE CHECK
