@@ -23,7 +23,8 @@ class SpaceInvaders {
 		this.game = {'sceneObj': null, 'size': size,
 					 'aliens': new Array(), 'bullets': new Array(),
 					 'player': null, 'corners': new Array(),
-					 'bulletTime': 1, 'timeBetweenBullets': 0.2};
+					 'bulletTime': 1, 'timeBetweenBullets': 0.2,
+					 'paused': false};
 		this.createScene();
 		
 		this.cameras = {'ortho': null, 'persp': null, 'player': null, 'active': null,
@@ -167,67 +168,69 @@ class SpaceInvaders {
 	}
 
 	animateGame(){
-		stats.begin();
+		if(!game.game.paused){
+			stats.begin();
 
-		var delta = game.clock.getDelta();
+			var delta = game.clock.getDelta();
 
-		// Moves the ship and the camera attached to it
-		game.game.player.updatePosition(game.game.player.calculatePosition(delta));
-		game.cameras.player.position.x = game.game.player.position.x;
+			// Moves the ship and the camera attached to it
+			game.game.player.updatePosition(game.game.player.calculatePosition(delta));
+			game.cameras.player.position.x = game.game.player.position.x;
 
-		// Shoots the bullet from the ship
-		var bullet = game.game.player.shoot(delta);
-		if(bullet != null){
-			game.game.sceneObj.add(bullet);
-			game.game.bullets.push(bullet);
-		}
-
-		
-		// Moves the aliens
-		for (var i = 0; i < game.game.aliens.length; i++) {
-			for (var j = i + 1; j < game.game.aliens.length; j++) {
-				if(game.game.aliens[i].hasCollision(game.game.aliens[j], delta)){
-					game.game.aliens[i].whenCollided(game.game.aliens[j]);
-					game.game.aliens[j].whenCollided(game.game.aliens[i]);
-						
-				}
-				
+			// Shoots the bullet from the ship
+			var bullet = game.game.player.shoot(delta);
+			if(bullet != null){
+				game.game.sceneObj.add(bullet);
+				game.game.bullets.push(bullet);
 			}
-			game.game.aliens[i].updatePosition(game.game.aliens[i].calculatePosition(delta));
-		}
 
-		for(var b in game.game.bullets){
-			var didRemoveBullet = false;
+			
+			// Moves the aliens
 			for (var i = 0; i < game.game.aliens.length; i++) {
-				if(game.game.aliens[i].hasCollision(game.game.bullets[b], delta)){
-					didRemoveBullet = true;
-					game.game.sceneObj.remove(game.game.bullets[b]);
-					game.game.bullets.splice(b, 1);
-					game.game.sceneObj.remove(game.game.aliens[i]);
-					game.game.aliens.splice(i, 1);
-					game.deathSound();
-					break;
+				for (var j = i + 1; j < game.game.aliens.length; j++) {
+					if(game.game.aliens[i].hasCollision(game.game.aliens[j], delta)){
+						game.game.aliens[i].whenCollided(game.game.aliens[j]);
+						game.game.aliens[j].whenCollided(game.game.aliens[i]);
+							
+					}
+					
+				}
+				game.game.aliens[i].updatePosition(game.game.aliens[i].calculatePosition(delta));
+			}
+
+			for(var b in game.game.bullets){
+				var didRemoveBullet = false;
+				for (var i = 0; i < game.game.aliens.length; i++) {
+					if(game.game.aliens[i].hasCollision(game.game.bullets[b], delta)){
+						didRemoveBullet = true;
+						game.game.sceneObj.remove(game.game.bullets[b]);
+						game.game.bullets.splice(b, 1);
+						game.game.sceneObj.remove(game.game.aliens[i]);
+						game.game.aliens.splice(i, 1);
+						game.deathSound();
+						break;
+					}
+				}
+				if(!didRemoveBullet){
+					if(game.game.bullets[b].hitTheWalls(delta) == 't'){
+						game.game.sceneObj.remove(game.game.bullets[b]);
+						game.game.bullets.splice(b, 1);
+					} else
+					game.game.bullets[b].updatePosition(game.game.bullets[b].calculatePosition(delta));
 				}
 			}
-			if(!didRemoveBullet){
-				if(game.game.bullets[b].hitTheWalls(delta) == 't'){
-					game.game.sceneObj.remove(game.game.bullets[b]);
-					game.game.bullets.splice(b, 1);
-				} else
-				game.game.bullets[b].updatePosition(game.game.bullets[b].calculatePosition(delta));
-			}
+
+			/*/ Debug - view the model on every angle 
+			game.game.player.rotateZ(-0.01);
+			game.game.player.rotateX(-0.01);
+			game.game.player.rotateY(-0.01);
+			/**/
+
+
+			game.render();
+			stats.end();
 		}
-
-		/*/ Debug - view the model on every angle 
-		game.game.player.rotateZ(-0.01);
-		game.game.player.rotateX(-0.01);
-		game.game.player.rotateY(-0.01);
-		/**/
-
-
-		game.render();
-		requestAnimationFrame(game.animateGame);
-		stats.end();
+			requestAnimationFrame(game.animateGame);
 	}
 
 	deathSound(){
@@ -302,6 +305,11 @@ class SpaceInvaders {
 		else me = game;
 
 		switch (key.keyCode){
+			case 80: // P
+				me.game.paused ? me.clock.start() : me.clock.stop();
+				me.game.paused = !(me.game.paused);
+				break;
+
 			case 78: // N
 				me.lights.dlight.intensity = (me.lights.dlight.intensity == 0 ? me.lights.dlight_intens : 0);
 				break;
