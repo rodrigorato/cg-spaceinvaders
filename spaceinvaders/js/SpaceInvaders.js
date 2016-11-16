@@ -70,10 +70,10 @@ class SpaceInvaders {
 		//this.lights.dlight.position.set(-this.game.size.x, 0, 1);
 		
 		this.lights.dlight.position.set(0, 0, 1);
-		var tempObj = new GameBullet(this.game.size.x,0 ,0);
+		/*var tempObj = new GameBullet(this.game.size.x,0 ,0);
 		this.game.sceneObj.add(tempObj);
 		this.lights.dlight.target = tempObj;
-		tempObj.visible = false;
+		tempObj.visible = false;*/
 
 		this.game.sceneObj.add(this.lights.dlight);
 

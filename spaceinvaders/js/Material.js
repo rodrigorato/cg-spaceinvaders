@@ -37,14 +37,14 @@ var MATERIALS_GOURAUD = {
 }
 
 var MATERIALS_PHONG = {
-	'red': 			new THREE.MeshPhongMaterial({color: 0xFF0000, specular: 0x555555, shininess: 10, wireframe: false }),
-	'green': 		new THREE.MeshPhongMaterial({color: 0x00FF00, specular: 0x555555, shininess: 10, wireframe: false }),
-	'blue': 		new THREE.MeshPhongMaterial({color: 0x0000FF, specular: 0x555555, shininess: 10, wireframe: false }),
-	'black': 		new THREE.MeshPhongMaterial({color: 0x000000, specular: 0x555555, shininess: 10, wireframe: false }),
-	'white': 		new THREE.MeshPhongMaterial({color: 0xFFFFFF, specular: 0x555555, shininess: 10, wireframe: false }),
-	'lightblue': 	new THREE.MeshPhongMaterial({color: 0x00E5FF, specular: 0x555555, shininess: 10, wireframe: false }),
-	'purpleish': 	new THREE.MeshPhongMaterial({color: 0x5D1BD1, specular: 0x555555, shininess: 10, wireframe: false }),
-	'grey': 		new THREE.MeshPhongMaterial({color: 0x555555, specular: 0x555555, shininess: 10, wireframe: false }),
+	'red': 			new THREE.MeshPhongMaterial({color: 0xFF0000, specular: 0x555555, shininess: 1, wireframe: false }),
+	'green': 		new THREE.MeshPhongMaterial({color: 0x00FF00, specular: 0x555555, shininess: 1, wireframe: false }),
+	'blue': 		new THREE.MeshPhongMaterial({color: 0x0000FF, specular: 0x555555, shininess: 1, wireframe: false }),
+	'black': 		new THREE.MeshPhongMaterial({color: 0x000000, specular: 0x555555, shininess: 1, wireframe: false }),
+	'white': 		new THREE.MeshPhongMaterial({color: 0xFFFFFF, specular: 0x555555, shininess: 1, wireframe: false }),
+	'lightblue': 	new THREE.MeshPhongMaterial({color: 0x00E5FF, specular: 0x555555, shininess: 1, wireframe: false }),
+	'purpleish': 	new THREE.MeshPhongMaterial({color: 0x5D1BD1, specular: 0x555555, shininess: 1, wireframe: false }),
+	'grey': 		new THREE.MeshPhongMaterial({color: 0x555555, specular: 0x555555, shininess: 1, wireframe: false }),
 }
 // new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading, overdraw: 0.5, shininess: 0 } );
 var MATERIALS = MATERIALS_BASIC;/*{
