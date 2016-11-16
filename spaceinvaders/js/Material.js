@@ -6,6 +6,13 @@
 *	Grupo 29         *
 **********************/
 
+function findMaterialInList(color, matList){
+	for(var matInd in matList){
+		if(color.r == matList[matInd].color.r && color.g == matList[matInd].color.g && color.b == matList[matInd].color.b)
+			return matList[matInd];
+	}
+	return false;
+}
 
 var MATERIALS_BASIC = {
 	'red': 			new THREE.MeshBasicMaterial({color: 0xFF0000, wireframe: false }),
@@ -30,14 +37,14 @@ var MATERIALS_GOURAUD = {
 }
 
 var MATERIALS_PHONG = {
-	'red': 			new THREE.MeshPhongMaterial({color: 0xFF0000, specular: 0x111111, shininess: 1, wireframe: false }),
-	'green': 		new THREE.MeshPhongMaterial({color: 0x00FF00, specular: 0x111111, shininess: 1, wireframe: false }),
-	'blue': 		new THREE.MeshPhongMaterial({color: 0x0000FF, specular: 0x111111, shininess: 1, wireframe: false }),
-	'black': 		new THREE.MeshPhongMaterial({color: 0x000000, specular: 0x111111, shininess: 1, wireframe: false }),
-	'white': 		new THREE.MeshPhongMaterial({color: 0xFFFFFF, specular: 0x111111, shininess: 1, wireframe: false }),
-	'lightblue': 	new THREE.MeshPhongMaterial({color: 0x00E5FF, specular: 0x111111, shininess: 1, wireframe: false }),
-	'purpleish': 	new THREE.MeshPhongMaterial({color: 0x5D1BD1, specular: 0x111111, shininess: 1, wireframe: false }),
-	'grey': 		new THREE.MeshPhongMaterial({color: 0x555555, specular: 0x111111, shininess: 1, wireframe: false }),
+	'red': 			new THREE.MeshPhongMaterial({color: 0xFF0000, specular: 0x555555, shininess: 10, wireframe: false }),
+	'green': 		new THREE.MeshPhongMaterial({color: 0x00FF00, specular: 0x555555, shininess: 10, wireframe: false }),
+	'blue': 		new THREE.MeshPhongMaterial({color: 0x0000FF, specular: 0x555555, shininess: 10, wireframe: false }),
+	'black': 		new THREE.MeshPhongMaterial({color: 0x000000, specular: 0x555555, shininess: 10, wireframe: false }),
+	'white': 		new THREE.MeshPhongMaterial({color: 0xFFFFFF, specular: 0x555555, shininess: 10, wireframe: false }),
+	'lightblue': 	new THREE.MeshPhongMaterial({color: 0x00E5FF, specular: 0x555555, shininess: 10, wireframe: false }),
+	'purpleish': 	new THREE.MeshPhongMaterial({color: 0x5D1BD1, specular: 0x555555, shininess: 10, wireframe: false }),
+	'grey': 		new THREE.MeshPhongMaterial({color: 0x555555, specular: 0x555555, shininess: 10, wireframe: false }),
 }
 // new THREE.MeshPhongMaterial( { color: 0xffffff, shading: THREE.FlatShading, overdraw: 0.5, shininess: 0 } );
 var MATERIALS = MATERIALS_BASIC;/*{

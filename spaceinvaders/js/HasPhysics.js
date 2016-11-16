@@ -113,8 +113,16 @@ class HasPhysics extends THREE.Object3D {
 	}
 
 	changeMaterialListTo(material_list_obj){
+		for(var el in this.children){
+			if(this.children[el] instanceof THREE.Mesh) {
+				//console.log(this.children[el].material.color);
+				this.children[el].material = findMaterialInList(this.children[el].material.color, material_list_obj);
+			}
+		}
+		/*
 		this.children = new Array();
 		this.createObject(material_list_obj);
+		*/
 	}
 
 	// Detects colision with another HasPhysics object

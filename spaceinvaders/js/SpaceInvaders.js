@@ -67,7 +67,14 @@ class SpaceInvaders {
 		//Directional Light - Sun
 		this.lights.dlight = new THREE.DirectionalLight(this.lights.dlight_color, // White light
 		 												this.lights.dlight_intens /* Default is 2 */);
+		//this.lights.dlight.position.set(-this.game.size.x, 0, 1);
+		
 		this.lights.dlight.position.set(0, 0, 1);
+		var tempObj = new GameBullet(this.game.size.x,0 ,0);
+		this.game.sceneObj.add(tempObj);
+		this.lights.dlight.target = tempObj;
+		tempObj.visible = false;
+
 		this.game.sceneObj.add(this.lights.dlight);
 
 		this.lights.plights = new Array(); // placing pointlights in an array. since we only to turn them all off at once there should be no problems
@@ -293,8 +300,9 @@ class SpaceInvaders {
 	}
 
 	updateMaterials(mats){
-		for(var al in this.game.aliens)
+		for(var al in this.game.aliens){
 			this.game.aliens[al].changeMaterialListTo(mats);
+		}
 		
 		for(var bu in this.game.bullets)
 			this.game.bullets[bu].changeMaterialListTo(mats);
