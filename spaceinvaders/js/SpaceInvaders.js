@@ -39,6 +39,7 @@ class SpaceInvaders {
 		this.createLights();
 		
 		this.clock = new THREE.Clock();
+		this.clock.start();
 		
 		this.render();
 	}
@@ -168,8 +169,10 @@ class SpaceInvaders {
 	}
 
 	animateGame(){
-		if(!game.game.paused){
+
 			stats.begin();
+
+			if(game.clock.running){
 
 			var delta = game.clock.getDelta();
 
@@ -226,10 +229,10 @@ class SpaceInvaders {
 			game.game.player.rotateY(-0.01);
 			/**/
 
-
+		}
 			game.render();
 			stats.end();
-		}
+
 			requestAnimationFrame(game.animateGame);
 	}
 
@@ -305,9 +308,9 @@ class SpaceInvaders {
 		else me = game;
 
 		switch (key.keyCode){
-			case 80: // P
-				me.game.paused ? me.clock.start() : me.clock.stop();
-				me.game.paused = !(me.game.paused);
+			case 83: // S
+				me.clock.running ? me.clock.stop() : me.clock.start();
+				//me.game.paused = !(me.game.paused);
 				break;
 
 			case 78: // N
