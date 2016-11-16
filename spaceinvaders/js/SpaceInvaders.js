@@ -40,6 +40,20 @@ class SpaceInvaders {
 		
 		this.clock = new THREE.Clock();
 		this.clock.start();
+
+		var loader = new THREE.TextureLoader();
+		loader.load("res/textures/bg.jpg",
+					function (texture)
+					{
+						// FIX ME
+						var plane = new THREE.Object3D();
+						var backgroundPlane = new THREE.PlaneGeometry(SpaceInvaders.getGameSize.x, SpaceInvaders.getGameSize.y);
+						var backgroundMat = new THREE.MeshBasicMaterial({color: 0xffff00});
+						var background = new THREE.Mesh(backgroundPlane, backgroundMat);
+						background.position.set(SpaceInvaders.getGameSize.x/2, SpaceInvaders.getGameSize.y/2,0)
+						plane.add(background);
+						game.game.sceneObj.add(plane);
+					},function(d) {console.log("downloading...");},function(c){console.log("error");})
 		
 		this.render();
 	}
