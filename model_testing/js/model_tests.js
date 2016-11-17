@@ -3,11 +3,11 @@ const ALIEN1_SIZE = {'x': 40, 'y':40, 'z':25};
 const ALIEN2_SIZE = {'x': 60, 'y':40, 'z':25};	
 const PLAYINGFIELD_SIZE = {'x': 15*SHIP_SIZE.x, 'y':10*SHIP_SIZE.y, 'z':10*SHIP_SIZE.y};
 var MATERIALS = {
-	'red': 			new THREE.MeshBasicMaterial({color: 0xFF0000, wireframe: true }),
+	'red': 			new THREE.MeshPhongMaterial({color: 0xFF0000, wireframe: true }),
 	'green': 		new THREE.MeshBasicMaterial({color: 0x00FF00, wireframe: true }),
 	'blue': 		new THREE.MeshBasicMaterial({color: 0x0000FF, wireframe: true }),
 	'black': 		new THREE.MeshBasicMaterial({color: 0x000000, wireframe: true }),
-	'white': 		new THREE.MeshBasicMaterial({color: 0xFFFFFF, wireframe: true }),
+	'white': 		new THREE.MeshPhongMaterial({ color: 0xFFFFFF, wireframe: true }),
 	'lightblue': 	new THREE.MeshBasicMaterial({color: 0x00E5FF, wireframe: true }),
 	'purpleish': 	new THREE.MeshBasicMaterial({color: 0x5D1BD1, wireframe: true }),	
 
@@ -48,12 +48,28 @@ function createScene() {
 
 	//createBullet(0,50,0);
 	//createPlayer(0,0,0);
-	
-	createAlien(0, 0, 0);
-	createBall(0,0,0,26.1,MATERIALS.white);
+	var floor = new THREE.Object3D();
+	createCube(floor, 0,0,0, 100, 100, 1, MATERIALS.white);
+	floor.position.set(0,0,-10);
+	scene.add(floor);
+	var coiso = new THREE.Object3D();
+	createCube(coiso, 0,0,0, 30, 30, 10, MATERIALS.red);
+	coiso.position.set(0,0,0);
+	scene.add(coiso);
+
+	var spotLight = new THREE.SpotLight( 0xffffff );
+	spotLight.position.set( 0,20,30);
+
+	//spotLight.castShadow = true;
+
+
+
+	scene.add( spotLight );
+	//createAlien(0, 0, 0);
+	//createBall(0,0,0,26.1,MATERIALS.white);
 	//createAlien(0,-36,0);
 	//createBall(50,50,20,27.1,MATERIALS.white);
-	var ball = new THREE.Sphere(scene.position,26)
+	//var ball = new THREE.Sphere(scene.position,26)
 	//var point = new THREE.Vector3(0,-36,0);
 	//var ball2 = new THREE.Sphere(point,27.1);
 	//console.log(ball.intersectsSphere(ball));
@@ -75,29 +91,22 @@ function onResize() {
 
 function onKeyDown(key) {
 	'use strict';
-	
 	switch (key.keyCode)
 	{
 		case 65: case 97: // A or a
 			for(var i in MATERIALS)
 				MATERIALS[i].wireframe = !MATERIALS[i].wireframe;
 			break;
-
 	}
-
 }
 
 function animate() {
 	'use strict';
 	
 	stats.begin();
-
 	render();
-
 	stats.end();
-	
 	controls.update();
-
 	requestAnimationFrame(animate);
 }
 
@@ -118,7 +127,6 @@ function createBall(x, y, z,radius, material) {
 	'use strict';
 	
 	ball = new THREE.Object3D();
-	ball.userData = {jumping: true };
 
 	var ball_material = material;
 	geometry = new THREE.SphereGeometry(radius,100,100);

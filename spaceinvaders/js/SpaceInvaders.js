@@ -31,7 +31,7 @@ class SpaceInvaders {
 
 		this.lights = {'dlight': null, 'dlight_intens': 2, 'dlight_color': 0xffffff, 'plights': null,
 					   'plight_color': 0xffffff, 'plight_intens': 1, 'plight_decay': 2, // apperantly this value creates "physically realistic" decay 
-					   'plight_z': 60};
+					   'plight_z': 60, 'slight': null, 'slight_intens': 2};
 
 		this.hudElements = {'pausedPlane': null, 'gameOverPlane': null};
 
@@ -143,7 +143,19 @@ class SpaceInvaders {
 		this.lights.plights[5].position.set(SpaceInvaders.getGameSize().x / 2,
 											SpaceInvaders.getGameSize().y * 0.75,
 											this.lights.plight_z);
+		//Spotligth for the ship
+		this.lights.slight = new THREE.SpotLight(0xffffff);
+		this.lights.slight.position.set(this.game.player.position.x,this.game.player.position.y,
+										this.game.player.position.z+40);
+		this.game.sceneObj.add(this.lights.slight);
+		this.lights.slight.distance=this.game.size.y/2;
+		this.lights.slight.intensity=this.lights.slight_intens;
 
+		var tempObj = new GameBullet(this.game.player.position.x,this.game.size.y,this.game.player.position.z);
+		this.game.sceneObj.add(tempObj);
+		this.lights.slight.target = tempObj;
+		tempObj.visible = false;
+		
 	}
 
 	createCameras() {
@@ -202,6 +214,8 @@ class SpaceInvaders {
 			// Moves the ship and the camera attached to it
 			game.game.player.updatePosition(game.game.player.calculatePosition(delta));
 			game.cameras.player.position.x = game.game.player.position.x;
+			game.lights.slight.position.x=game.game.player.position.x;
+			game.lights.slight.target.position.x=game.game.player.position.x;
 
 			// Shoots the bullet from the ship
 			var bullet = game.game.player.shoot(delta);
@@ -350,6 +364,9 @@ class SpaceInvaders {
 
 			case 78: // N
 				me.lights.dlight.intensity = (me.lights.dlight.intensity == 0 ? me.lights.dlight_intens : 0);
+				break;
+			case 72: //h
+				me.lights.slight.intensity = (me.lights.slight.intensity == 0 ? me.lights.slight_intens : 0);
 				break;
 			case 71: // g
 				if(MATERIALS == MATERIALS_GOURAUD){
