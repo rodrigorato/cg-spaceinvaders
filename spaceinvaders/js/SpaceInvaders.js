@@ -11,7 +11,7 @@ class SpaceInvaders {
 		return {'x': 15*GameShip.getSize().x, 'y':10*GameShip.getSize().y, 'z':10*GameShip.getSize().y};
 	}
 
-	constructor(){
+	constructor(numLifes){
 		this.eventHandler = new EventHandler(this);
 		this.eventHandler.addListeners();
 
@@ -24,7 +24,7 @@ class SpaceInvaders {
 					 'aliens': new Array(), 'bullets': new Array(),
 					 'player': null, 'corners': new Array(),
 					 'bulletTime': 1, 'timeBetweenBullets': 0.2,
-					 'paused': false};
+					 'paused': false, 'totalAliens': 0, 'lifes': numLifes, 'aliensHit': 0, 'over': false};
 		
 		this.cameras = {'ortho': null, 'persp': null, 'player': null, 'active': null,
 						"fov": 65, "near": 1, "far": 1000, 'ar': size.x/size.y};
@@ -188,6 +188,7 @@ class SpaceInvaders {
 			this.game.sceneObj.add(alien);
 			this.game.aliens.push(alien);
 		}
+		this.game.totalAliens += quant;
 	}
 
 	animateGame(){
@@ -232,6 +233,7 @@ class SpaceInvaders {
 						game.game.bullets.splice(b, 1);
 						game.game.sceneObj.remove(game.game.aliens[i]);
 						game.game.aliens.splice(i, 1);
+						game.game.aliensHit++;
 						game.deathSound();
 						break;
 					}
@@ -252,10 +254,12 @@ class SpaceInvaders {
 			/**/
 
 		}
+
+
 			game.render();
 			stats.end();
-
-			requestAnimationFrame(game.animateGame);
+			if(!game.game.over)
+				game.frameId = requestAnimationFrame(game.animateGame);
 	}
 
 	deathSound(){
@@ -331,6 +335,13 @@ class SpaceInvaders {
 		else me = game;
 
 		switch (key.keyCode){
+			case 82: // r
+				document.body.removeChild(game.renderer.domElement);
+				me.game.over = true;
+				cancelAnimationFrame(game.frameId);			
+				game = new SpaceInvaders(3);
+				game.animateGame();
+				break;
 			case 83: // S
 				me.clock.running ? me.clock.stop() : me.clock.start();
 				me.hudElements.pausedPlane.visible = !me.hudElements.pausedPlane.visible;
