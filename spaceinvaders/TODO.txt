@@ -1,5 +1,10 @@
 // TODO LIST FOR CLASS VERSION OF THE GAME
-Make a new ship with a custom geometry;
+ship's spotlight (headlight that shines half the field - toggle h)
+pause with message
+endgame and # of aliens killed
+lives with ships on the right
+
+
 
 // GOOD
 optimize the doublesided mesh, maybe only one side is needed which means were rendering double the polys
