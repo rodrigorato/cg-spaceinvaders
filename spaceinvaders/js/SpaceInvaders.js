@@ -11,7 +11,7 @@ class SpaceInvaders {
 		return {'x': 15*GameShip.getSize().x, 'y':10*GameShip.getSize().y, 'z':10*GameShip.getSize().y};
 	}
 
-	constructor(numLifes){
+	constructor(){
 		this.eventHandler = new EventHandler(this);
 		this.eventHandler.addListeners();
 
@@ -24,7 +24,8 @@ class SpaceInvaders {
 					 'aliens': new Array(), 'bullets': new Array(),
 					 'player': null, 'corners': new Array(),
 					 'bulletTime': 1, 'timeBetweenBullets': 0.2,
-					 'paused': false, 'totalAliens': 0, 'lifes': numLifes, 'aliensHit': 0, 'over': false};
+					 'paused': false, 'totalAliens': 0,'aliensHit': 0, 
+					 'numlifes': 3, 'lifeShips': new Array(),  'over': false};
 		
 		this.cameras = {'ortho': null, 'persp': null, 'player': null, 'active': null,
 						"fov": 65, "near": 1, "far": 1000, 'ar': size.x/size.y};
@@ -70,7 +71,7 @@ class SpaceInvaders {
 		this.game.sceneObj.add(this.hudElements.gameOverPlane);
 		this.hudElements.gameOverPlane.visible = false;
 		
-
+		this.createLifesShips(this.game.numlifes);
 
 		this.game.sceneObj.add(this.game.player);
 
@@ -203,6 +204,15 @@ class SpaceInvaders {
 		this.game.totalAliens += quant;
 	}
 
+	createLifesShips(quant){
+		'use strict';
+		for(var i = 0; i < quant; i++){
+			var ship =  new GameShip(this.game.size.x/2, -150-i*GameShip.getSize().y*1.5, 0)
+			this.game.sceneObj.add(ship);
+			this.game.lifeShips.push(ship);
+		}
+	}
+
 	animateGame(){
 
 			stats.begin();
@@ -296,7 +306,7 @@ class SpaceInvaders {
 		if(me.cameras.active == me.cameras.ortho){
 			if(aspect_ratio>me.cameras.ar){
 				me.cameras.ortho.top = me.game.size.y/ 2;
-				me.cameras.ortho.bottom = me.game.size.y / -2;
+				me.cameras.ortho.bottom = me.game.size.y/ -2 ;
 				me.cameras.ortho.left = -me.cameras.ortho.top * aspect_ratio;
 				me.cameras.ortho.right = me.cameras.ortho.top * aspect_ratio;
 		
