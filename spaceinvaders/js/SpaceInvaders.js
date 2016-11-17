@@ -25,7 +25,6 @@ class SpaceInvaders {
 					 'player': null, 'corners': new Array(),
 					 'bulletTime': 1, 'timeBetweenBullets': 0.2,
 					 'paused': false};
-		this.createScene();
 		
 		this.cameras = {'ortho': null, 'persp': null, 'player': null, 'active': null,
 						"fov": 65, "near": 1, "far": 1000, 'ar': size.x/size.y};
@@ -33,6 +32,10 @@ class SpaceInvaders {
 		this.lights = {'dlight': null, 'dlight_intens': 2, 'dlight_color': 0xffffff, 'plights': null,
 					   'plight_color': 0xffffff, 'plight_intens': 1, 'plight_decay': 2, // apperantly this value creates "physically realistic" decay 
 					   'plight_z': 60};
+
+		this.hudElements = {'pausedPlane': null, 'gameOverPlane': null};
+
+		this.createScene();
 
 		this.createCameras();
 
@@ -58,6 +61,17 @@ class SpaceInvaders {
 		this.game.sceneObj.add(new TexturedPlane(this.game.size.x / 2, this.game.size.y / 2, 0, this.game.size.x, this.game.size.y, 'res/textures/bg.jpg'));
 
 		this.game.player = new GameShip(this.game.size.x / 2, GameShip.getSize().y / 1.5, 10);
+
+		this.hudElements.pausedPlane = new TexturedPlane(this.game.size.x / 2, this.game.size.y / 2, 30, this.game.size.x/2, this.game.size.y/2, 'res/textures/paused.png');
+		this.game.sceneObj.add(this.hudElements.pausedPlane);
+		this.hudElements.pausedPlane.visible = false;
+
+		this.hudElements.gameOverPlane = new TexturedPlane(this.game.size.x / 2, this.game.size.y / 2, 1, this.game.size.x, this.game.size.y, 'res/textures/game_over.png');
+		this.game.sceneObj.add(this.hudElements.gameOverPlane);
+		this.hudElements.gameOverPlane.visible = false;
+		
+
+
 		this.game.sceneObj.add(this.game.player);
 
 		this.createRowOfAliens(700, 12);	
@@ -319,6 +333,7 @@ class SpaceInvaders {
 		switch (key.keyCode){
 			case 83: // S
 				me.clock.running ? me.clock.stop() : me.clock.start();
+				me.hudElements.pausedPlane.visible = !me.hudElements.pausedPlane.visible;
 				//me.game.paused = !(me.game.paused);
 				break;
 

@@ -1,6 +1,5 @@
 // TODO LIST FOR CLASS VERSION OF THE GAME
 ship's spotlight (headlight that shines half the field - toggle h)
-pause with message
 endgame and # of aliens killed
 lives with ships on the right
 
