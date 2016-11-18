@@ -27,14 +27,14 @@ class SpaceInvaders {
 					 'paused': false, 'totalAliens': 0,'aliensHit': 0, 
 					 'numlifes': 3, 'lifeShips': new Array(),  'over': false};
 		
-		this.cameras = {'ortho': null, 'persp': null, 'player': null, 'active': null,
+		this.cameras = {'ortho': null, 'persp': null, 'player': null, 'lifes':null 'active': null,
 						"fov": 65, "near": 1, "far": 1000, 'ar': size.x/size.y};
 
 		this.lights = {'dlight': null, 'dlight_intens': 2, 'dlight_color': 0xffffff, 'plights': null,
 					   'plight_color': 0xffffff, 'plight_intens': 1, 'plight_decay': 2, // apperantly this value creates "physically realistic" decay 
 					   'plight_z': 60, 'slight': null, 'slight_intens': 2};
 
-		this.hudElements = {'pausedPlane': null, 'gameOverPlane': null};
+		this.hudElements = {'pausedPlane': null, 'gameOverPlane': null, 'shipsStartY':-150};
 
 		this.createScene();
 
@@ -173,6 +173,10 @@ class SpaceInvaders {
 
 		this.cameras.persp = new THREE.PerspectiveCamera(this.cameras.fov, window.innerWidth / window.innerHeight, this.cameras.near, this.cameras.far);
 		this.cameras.player = new THREE.PerspectiveCamera(this.cameras.fov, window.innerWidth / window.innerHeight, this.cameras.near, this.cameras.far);
+/*ToDo	this.cameras.lifes = new THREE.OrthographicCamera(GameShip.getSize().x/-2,GameShip.getSize().x/2,
+														this.hudElements.shipsStartY+GameShip.getSize().y/2,-this.game.size.y,
+														this.cameras.near, this.cameras.far);
+		this.cameras.lifes.position.set(this.game.size.x, )*/
 		this.cameras.ortho.position.x = (SpaceInvaders.getGameSize().x / 2);
 		this.cameras.ortho.position.y = (SpaceInvaders.getGameSize().y / 2);
 		this.cameras.ortho.position.z = SpaceInvaders.getGameSize().z;
@@ -207,7 +211,7 @@ class SpaceInvaders {
 	createLifesShips(quant){
 		'use strict';
 		for(var i = 0; i < quant; i++){
-			var ship =  new GameShip(this.game.size.x/2, -150-i*GameShip.getSize().y*1.5, 0)
+			var ship =  new GameShip(this.game.size.x/2, this.hudElements.shipsStartY-i*GameShip.getSize().y*1.5, 0)
 			this.game.sceneObj.add(ship);
 			this.game.lifeShips.push(ship);
 		}
