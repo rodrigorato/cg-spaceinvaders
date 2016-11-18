@@ -1,12 +1,10 @@
 // TODO LIST FOR CLASS VERSION OF THE GAME
-ship's spotlight (headlight that shines half the field - toggle h)
 endgame and # of aliens killed
 lives with ships on the right
 
 
 
 // GOOD
-optimize the doublesided mesh, maybe only one side is needed which means were rendering double the polys
 use strict in all functs
 
 // MAYBE
