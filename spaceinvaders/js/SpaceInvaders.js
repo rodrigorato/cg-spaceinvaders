@@ -27,8 +27,8 @@ class SpaceInvaders {
 					 'paused': false, 'totalAliens': 0,'aliensHit': 0, 
 					 'numlifes': 3, 'lifeShips': new Array(),  'over': false};
 		
-		this.cameras = {'ortho': null, 'persp': null, 'player': null, 'lifes':null 'active': null,
-						"fov": 65, "near": 1, "far": 1000, 'ar': size.x/size.y};
+		this.cameras = {'ortho': null, 'persp': null, 'player': null, 'lifes':null, 'active': null,
+						'fov': 65, 'near': 1, 'far': 1000, 'ar': size.x/size.y};
 
 		this.lights = {'dlight': null, 'dlight_intens': 2, 'dlight_color': 0xffffff, 'plights': null,
 					   'plight_color': 0xffffff, 'plight_intens': 1, 'plight_decay': 2, // apperantly this value creates "physically realistic" decay 
@@ -50,7 +50,17 @@ class SpaceInvaders {
 
 	render() {	
 		'use strict';
+		this.renderer.setViewport(0, 0, window.innerWidth, window.innerHeight);
+		this.renderer.setScissor(0, 0, window.innerWidth, window.innerHeight	);
+		this.renderer.setScissorTest(true);
 		this.renderer.render(this.game.sceneObj, this.cameras.active);
+
+		this.renderer.setViewport(window.innerWidth - 125, window.innerHeight - 500, 125, 500);
+		this.renderer.setScissor(window.innerWidth - 125, window.innerHeight - 500, 125, 500);
+		this.renderer.setScissorTest(true);
+		this.renderer.render(this.game.sceneObj, this.cameras.lifes);
+
+		
 	}
 		
 	createScene() {
@@ -173,10 +183,16 @@ class SpaceInvaders {
 
 		this.cameras.persp = new THREE.PerspectiveCamera(this.cameras.fov, window.innerWidth / window.innerHeight, this.cameras.near, this.cameras.far);
 		this.cameras.player = new THREE.PerspectiveCamera(this.cameras.fov, window.innerWidth / window.innerHeight, this.cameras.near, this.cameras.far);
-/*ToDo	this.cameras.lifes = new THREE.OrthographicCamera(GameShip.getSize().x/-2,GameShip.getSize().x/2,
-														this.hudElements.shipsStartY+GameShip.getSize().y/2,-this.game.size.y,
-														this.cameras.near, this.cameras.far);
-		this.cameras.lifes.position.set(this.game.size.x, )*/
+	
+		this.cameras.lifes = new THREE.OrthographicCamera(-this.game.size.x/2 - GameShip.getSize().x,
+														  this.game.size.x/2 + GameShip.getSize().x,
+														  -this.game.size.y - 50,
+														  -1500,
+														  this.cameras.near,
+														  this.cameras.far);
+		//this.cameras.lifes.position.set(this.game.size.x/2, -150, 10);
+		//this.cameras.lifes.position.set(this.game.size.x/2, -150, 1);
+
 		this.cameras.ortho.position.x = (SpaceInvaders.getGameSize().x / 2);
 		this.cameras.ortho.position.y = (SpaceInvaders.getGameSize().y / 2);
 		this.cameras.ortho.position.z = SpaceInvaders.getGameSize().z;
@@ -188,6 +204,8 @@ class SpaceInvaders {
 		this.cameras.player.position.x = this.game.player.position.x;
 		this.cameras.player.position.y = this.game.player.position.y - 150;
 		this.cameras.player.position.z = this.game.player.position.z + 500;
+
+		this.cameras.lifes.position.set(this.game.size.x, this.game.size.y, this.game.size.z);
 
 		this.cameras.persp.lookAt(new THREE.Vector3(SpaceInvaders.getGameSize().x / 2, 300, 0));
 		this.cameras.player.lookAt(new THREE.Vector3(this.game.player.position.x, 
@@ -366,7 +384,8 @@ class SpaceInvaders {
 			case 82: // r
 				document.body.removeChild(game.renderer.domElement);
 				me.game.over = true;
-				cancelAnimationFrame(game.frameId);			
+				cancelAnimationFrame(game.frameId);
+				MATERIALS = MATERIALS_BASIC;			
 				game = new SpaceInvaders(3);
 				game.animateGame();
 				break;
