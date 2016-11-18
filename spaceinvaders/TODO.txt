@@ -1,6 +1,9 @@
 // TODO LIST FOR CLASS VERSION OF THE GAME
 endgame and # of aliens killed
 lives with ships on the right
+check for harcoded values
+fix velocity bug
+2 diff endgames
 
 
 
@@ -8,6 +11,7 @@ lives with ships on the right
 use strict in all functs
 
 // MAYBE
+camera 3 lifes down instead of right
 
 // ASK?
 

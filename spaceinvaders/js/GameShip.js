@@ -11,7 +11,7 @@ class GameShip extends HasPhysics {
 		'use strict';
 		super(x,y,z);
 		this.size = {'x': 90, 'y': 80, 'z': 25};
-		this.accel = {'x': 4000, 'y': 0, 'z': 0};	
+		this.accel = {'x': 150, 'y': 0, 'z': 0};	
 		this.boundingSphereRadius = 56;
 		this.moving = {'left': false, 'right': false};
 		this.shootRules = {'shooting': false, 'timeBetweenShots': 0.15, 'bulletTime': 0.15};
@@ -21,6 +21,11 @@ class GameShip extends HasPhysics {
 		return {'x': 90, 'y': 80, 'z': 25};
 	}
 
+	
+	whenCollided(other){
+		// do nothing.
+	}
+	
 	shoot(dt){
 		this.shootRules.bulletTime += dt;
 		var bullet = null;

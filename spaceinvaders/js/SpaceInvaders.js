@@ -55,8 +55,14 @@ class SpaceInvaders {
 		this.renderer.setScissorTest(true);
 		this.renderer.render(this.game.sceneObj, this.cameras.active);
 
-		this.renderer.setViewport(window.innerWidth - 125, window.innerHeight - 500, 125, 500);
-		this.renderer.setScissor(window.innerWidth - 125, window.innerHeight - 500, 125, 500);
+		this.renderer.setViewport(window.innerWidth - (GameShip.getSize().x + 5),
+								  window.innerHeight - this.game.numlifes*GameShip.getSize().y*1.5,
+								  GameShip.getSize().x +5,
+								  this.game.numlifes*GameShip.getSize().y*1.5);
+		this.renderer.setScissor(window.innerWidth - (GameShip.getSize().x + 5),
+								  window.innerHeight - this.game.numlifes*GameShip.getSize().y*1.5,
+								  GameShip.getSize().x +5,
+								  this.game.numlifes*GameShip.getSize().y*1.5);
 		this.renderer.setScissorTest(true);
 		this.renderer.render(this.game.sceneObj, this.cameras.lifes);
 
@@ -77,7 +83,7 @@ class SpaceInvaders {
 		this.game.sceneObj.add(this.hudElements.pausedPlane);
 		this.hudElements.pausedPlane.visible = false;
 
-		this.hudElements.gameOverPlane = new TexturedPlane(this.game.size.x / 2, this.game.size.y / 2, 1, this.game.size.x, this.game.size.y, 'res/textures/game_over.png');
+		this.hudElements.gameOverPlane = new TexturedPlane(this.game.size.x / 2, this.game.size.y / 2, 50, this.game.size.x, this.game.size.y, 'res/textures/game_over.png');
 		this.game.sceneObj.add(this.hudElements.gameOverPlane);
 		this.hudElements.gameOverPlane.visible = false;
 		
@@ -169,6 +175,20 @@ class SpaceInvaders {
 		
 	}
 
+	setCameraLifes(){
+		this.cameras.lifes = new THREE.OrthographicCamera(-GameShip.getSize().x/2 - 5,
+														  GameShip.getSize().x/2 + 5,
+														  0,
+														  -(this.game.numlifes*GameShip.getSize().y*1.5),
+														  this.cameras.near,
+														  this.cameras.far);
+		//this.cameras.lifes.position.set(0,0,0);
+		this.cameras.lifes.position.x = this.game.size.x/2;
+		this.cameras.lifes.position.y = -90;
+		this.cameras.lifes.position.z = 50;
+
+	}
+
 	createCameras() {
 		'use strict';
 
@@ -184,14 +204,7 @@ class SpaceInvaders {
 		this.cameras.persp = new THREE.PerspectiveCamera(this.cameras.fov, window.innerWidth / window.innerHeight, this.cameras.near, this.cameras.far);
 		this.cameras.player = new THREE.PerspectiveCamera(this.cameras.fov, window.innerWidth / window.innerHeight, this.cameras.near, this.cameras.far);
 	
-		this.cameras.lifes = new THREE.OrthographicCamera(-this.game.size.x/2 - GameShip.getSize().x,
-														  this.game.size.x/2 + GameShip.getSize().x,
-														  -this.game.size.y - 50,
-														  -1500,
-														  this.cameras.near,
-														  this.cameras.far);
-		//this.cameras.lifes.position.set(this.game.size.x/2, -150, 10);
-		//this.cameras.lifes.position.set(this.game.size.x/2, -150, 1);
+		this.setCameraLifes();
 
 		this.cameras.ortho.position.x = (SpaceInvaders.getGameSize().x / 2);
 		this.cameras.ortho.position.y = (SpaceInvaders.getGameSize().y / 2);
@@ -205,7 +218,7 @@ class SpaceInvaders {
 		this.cameras.player.position.y = this.game.player.position.y - 150;
 		this.cameras.player.position.z = this.game.player.position.z + 500;
 
-		this.cameras.lifes.position.set(this.game.size.x, this.game.size.y, this.game.size.z);
+		
 
 		this.cameras.persp.lookAt(new THREE.Vector3(SpaceInvaders.getGameSize().x / 2, 300, 0));
 		this.cameras.player.lookAt(new THREE.Vector3(this.game.player.position.x, 
@@ -241,56 +254,82 @@ class SpaceInvaders {
 
 			if(game.clock.running){
 
-			var delta = game.clock.getDelta();
+				var delta = game.clock.getDelta();
 
-			// Moves the ship and the camera attached to it
-			game.game.player.updatePosition(game.game.player.calculatePosition(delta));
-			game.cameras.player.position.x = game.game.player.position.x;
-			game.lights.slight.position.x=game.game.player.position.x;
-			game.lights.slight.target.position.x=game.game.player.position.x;
-
-			// Shoots the bullet from the ship
-			var bullet = game.game.player.shoot(delta);
-			if(bullet != null){
-				game.game.sceneObj.add(bullet);
-				game.game.bullets.push(bullet);
-			}
-
-			
-			// Moves the aliens
-			for (var i = 0; i < game.game.aliens.length; i++) {
-				for (var j = i + 1; j < game.game.aliens.length; j++) {
-					if(game.game.aliens[i].hasCollision(game.game.aliens[j], delta)){
-						game.game.aliens[i].whenCollided(game.game.aliens[j]);
-						game.game.aliens[j].whenCollided(game.game.aliens[i]);
-							
-					}
-					
+				// Shoots the bullet from the ship
+				var bullet = game.game.player.shoot(delta);
+				if(bullet != null){
+					game.game.sceneObj.add(bullet);
+					game.game.bullets.push(bullet);
 				}
-				game.game.aliens[i].updatePosition(game.game.aliens[i].calculatePosition(delta));
-			}
 
-			for(var b in game.game.bullets){
-				var didRemoveBullet = false;
+				
+				// Moves the aliens
 				for (var i = 0; i < game.game.aliens.length; i++) {
-					if(game.game.aliens[i].hasCollision(game.game.bullets[b], delta)){
-						didRemoveBullet = true;
-						game.game.sceneObj.remove(game.game.bullets[b]);
-						game.game.bullets.splice(b, 1);
+					for (var j = i + 1; j < game.game.aliens.length; j++) {
+						if(game.game.aliens[i].hasCollision(game.game.aliens[j], delta)){
+							game.game.aliens[i].whenCollided(game.game.aliens[j]);
+							game.game.aliens[j].whenCollided(game.game.aliens[i]);
+								
+						}
+						
+					}
+					if(game.game.aliens[i].hasCollision(game.game.player, delta)){
+
+						game.game.aliens[i].whenCollided(game.game.player);
 						game.game.sceneObj.remove(game.game.aliens[i]);
 						game.game.aliens.splice(i, 1);
 						game.game.aliensHit++;
-						game.deathSound();
-						break;
+						if(game.game.numlifes>0){
+							game.game.sceneObj.remove(game.game.lifeShips[game.game.numlifes-1]);
+							game.game.lifeShips.splice(game.game.numlifes-1, 1);
+							game.game.numlifes--;
+							game.setCameraLifes();
+							if(game.game.numlifes == 0){
+								game.hudElements.gameOverPlane.visible = true;
+								game.cameras.active = game.cameras.ortho;
+								game.clock.stop();
+							}
+						}
 					}
+					else
+						game.game.aliens[i].updatePosition(game.game.aliens[i].calculatePosition(delta));
 				}
-				if(!didRemoveBullet){
-					if(game.game.bullets[b].hitTheWalls(delta) == 't'){
-						game.game.sceneObj.remove(game.game.bullets[b]);
-						game.game.bullets.splice(b, 1);
-					} else
-					game.game.bullets[b].updatePosition(game.game.bullets[b].calculatePosition(delta));
+
+				// Moves the ship and the camera attached to it
+				game.game.player.updatePosition(game.game.player.calculatePosition(delta));
+				game.cameras.player.position.x = game.game.player.position.x;
+				game.lights.slight.position.x=game.game.player.position.x;
+				game.lights.slight.target.position.x=game.game.player.position.x;
+
+				for(var b in game.game.bullets){
+					var didRemoveBullet = false;
+					for (var i = 0; i < game.game.aliens.length; i++) {
+						if(game.game.aliens[i].hasCollision(game.game.bullets[b], delta)){
+							didRemoveBullet = true;
+							game.game.sceneObj.remove(game.game.bullets[b]);
+							game.game.bullets.splice(b, 1);
+							game.game.sceneObj.remove(game.game.aliens[i]);
+							game.game.aliens.splice(i, 1);
+							game.game.aliensHit++;
+							game.deathSound();
+							break;
+						}
+					}
+					if(!didRemoveBullet){
+						if(game.game.bullets[b].hitTheWalls(delta) == 't'){
+							game.game.sceneObj.remove(game.game.bullets[b]);
+							game.game.bullets.splice(b, 1);
+						} else
+						game.game.bullets[b].updatePosition(game.game.bullets[b].calculatePosition(delta));
+					}
+
+				if(game.game.totalAliens == game.game.aliensHit){
+					game.hudElements.gameOverPlane.visible = true;
+					game.cameras.active = game.cameras.ortho;
+					game.clock.stop();
 				}
+					
 			}
 
 			/*/ Debug - view the model on every angle 
