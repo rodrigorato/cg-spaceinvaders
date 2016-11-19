@@ -83,7 +83,7 @@ class SpaceInvaders {
 		this.game.sceneObj.add(this.hudElements.pausedPlane);
 		this.hudElements.pausedPlane.visible = false;
 
-		this.hudElements.gameOverPlane = new TexturedPlane(this.game.size.x / 2, this.game.size.y / 2, 50, this.game.size.x, this.game.size.y, 'res/textures/game_over.png');
+		this.hudElements.gameOverPlane = new TexturedPlane(this.game.size.x / 2, this.game.size.y / 2, 50, this.game.size.x, this.game.size.y, 'res/textures/game_over_shade.png');
 		this.game.sceneObj.add(this.hudElements.gameOverPlane);
 		this.hudElements.gameOverPlane.visible = false;
 		
