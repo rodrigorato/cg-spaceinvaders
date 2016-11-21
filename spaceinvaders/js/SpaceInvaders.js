@@ -34,7 +34,7 @@ class SpaceInvaders {
 					   'plight_color': 0xffffff, 'plight_intens': 1, 'plight_decay': 2, // apperantly this value creates "physically realistic" decay 
 					   'plight_z': 60, 'slight': null, 'slight_intens': 2};
 
-		this.hudElements = {'pausedPlane': null, 'gameOverPlane': null, 'shipsStartY':-150};
+		this.hudElements = {'pausedPlane': null, 'gameOverPlane': null,'shipsStartX':2000, 'shipsStartY':-150};
 
 		this.createScene();
 
@@ -183,7 +183,7 @@ class SpaceInvaders {
 														  this.cameras.near,
 														  this.cameras.far);
 		//this.cameras.lifes.position.set(0,0,0);
-		this.cameras.lifes.position.x = this.game.size.x/2;
+		this.cameras.lifes.position.x = this.hudElements.shipsStartX;
 		this.cameras.lifes.position.y = -90;
 		this.cameras.lifes.position.z = 50;
 
@@ -242,7 +242,7 @@ class SpaceInvaders {
 	createLifesShips(quant){
 		'use strict';
 		for(var i = 0; i < quant; i++){
-			var ship =  new GameShip(this.game.size.x/2, this.hudElements.shipsStartY-i*GameShip.getSize().y*1.5, 0)
+			var ship =  new GameShip(this.hudElements.shipsStartX, this.hudElements.shipsStartY-i*GameShip.getSize().y*1.5, 0)
 			this.game.sceneObj.add(ship);
 			this.game.lifeShips.push(ship);
 		}
@@ -289,6 +289,7 @@ class SpaceInvaders {
 								game.hudElements.gameOverPlane.visible = true;
 								game.cameras.active = game.cameras.ortho;
 								game.clock.stop();
+								game.game.over = true;
 							}
 						}
 					}
@@ -328,6 +329,7 @@ class SpaceInvaders {
 					game.hudElements.gameOverPlane.visible = true;
 					game.cameras.active = game.cameras.ortho;
 					game.clock.stop();
+					game.game.over = true;
 				}
 					
 			}
@@ -425,12 +427,12 @@ class SpaceInvaders {
 				me.game.over = true;
 				cancelAnimationFrame(game.frameId);
 				MATERIALS = MATERIALS_BASIC;			
-				game = new SpaceInvaders(3);
+				game = new SpaceInvaders();
 				game.animateGame();
 				break;
 			case 83: // S
 				me.clock.running ? me.clock.stop() : me.clock.start();
-				me.hudElements.pausedPlane.visible = !me.hudElements.pausedPlane.visible;
+				if (!me.game.over ) me.hudElements.pausedPlane.visible = !me.hudElements.pausedPlane.visible;
 				//me.game.paused = !(me.game.paused);
 				break;
 
@@ -452,8 +454,6 @@ class SpaceInvaders {
 
 				me.updateMaterials(MATERIALS);
 
-				console.log("Using fancy shading: " + fancyMaterial);
-
 				break;
 
 			case 86: // v
@@ -471,8 +471,6 @@ class SpaceInvaders {
 
 				
 				me.updateMaterials(MATERIALS);
-
-				console.log("Changed to " + (MATERIALS == MATERIALS_BASIC ? "basic" : fancyMaterial) + " shading.");
 
 				break;
 

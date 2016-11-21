@@ -4,7 +4,7 @@ lives with ships on the right
 check for harcoded values
 fix velocity bug
 2 diff endgames
-fix bug with pausing and game over both messing with clock
+life camera aspect ration not working???
 
 
 
