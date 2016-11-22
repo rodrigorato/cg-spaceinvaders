@@ -21,8 +21,10 @@ class HasPhysics extends THREE.Object3D {
 		return {'x': 0, 'y': 0, 'z': 0}; 
 	}
 
-	hitTheWalls(dt){
-		var candPos = this.calculateStandardPosition(dt);
+	hitTheWalls(dt){//returns l r b or t if it hits the wall, else returns the next position
+		var movement = this.calculateStandardMovement(dt);
+		var candPos = movement.pos;
+		this.updateVelocity(movement.vel);
 
 		if(candPos.x < this.size.x / 2)
 			return 'l';
@@ -91,11 +93,18 @@ class HasPhysics extends THREE.Object3D {
 		return newPos;
 	}
 
-	calculateStandardPosition(dt){
-		this.updateVelocity(this.calculateVel(dt));
-		return {'x': this.calcPosEq(this.position.x, this.vel.x, dt),
-				'y': this.calcPosEq(this.position.y, this.vel.y, dt),
-				'z': this.calcPosEq(this.position.z, this.vel.z, dt)};	 
+	calculateStandardMovement(dt){
+		var velocity =this.calculateVel(dt);
+
+		//this.updateVelocity(this.calculateVel(dt));
+		return {'pos': {'x': this.calcPosEq(this.position.x, velocity.x, dt),
+						'y': this.calcPosEq(this.position.y, velocity.y, dt),
+						'z': this.calcPosEq(this.position.z, velocity.z, dt)},
+				'vel': {'x': velocity.x,
+						'y': velocity.y,
+						'z': velocity.z}
+				}
+
 	}
 
 	updatePosition(newPos){
@@ -127,8 +136,8 @@ class HasPhysics extends THREE.Object3D {
 
 	// Detects colision with another HasPhysics object
 	hasCollision(other, delta){ 
-		var thisPos = this.calculateStandardPosition(delta);
-		var otherPos = other.calculateStandardPosition(delta);
+		var thisPos = this.calculateStandardMovement(delta).pos;
+		var otherPos = other.calculateStandardMovement(delta).pos;
 		var dist = new THREE.Vector3(otherPos.x - thisPos.x,
 									 otherPos.y - thisPos.y,
 									 otherPos.z - thisPos.z);
