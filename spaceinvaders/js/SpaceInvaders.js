@@ -34,7 +34,7 @@ class SpaceInvaders {
 					   'plight_color': 0xffffff, 'plight_intens': 1, 'plight_decay': 2, // apperantly this value creates "physically realistic" decay 
 					   'plight_z': 60, 'slight': null, 'slight_intens': 2};
 
-		this.hudElements = {'pausedPlane': null, 'gameOverPlane': null,'shipsStartX':2000, 'shipsStartY':-150};
+		this.hudElements = {'pausedPlane': null, 'gameOverPlane': null,'gameOverPlaneWin': null,'shipsStartX':2000, 'shipsStartY':-150};
 
 		this.createScene();
 
@@ -109,10 +109,14 @@ class SpaceInvaders {
 		this.game.sceneObj.add(this.hudElements.pausedPlane);
 		//this.hudElements.pausedPlane.visible = false;
 
-		this.hudElements.gameOverPlane = new TexturedPlane(this.game.size.x / 2, this.game.size.y / 2, 1010, this.game.size.x, this.game.size.y, 'res/textures/game_over_shade.png');
+		this.hudElements.gameOverPlane = new TexturedPlane(this.game.size.x / 2, this.game.size.y / 2, 1010, this.game.size.x, this.game.size.y, 'res/textures/game_over_lost.png');
 		this.game.sceneObj.add(this.hudElements.gameOverPlane);
 		//this.hudElements.gameOverPlane.visible = false;
-		
+
+		this.hudElements.gameOverPlaneWin = new TexturedPlane(this.game.size.x / 2, this.game.size.y / 2, 1010, this.game.size.x, this.game.size.y, 'res/textures/game_over_won.png');
+		this.game.sceneObj.add(this.hudElements.gameOverPlaneWin);
+		this.hudElements.gameOverPlaneWin.visible = false;
+
 		this.createLifesShips(this.game.numlifes);
 
 		this.game.sceneObj.add(this.game.player);
@@ -231,11 +235,11 @@ class SpaceInvaders {
 		
 		this.setCameraLifes();
 
-		this.cameras.pause = new THREE.OrthographicCamera(this.game.size.x / -2,
-														  this.game.size.x /  2,
-														  this.game.size.y /  6,
-														  this.game.size.y / -6,
-														  1,
+		this.cameras.pause = new THREE.OrthographicCamera(-this.game.size.x ,
+														  this.game.size.x,
+														  this.game.size.y /  3,
+														  this.game.size.y / -3,
+														  200,
 														  1002);
 
 
@@ -245,10 +249,10 @@ class SpaceInvaders {
 
 		this.cameras.pause.lookAt(new THREE.Vector3(SpaceInvaders.getGameSize().x / 2, SpaceInvaders.getGameSize().y / 2, 0));
 
-		this.cameras.gameover = new THREE.OrthographicCamera(this.game.size.x / -2,
-														  this.game.size.x /  2,
-														  this.game.size.y /  6,
-														  this.game.size.y / -6,
+		this.cameras.gameover = new THREE.OrthographicCamera(-this.game.size.x,
+														  this.game.size.x,
+														  this.game.size.y /  3,
+														  this.game.size.y / -3,
 														  1,
 														  199);
 
@@ -341,7 +345,6 @@ class SpaceInvaders {
 							game.game.numlifes--;
 							game.setCameraLifes();
 							if(game.game.numlifes == 0){
-								game.cameras.active = game.cameras.ortho;
 								game.clock.stop();
 								game.game.over = true;
 							}
@@ -380,8 +383,8 @@ class SpaceInvaders {
 					}
 
 				if(game.game.totalAliens == game.game.aliensHit){
-					game.hudElements.gameOverPlane.visible = true;
-					game.cameras.active = game.cameras.ortho;
+					game.hudElements.gameOverPlaneWin.visible = true;
+					game.hudElements.gameOverPlane.visible = false;
 					game.clock.stop();
 					game.game.over = true;
 				}
