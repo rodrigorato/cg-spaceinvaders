@@ -345,8 +345,7 @@ class SpaceInvaders {
 
 			game.render();
 			stats.end();
-			if(!game.game.over)
-				game.frameId = requestAnimationFrame(game.animateGame);
+			game.frameId = requestAnimationFrame(game.animateGame);
 	}
 
 	deathSound(){
