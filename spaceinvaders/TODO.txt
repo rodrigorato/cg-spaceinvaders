@@ -1,10 +1,5 @@
 // TODO LIST FOR CLASS VERSION OF THE GAME
-endgame and # of aliens killed
-lives with ships on the right
 check for harcoded values
-fix velocity bug
-2 diff endgames
-life camera aspect ration not working???
 
 
 

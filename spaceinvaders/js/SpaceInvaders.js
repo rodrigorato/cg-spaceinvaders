@@ -487,8 +487,7 @@ class SpaceInvaders {
 				game.animateGame();
 				break;
 			case 83: // S
-				me.clock.running ? me.clock.stop() : me.clock.start();
-				//if (!me.game.over ) me.hudElements.pausedPlane.visible = !me.hudElements.pausedPlane.visible;
+				(me.clock.running || me.game.over)? me.clock.stop() : me.clock.start();
 				me.game.paused = !(me.game.paused);
 				break;
 
